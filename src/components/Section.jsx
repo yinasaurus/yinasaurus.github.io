@@ -1,9 +1,10 @@
+import { FossilBreak } from './FossilBreak'
+
 /**
  * Section scaffolding.
  *
- * Sections are separated by a rule and announced by a numbered mono label
- * rather than being wrapped in a panel — boxes are reserved for project cards,
- * which are the only card-shaped thing on the page.
+ * Sections are separated by a fossil-crack + print trail, then a numbered
+ * mono label. Boxes are reserved for project cards.
  *
  * Nothing here animates on scroll. See `src/lib/motion.js`.
  */
@@ -24,8 +25,9 @@ export function SectionHeader({
   stacked = false,
 }) {
   return (
-    <header className="rule pt-10 pb-12 md:pt-14 md:pb-16">
-      <div className="flex items-center gap-4">
+    <header className="pt-10 pb-12 md:pt-14 md:pb-16">
+      <FossilBreak />
+      <div className="mt-6 flex items-center gap-4">
         <span className={`micro ${accent}`}>{index}</span>
         <span className="micro text-ink/45 dark:text-bone/45">{label}</span>
         {/* Rule that runs out to the right margin, tying the label to the page

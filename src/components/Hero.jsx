@@ -5,6 +5,8 @@ import { SITE } from '../data/site'
 import { useIsMobile } from '../hooks/useMediaQuery'
 import { useTypewriter } from '../hooks/useTypewriter'
 import { heroContainer, heroItem, heroLine } from '../lib/motion'
+import { triggerProjectsEnter } from '../lib/projectsWipe'
+import { EggLoader } from './EggLoader'
 import { Button } from './Button'
 
 // three.js is a large dependency — loading it lazily lets the type paint
@@ -79,7 +81,10 @@ export function Hero() {
               href="#projects"
               onClick={(event) => {
                 event.preventDefault()
-                document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
+                triggerProjectsEnter()
+                document.getElementById('projects')?.scrollIntoView({
+                  behavior: reducedMotion ? 'auto' : 'smooth',
+                })
               }}
             >
               See projects
@@ -112,7 +117,7 @@ export function Hero() {
           />
           <div aria-hidden className="absolute top-2 right-2 h-14 w-14 bg-solar" />
 
-          <Suspense fallback={null}>
+          <Suspense fallback={<EggLoader />}>
             <MascotScene
               isDark={isDark}
               quality={isMobile ? 'low' : 'high'}

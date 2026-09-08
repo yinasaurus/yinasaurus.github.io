@@ -1,4 +1,5 @@
 import { SITE } from '../data/site'
+import { ClawMark } from './DinoMarks'
 import { Section, SectionHeader } from './Section'
 
 const FACTS = [
@@ -41,9 +42,12 @@ export function About() {
             shadows, no repeated card shape. */}
         <dl className="md:col-span-5">
           {FACTS.map(([term, value], i) => (
-            <div key={term} className={`py-5 ${i > 0 ? 'rule' : ''}`}>
-              <dt className="micro text-ink/40 dark:text-bone/40">{term}</dt>
-              <dd className="mt-2 font-display text-lg font-bold">{value}</dd>
+            <div key={term} className={`flex gap-3 py-5 ${i > 0 ? 'rule' : ''}`}>
+              <ClawMark className="mt-1.5 h-3 w-3 shrink-0 text-jade" />
+              <div>
+                <dt className="micro text-ink/40 dark:text-bone/40">{term}</dt>
+                <dd className="mt-2 font-display text-lg font-bold">{value}</dd>
+              </div>
             </div>
           ))}
         </dl>

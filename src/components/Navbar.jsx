@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { NAV_LINKS, SITE } from '../data/site'
 import { useActiveSection } from '../hooks/useActiveSection'
 import { PRESS } from '../lib/motion'
+import { triggerProjectsEnter } from '../lib/projectsWipe'
 import { ThemeToggle } from './ThemeToggle'
 
 const NAV_IDS = NAV_LINKS.map((link) => link.id)
@@ -22,6 +23,7 @@ export function Navbar() {
   const scrollTo = (event, id) => {
     event.preventDefault()
     setMenuOpen(false)
+    if (id === 'projects') triggerProjectsEnter()
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 

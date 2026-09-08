@@ -8,10 +8,12 @@ import { Navbar } from './components/Navbar'
 import { ProjectsGrid } from './components/ProjectsGrid'
 import { TechStack } from './components/TechStack'
 import { ThemeProvider } from './context/ThemeProvider'
+import { MouthWipe } from './components/MouthWipe'
 
 export default function App() {
   return (
     <ThemeProvider>
+      <MouthWipe />
       <Backdrop />
       <Navbar />
       <main>

@@ -8,9 +8,9 @@ const TILT_SPRING = { stiffness: 220, damping: 18, mass: 0.6 }
 const MAX_TILT = 7 // degrees
 
 /**
- * Project cards are the only boxed element on the page — hard border, square
- * corners, solid offset shadow. That's deliberate: nothing else is a card, so
- * the grid reads as the centre of gravity rather than as more of the same.
+ * Project cards are the only boxed element on the page — hard border, worn
+ * fossil-egg corners, solid offset shadow. That's deliberate: nothing else is
+ * a card, so the grid reads as the centre of gravity.
  */
 export function ProjectCard({ project, index }) {
   const cardRef = useRef(null)

@@ -61,6 +61,21 @@
     @apply dark:bg-void dark:text-bone;
   }
 
+  /* Footprint cursor on fine pointers only — coarse/touch keep the OS cursor. */
+  @media (hover: hover) and (pointer: fine) {
+    html,
+    body {
+      cursor: url('/cursor-print.svg') 8 8, auto;
+    }
+
+    a,
+    button,
+    [role='button'],
+    .cursor-pointer {
+      cursor: url('/cursor-claw.svg') 4 4, pointer;
+    }
+  }
+
   ::selection {
     @apply bg-volt text-paper;
   }
@@ -90,12 +105,146 @@
   }
 }
 
+@keyframes egg-wobble {
+  0%,
+  100% {
+    transform: rotate(-7deg);
+  }
+  50% {
+    transform: rotate(7deg);
+  }
+}
+
+@keyframes egg-split {
+  0%,
+  35% {
+    transform: scaleX(0.15);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes mouth-fade {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes mouth-gums-in {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes mouth-jaw-top-in {
+  0% {
+    transform: translateY(-18%);
+  }
+  22% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-102%);
+  }
+}
+
+@keyframes mouth-jaw-bottom-in {
+  0% {
+    transform: translateY(18%);
+  }
+  22% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(102%);
+  }
+}
+
+@keyframes mouth-jaw-top-out {
+  0% {
+    transform: translateY(-102%);
+  }
+  45% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-18%);
+  }
+}
+
+@keyframes mouth-jaw-bottom-out {
+  0% {
+    transform: translateY(102%);
+  }
+  45% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(18%);
+  }
+}
+
+.egg-loader {
+  animation: egg-wobble 0.7s ease-in-out infinite;
+}
+
+.egg-split {
+  animation: egg-split 1.1s ease-in-out infinite;
+}
+
+.mouth-wipe-enter .mouth-gums,
+.mouth-wipe-exit .mouth-gums {
+  animation: mouth-gums-in 0.8s ease-in-out both;
+}
+
+.mouth-wipe-enter .mouth-jaw-top {
+  animation: mouth-jaw-top-in 0.8s ease-in-out both;
+}
+
+.mouth-wipe-enter .mouth-jaw-bottom {
+  animation: mouth-jaw-bottom-in 0.8s ease-in-out both;
+}
+
+.mouth-wipe-exit .mouth-jaw-top {
+  animation: mouth-jaw-top-out 0.8s ease-in-out both;
+}
+
+.mouth-wipe-exit .mouth-jaw-bottom {
+  animation: mouth-jaw-bottom-out 0.8s ease-in-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-loader,
+  .egg-split {
+    animation: none;
+  }
+}
+
 @layer components {
   /* The one boxed surface on the page — used only by project cards. Hard
-     border, square corners, solid offset shadow. */
+     border, fossil-egg corners (worn, not circular), solid offset shadow. */
   .panel {
-    @apply border-2 border-ink bg-paper;
+    @apply overflow-hidden border-2 border-ink bg-paper;
     @apply dark:border-bone/70 dark:bg-slab;
+    border-radius: 1.65rem 0.45rem 1.5rem 0.7rem;
   }
 
   /* Micro-label: section numbers, eyebrows, nav items, tags. */

@@ -49,28 +49,23 @@ export default function MascotScene({ isDark = false, quality = 'high', reducedM
       >
         {/* Generous frame so head, tail and feet stay inside the canvas
             with breathing room at the default three-quarter pose. */}
-        <FitCamera width={5.2} height={4.8} />
+        <FitCamera width={6.2} height={5.4} />
 
-        {/* --- Lighting rig: 3 lights total, deliberately kept small. ---
-            Flat-shaded geometry lives or dies on directional contrast, so the
-            key light is strong and the ambient fill is kept low. Raise the
-            ambient and the facets flatten out into a single silhouette. */}
-        <ambientLight intensity={isDark ? 0.5 : 0.75} color={isDark ? '#d9d0ff' : '#ffffff'} />
+        {/* Warm, neutral rig so sage/cream read as themselves — a pink or
+            violet rim was dyeing the horns. */}
+        <ambientLight intensity={isDark ? 0.62 : 0.85} color={isDark ? '#f3efe6' : '#ffffff'} />
 
-        {/* Key light, up and to the right — separates the facet planes. */}
         <directionalLight
           position={[5, 6, 4]}
-          intensity={isDark ? 2.2 : 2.6}
-          color={isDark ? '#efe9ff' : '#fffaf0'}
+          intensity={isDark ? 2.1 : 2.4}
+          color={isDark ? '#fff6e8' : '#fffaf0'}
         />
 
-        {/* Coloured rim from behind-left, so the silhouette edge catches an
-            accent. Swap the colour to re-tint the whole mascot. */}
         <pointLight
           position={[-4, 1.5, -3]}
-          intensity={isDark ? 32 : 20}
+          intensity={isDark ? 14 : 10}
           distance={16}
-          color={isDark ? '#ff4d8d' : '#6c3bf4'}
+          color={isDark ? '#e8d5b0' : '#f0e4c4'}
         />
 
         {/* The mascot's geometry is already as low as it goes, so `quality`

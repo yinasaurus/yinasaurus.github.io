@@ -45,7 +45,7 @@ export function GithubActivity() {
         </Suspense>
       </div>
       <p className="micro mt-4 text-ink/40 dark:text-bone/40">
-        {status === 'loading' && `Fetching @${SITE.handle}…`}
+        {status === 'loading' && `Excavating @${SITE.handle}…`}
         {status === 'ready' && (
           <>
                 {data.total.toLocaleString()} contributions in {data.year}
