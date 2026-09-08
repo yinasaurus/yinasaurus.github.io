@@ -1,16 +1,15 @@
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion, useReducedMotion, useTransform } from 'framer-motion'
 import { Suspense, lazy } from 'react'
+import { useWipeNavigate } from '../context/WipeNavigate'
 import { useTheme } from '../context/theme-context'
 import { SITE } from '../data/site'
-import { useIsMobile } from '../hooks/useMediaQuery'
+import { useIsMobile, useIsTouch } from '../hooks/useMediaQuery'
+import { usePointerParallax } from '../hooks/usePointerParallax'
 import { useTypewriter } from '../hooks/useTypewriter'
-import { heroContainer, heroItem, heroLine } from '../lib/motion'
-import { EggLoader } from './EggLoader'
+import { heroContainer, heroItem } from '../lib/motion'
 import { Button } from './Button'
-import { useWipeNavigate } from '../context/WipeNavigate'
+import { EggLoader } from './EggLoader'
 
-// three.js is a large dependency — loading it lazily lets the type paint
-// immediately while the 3D scene streams in behind a placeholder.
 const MascotScene = lazy(() => import('./three/MascotScene'))
 
 /**
@@ -21,9 +20,14 @@ const MascotScene = lazy(() => import('./three/MascotScene'))
 export function Hero() {
   const { isDark } = useTheme()
   const isMobile = useIsMobile()
+  const isTouch = useIsTouch()
   const reducedMotion = useReducedMotion()
   const go = useWipeNavigate()
-  const typed = useTypewriter(SITE.taglines, { reducedMotion: Boolean(reducedMotion) })
+  const typed = useTypewriter(SITE.taglines)
+  const parallaxOn = !isTouch
+  const { x, y } = usePointerParallax({ enabled: parallaxOn, stiffness: 70, damping: 22 })
+  const shiftX = useTransform(x, (value) => value * 18)
+  const shiftY = useTransform(y, (value) => value * 10)
 
   return (
     <section id="hero" className="mx-auto w-full max-w-6xl px-6 pt-28 pb-16 sm:px-10 md:pt-36 md:pb-24">
@@ -33,24 +37,16 @@ export function Hero() {
         animate="show"
         className="grid gap-12 md:grid-cols-12 md:items-center md:gap-8"
       >
-        <div className="md:col-span-6">
+        <motion.div style={{ x: shiftX, y: shiftY }} className="md:col-span-6">
           <motion.p variants={heroItem} className="micro text-ink/45 dark:text-bone/45">
             Software engineering student
             <span className="mx-2 text-punch">/</span>
             SMU Computing &amp; Information Systems
           </motion.p>
 
-          {/* Poster-scale name. The wrapper clips it so the letters rise into
-              place rather than fading in. */}
-          <h1 className="mt-5">
-            <span className="block overflow-hidden">
-              <motion.span
-                variants={heroLine}
-                className="block text-[clamp(2.6rem,8.5vw,5.4rem)] leading-[0.9] font-bold"
-              >
-                {SITE.name}
-                <span className="text-punch">.</span>
-              </motion.span>
+          <h1 className="mt-5" aria-label={`${SITE.name}.`}>
+            <span className="block text-[clamp(2.6rem,8.5vw,5.4rem)] leading-[0.9] font-bold">
+              <HeroName name={SITE.name} reducedMotion={Boolean(reducedMotion)} />
             </span>
             <motion.span
               variants={heroItem}
@@ -62,18 +58,16 @@ export function Hero() {
 
           <motion.p
             variants={heroItem}
-            className="mt-6 font-display text-2xl leading-tight font-bold md:text-3xl"
-            aria-live="polite"
+            className="mt-6 min-h-[1.2em] font-display text-2xl leading-tight font-bold md:text-3xl"
           >
-            <span className="text-ink/45 dark:text-bone/45">I&apos;m a </span>
-            <span>{typed}</span>
-            {!reducedMotion && (
-              <span
-                aria-hidden
-                className="ml-0.5 inline-block h-[0.9em] w-[0.08em] translate-y-[0.08em] bg-punch"
-                style={{ animation: 'caret-blink 1s step-end infinite' }}
-              />
-            )}
+            <span className="sr-only">
+              I&apos;m a software engineer, an SMU SCIS student, and an occasional dinosaur.
+            </span>
+            <span aria-hidden>
+              <span className="text-ink/45 dark:text-bone/45">I&apos;m </span>
+              <span>{typed}</span>
+              <span className="hero-caret ml-0.5 inline-block text-punch">|</span>
+            </span>
           </motion.p>
 
           <motion.p
@@ -107,16 +101,13 @@ export function Hero() {
               Get in touch
             </Button>
           </motion.div>
-        </div>
+        </motion.div>
 
-        {/* ---- Mascot ---- */}
         <motion.div
           variants={heroItem}
           transition={{ duration: 0.7, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
           className="relative h-[420px] w-full md:col-span-6 md:h-[520px]"
         >
-          {/* Angular staging: an outlined square rotated behind the mascot, and
-              one solid block to break the symmetry. No blurred glow. */}
           <div
             aria-hidden
             className="absolute top-1/2 left-1/2 aspect-square h-[76%] -translate-x-1/2 -translate-y-1/2 rotate-45 border-2 border-ink/12 dark:border-bone/12"
@@ -131,12 +122,68 @@ export function Hero() {
             />
           </Suspense>
 
-          {/* Sticker */}
           <span className="absolute bottom-2 left-2 -rotate-6 border-2 border-ink bg-ink px-3 py-1.5 font-mono text-[0.65rem] tracking-[0.08em] text-paper uppercase dark:border-bone dark:bg-bone dark:text-void">
             @{SITE.handle}
           </span>
         </motion.div>
       </motion.div>
     </section>
+  )
+}
+
+function HeroName({ name, reducedMotion }) {
+  const chars = [...name]
+
+  return (
+    <>
+      {chars.map((char, i) =>
+        char === ' ' ? (
+          <span key={`space-${i}`} className="inline-block w-[0.28em]" aria-hidden>
+            {'\u00a0'}
+          </span>
+        ) : (
+          <motion.span
+            key={`${char}-${i}`}
+            aria-hidden
+            className="inline-block origin-bottom"
+            initial={reducedMotion ? false : { y: '0.4em', opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            whileHover={{
+              y: -8,
+              scale: 1.1,
+              color: '#ff4d8d',
+              transition: { type: 'spring', stiffness: 520, damping: 16 },
+            }}
+            transition={{
+              delay: reducedMotion ? 0 : 0.18 + i * 0.038,
+              type: 'spring',
+              stiffness: 420,
+              damping: 22,
+            }}
+          >
+            {char}
+          </motion.span>
+        ),
+      )}
+      <motion.span
+        aria-hidden
+        className="inline-block origin-bottom text-punch"
+        initial={reducedMotion ? false : { y: '0.4em', opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        whileHover={{
+          y: -8,
+          scale: 1.1,
+          transition: { type: 'spring', stiffness: 520, damping: 16 },
+        }}
+        transition={{
+          delay: reducedMotion ? 0 : 0.18 + chars.length * 0.038,
+          type: 'spring',
+          stiffness: 420,
+          damping: 22,
+        }}
+      >
+        .
+      </motion.span>
+    </>
   )
 }
