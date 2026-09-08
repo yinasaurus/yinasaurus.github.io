@@ -24,6 +24,8 @@ export function useTypewriter(
     const doneTyping = count === phrase.length && !deleting
     const doneDeleting = count === 0 && deleting
 
+    if (doneTyping && phrases.length === 1) return
+
     const delay = doneTyping ? holdMs : deleting ? deleteMs : typeMs
 
     const id = setTimeout(() => {

@@ -5,9 +5,9 @@ import { SITE } from '../data/site'
 import { useIsMobile } from '../hooks/useMediaQuery'
 import { useTypewriter } from '../hooks/useTypewriter'
 import { heroContainer, heroItem, heroLine } from '../lib/motion'
-import { triggerProjectsEnter } from '../lib/projectsWipe'
 import { EggLoader } from './EggLoader'
 import { Button } from './Button'
+import { useWipeNavigate } from '../context/WipeNavigate'
 
 // three.js is a large dependency — loading it lazily lets the type paint
 // immediately while the 3D scene streams in behind a placeholder.
@@ -22,6 +22,7 @@ export function Hero() {
   const { isDark } = useTheme()
   const isMobile = useIsMobile()
   const reducedMotion = useReducedMotion()
+  const go = useWipeNavigate()
   const typed = useTypewriter(SITE.taglines, { reducedMotion: Boolean(reducedMotion) })
 
   return (
@@ -41,13 +42,21 @@ export function Hero() {
 
           {/* Poster-scale name. The wrapper clips it so the letters rise into
               place rather than fading in. */}
-          <h1 className="mt-5 overflow-hidden">
+          <h1 className="mt-5">
+            <span className="block overflow-hidden">
+              <motion.span
+                variants={heroLine}
+                className="block text-[clamp(2.6rem,8.5vw,5.4rem)] leading-[0.9] font-bold"
+              >
+                {SITE.name}
+                <span className="text-punch">.</span>
+              </motion.span>
+            </span>
             <motion.span
-              variants={heroLine}
-              className="block text-[clamp(4.5rem,17vw,10.5rem)] leading-[0.86] font-bold"
+              variants={heroItem}
+              className="mt-3 block font-mono text-[0.8rem] font-medium tracking-[0.16em] text-ink/45 uppercase dark:text-bone/45"
             >
-              {SITE.name.toUpperCase()}
-              <span className="text-punch">.</span>
+              // {SITE.handle}
             </motion.span>
           </h1>
 
@@ -78,13 +87,10 @@ export function Hero() {
 
           <motion.div variants={heroItem} className="mt-10 flex flex-wrap items-center gap-4">
             <Button
-              href="#projects"
+              href="/projects"
               onClick={(event) => {
                 event.preventDefault()
-                triggerProjectsEnter()
-                document.getElementById('projects')?.scrollIntoView({
-                  behavior: reducedMotion ? 'auto' : 'smooth',
-                })
+                go('/projects')
               }}
             >
               See projects

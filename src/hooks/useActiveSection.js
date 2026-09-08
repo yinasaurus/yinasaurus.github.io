@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 /** Returns the id of whichever section is currently closest to the top. */
 export function useActiveSection(ids) {
-  // Starts null so nothing is highlighted while the hero (not a nav target) is
-  // on screen.
+  const { pathname } = useLocation()
   const [active, setActive] = useState(null)
 
   useEffect(() => {
@@ -14,8 +14,6 @@ export function useActiveSection(ids) {
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
         if (visible) setActive(visible.target.id)
       },
-      // The band sits below the sticky navbar and above the fold's bottom half,
-      // so a section counts as "active" once it fills the reading area.
       { rootMargin: '-30% 0px -50% 0px', threshold: [0, 0.25, 0.5, 1] },
     )
 
@@ -25,7 +23,7 @@ export function useActiveSection(ids) {
     })
 
     return () => observer.disconnect()
-  }, [ids])
+  }, [ids, pathname])
 
   return active
 }

@@ -1,30 +1,36 @@
-import { About } from './components/About'
+import { useEffect } from 'react'
+import { Route, Routes } from 'react-router-dom'
 import { Backdrop } from './components/Backdrop'
-import { Contact } from './components/Contact'
-import { GithubActivity } from './components/GithubActivity'
 import { Footer } from './components/Footer'
-import { Hero } from './components/Hero'
-import { Navbar } from './components/Navbar'
-import { ProjectsGrid } from './components/ProjectsGrid'
-import { TechStack } from './components/TechStack'
-import { ThemeProvider } from './context/ThemeProvider'
 import { MouthWipe } from './components/MouthWipe'
+import { Navbar } from './components/Navbar'
+import { ThemeProvider } from './context/ThemeProvider'
+import { WipeNavigateProvider } from './context/WipeNavigate'
+import { SITE } from './data/site'
+import { HomePage } from './pages/HomePage'
+import { NotFoundPage } from './pages/NotFoundPage'
+import { ProjectsPage } from './pages/ProjectsPage'
 
 export default function App() {
+  useEffect(() => {
+    document.title = SITE.title
+  }, [])
+
   return (
     <ThemeProvider>
-      <MouthWipe />
-      <Backdrop />
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <TechStack />
-        <ProjectsGrid />
-        <GithubActivity />
-        <Contact />
-      </main>
-      <Footer />
+      <WipeNavigateProvider>
+        <MouthWipe />
+        <Backdrop />
+        <Navbar />
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </main>
+        <Footer />
+      </WipeNavigateProvider>
     </ThemeProvider>
   )
 }

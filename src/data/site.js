@@ -1,19 +1,19 @@
 export const SITE = {
-  name: 'Yin',
+  name: 'Li Shiyin',
   handle: 'yinasaurus',
-  tagline: 'Building software, learning in public 🦕',
-  taglines: ['software engineer.', 'cybersecurity enthusiast.', 'builder.'],
+  title: 'Li Shiyin // yinasaurus',
+  tagline: 'builder, breaker, occasional dinosaur.',
+  taglines: ['builder, breaker, occasional dinosaur.'],
   school: 'SMU School of Computing and Information Systems',
-  // ⚠️ Replace with your real address.
-  email: 'hello@example.com',
+  email: 'shiyin.li.2024@computing.smu.edu.sg',
   github: 'https://github.com/yinasaurus',
   linkedin: 'https://www.linkedin.com/in/li-shiyin',
 }
 
 export const NAV_LINKS = [
-  { id: 'about', label: 'About' },
-  { id: 'stack', label: 'Stack' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'activity', label: 'Activity' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'about', label: 'About', hash: 'about' },
+  { id: 'stack', label: 'Stack', hash: 'stack' },
+  { id: 'projects', label: 'Projects', to: '/projects' },
+  { id: 'activity', label: 'Activity', hash: 'activity' },
+  { id: 'contact', label: 'Contact', hash: 'contact' },
 ]

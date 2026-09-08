@@ -27,7 +27,7 @@ export function About() {
       <div className="grid gap-12 md:grid-cols-12 md:gap-8">
         <div className="space-y-6 md:col-span-7">
           <p className="text-lg leading-relaxed text-ink/75 dark:text-bone/75">
-            I&rsquo;m an undergraduate at the {SITE.school}, where most of my time
+            I&rsquo;m {SITE.name}, an undergraduate at the {SITE.school}, where most of my time
             goes into figuring out how things work and then rebuilding them
             slightly differently.
           </p>

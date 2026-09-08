@@ -3,65 +3,29 @@ import { useEffect, useRef, useState } from 'react'
 import { PROJECTS_ENTER, PROJECTS_EXIT } from '../lib/projectsWipe'
 
 /**
- * Mouth wipe between Hero and Projects.
- *
- * Not a 3D camera through the mascot — two jaws cover the viewport then open
- * (or close, on the way back). Pointer-events stay off so scroll is never
- * hijacked. Total ~0.8s; reduced-motion users get a 120ms fade.
+ * Mouth wipe for the / ↔ /projects route change.
+ * Pointer-events stay off. ~0.8s; reduced-motion is a short fade.
  */
 export function MouthWipe() {
   const reducedMotion = useReducedMotion()
   const [shot, setShot] = useState(null)
   const lockUntil = useRef(0)
-  const inProjects = useRef(false)
-  const primed = useRef(false)
 
   useEffect(() => {
-    const boot = window.setTimeout(() => {
-      primed.current = true
-    }, 700)
-
-    const play = (next, fromUser = false) => {
-      if (!fromUser && !primed.current) return
+    const play = (next) => {
       const now = performance.now()
       if (now < lockUntil.current) return
       lockUntil.current = now + 900
       setShot(next)
     }
 
-    const onEnter = () => play('enter', true)
-    const onExit = () => play('exit', true)
+    const onEnter = () => play('enter')
+    const onExit = () => play('exit')
     window.addEventListener(PROJECTS_ENTER, onEnter)
     window.addEventListener(PROJECTS_EXIT, onExit)
-
-    const node = document.getElementById('projects')
-    const observer = node
-      ? new IntersectionObserver(
-          ([entry]) => {
-            if (!primed.current) {
-              inProjects.current = entry.isIntersecting
-              return
-            }
-            if (entry.isIntersecting && !inProjects.current) play('enter')
-            if (
-              !entry.isIntersecting &&
-              inProjects.current &&
-              entry.boundingClientRect.top > 0
-            ) {
-              play('exit')
-            }
-            inProjects.current = entry.isIntersecting
-          },
-          { threshold: 0.18 },
-        )
-      : null
-    if (node) observer.observe(node)
-
     return () => {
-      window.clearTimeout(boot)
       window.removeEventListener(PROJECTS_ENTER, onEnter)
       window.removeEventListener(PROJECTS_EXIT, onExit)
-      observer?.disconnect()
     }
   }, [])
 

@@ -4,13 +4,8 @@ import { useMemo, useRef } from 'react'
 import { MathUtils, Quaternion, Vector3 } from 'three'
 
 /**
- * The mascot — a chunky low-poly toy triceratops.
- *
- * Head + frill is almost as large as the body. The frill is a back-tilted
- * octagonal plate (not a thin edge-on disc) so it reads from the hero camera.
- *
- * To swap the mascot, replace this component; camera, lights and cursor
- * tracking in `MascotScene` stay as they are.
+ * Chunky low-poly toy triceratops. Head, frill and horns are one mass — the
+ * frill grows out of the skull, horn roots sit inside it. No spine plates.
  */
 
 const C = {
@@ -34,7 +29,7 @@ const TAIL = [
   { p: [0, -0.2, -1.12], r: 0.05 },
 ]
 
-const HEAD_PIVOT = [0, 0.58, 0.5]
+const HEAD_PIVOT = [0, 0.52, 0.48]
 
 const LEGS = [
   { side: 1, z: 0.28 },
@@ -42,11 +37,6 @@ const LEGS = [
   { side: 1, z: -0.3 },
   { side: -1, z: -0.3 },
 ]
-
-const FRILL_SPIKES = Array.from({ length: 11 }, (_, i) => {
-  const theta = -1.2 + (i / 10) * 2.4
-  return { theta }
-})
 
 function Bone({ from, to, r1, r2, radial = 6, color }) {
   const { position, quaternion, length } = useMemo(() => {
@@ -86,10 +76,11 @@ function Facet({ color, roughness = 0.55 }) {
   return <meshStandardMaterial color={color} flatShading roughness={roughness} metalness={0} />
 }
 
+/** Cone origin is the skull surface; most of the length sits outside. */
 function Horn({ position, rotation, length, radius }) {
   return (
     <group position={position} rotation={rotation}>
-      <mesh position={[0, length * 0.48, 0]}>
+      <mesh position={[0, length * 0.32, 0]}>
         <coneGeometry args={[radius, length, 5]} />
         <Facet color={C.cream} roughness={0.42} />
       </mesh>
@@ -150,30 +141,29 @@ export function Yinasaurus({ pointerRef, reducedMotion = false }) {
       floatIntensity={reducedMotion ? 0 : 0.28}
       floatingRange={[-0.04, 0.04]}
     >
-      {/* Three-quarter so the frill face, snout and tail all leave the silhouette. */}
       <group scale={0.78} rotation={[0.1, -0.95, 0]} position={[0.04, 0.02, 0]}>
         <group ref={group} dispose={null}>
-          <mesh position={[0, 0.28, -0.02]} scale={[0.62, 0.5, 0.7]}>
-            <icosahedronGeometry args={[1, 1]} />
+          <mesh position={[0, 0.28, -0.06]} rotation={[Math.PI / 2, 0, 0]} scale={[1, 1.2, 0.88]}>
+            <capsuleGeometry args={[0.4, 0.52, 4, 8]} />
             <Facet color={C.body} />
           </mesh>
-          <mesh position={[0, 0.06, 0.02]} scale={[0.42, 0.22, 0.5]}>
-            <icosahedronGeometry args={[1, 0]} />
+          <mesh position={[0, 0.06, 0.02]} scale={[0.38, 0.18, 0.46]}>
+            <sphereGeometry args={[1, 8, 6]} />
             <Facet color={C.belly} />
           </mesh>
 
           <Bone
-            from={[0, 0.44, 0.22]}
-            to={[0, 0.54, 0.44]}
-            r1={0.2}
-            r2={0.16}
+            from={[0, 0.42, 0.2]}
+            to={[0, 0.5, 0.42]}
+            r1={0.24}
+            r2={0.2}
             radial={6}
             color={C.body}
           />
 
           <group ref={tail} position={TAIL_PIVOT}>
-            <mesh position={[0, 0.02, -0.08]} scale={[0.34, 0.3, 0.32]}>
-              <icosahedronGeometry args={[1, 0]} />
+            <mesh position={[0, 0.02, -0.08]} scale={[0.34, 0.26, 0.32]}>
+              <sphereGeometry args={[1, 6, 4]} />
               <Facet color={C.body} />
             </mesh>
             <Chain nodes={TAIL} color={C.body} />
@@ -204,62 +194,49 @@ export function Yinasaurus({ pointerRef, reducedMotion = false }) {
           })}
 
           <group ref={headGroup} position={HEAD_PIVOT}>
-            {/* Skull — its own mass, smaller than the frill */}
-            <mesh position={[0, 0.06, 0.04]} scale={[0.4, 0.36, 0.32]}>
+            {/* Skull */}
+            <mesh position={[0, 0.06, 0.12]} scale={[0.46, 0.4, 0.4]}>
               <icosahedronGeometry args={[1, 1]} />
+              <Facet color={C.body} />
+            </mesh>
+            {/* Collar filling the skull–frill join so the plate is not a gap. */}
+            <mesh position={[0, 0.1, -0.02]} rotation={[0.32, 0, 0]} scale={[0.52, 0.28, 0.32]}>
+              <icosahedronGeometry args={[1, 1]} />
+              <Facet color={C.body} />
+            </mesh>
+            {/* Frill: one thick faceted shield, axis through the skull so it
+                reads as the back of the head — not a floating ring. */}
+            <mesh position={[0, 0.12, -0.04]} rotation={[Math.PI / 2 + 0.28, 0, 0]}>
+              <cylinderGeometry args={[0.62, 0.84, 0.36, 12]} />
               <Facet color={C.body} />
             </mesh>
 
-            {/* Short blunt snout that actually leaves the skull */}
-            <mesh position={[0, -0.04, 0.46]} scale={[0.26, 0.2, 0.36]}>
+            {/* Short blunt snout fused to the front of the skull */}
+            <mesh position={[0, -0.04, 0.4]} scale={[0.3, 0.24, 0.34]}>
               <icosahedronGeometry args={[1, 1]} />
               <Facet color={C.body} />
             </mesh>
-            <mesh position={[0, -0.12, 0.74]} rotation={[0.4, 0, 0]} scale={[0.15, 0.08, 0.16]}>
+            <mesh position={[0, -0.1, 0.66]} rotation={[0.4, 0, 0]} scale={[0.16, 0.08, 0.16]}>
               <boxGeometry args={[1, 1, 1]} />
               <Facet color={C.beak} roughness={0.62} />
             </mesh>
 
-            {/* Frill: wide octagonal plate, tilted so the fan faces the camera */}
-            <group position={[0, 0.28, -0.28]} rotation={[1.05, 0, 0]}>
-              <mesh>
-                <cylinderGeometry args={[1.02, 1.1, 0.16, 8]} />
-                <Facet color={C.body} />
-              </mesh>
-              <mesh>
-                <torusGeometry args={[1.06, 0.08, 5, 10]} />
-                <Facet color={C.cream} roughness={0.42} />
-              </mesh>
-              {FRILL_SPIKES.map((spike, i) => (
-                <mesh
-                  key={i}
-                  position={[Math.sin(spike.theta) * 1.12, 0.02, Math.cos(spike.theta) * 1.12]}
-                  rotation={[0, spike.theta, 0]}
-                >
-                  <coneGeometry args={[0.09, 0.18, 3]} />
-                  <Facet color={C.cream} roughness={0.42} />
-                </mesh>
-              ))}
-            </group>
-
-            {/* Two long brow horns */}
             <Horn
-              position={[-0.18, 0.36, 0.16]}
-              rotation={[0.42, 0, -0.2]}
-              length={0.62}
-              radius={0.095}
+              position={[-0.22, 0.3, 0.22]}
+              rotation={[0.55, 0, -0.16]}
+              length={0.52}
+              radius={0.09}
             />
             <Horn
-              position={[0.18, 0.36, 0.16]}
-              rotation={[0.42, 0, 0.2]}
-              length={0.62}
-              radius={0.095}
+              position={[0.22, 0.3, 0.22]}
+              rotation={[0.55, 0, 0.16]}
+              length={0.52}
+              radius={0.09}
             />
-            {/* Shorter nose horn, sitting on the snout */}
-            <Horn position={[0, 0.1, 0.58]} rotation={[0.95, 0, 0]} length={0.3} radius={0.07} />
+            <Horn position={[0, 0.12, 0.48]} rotation={[0.95, 0, 0]} length={0.3} radius={0.07} />
 
             {[-0.2, 0.2].map((x, i) => (
-              <group key={x} position={[x, 0.1, 0.28]}>
+              <group key={x} position={[x, 0.1, 0.26]}>
                 <mesh ref={i === 0 ? leftEye : rightEye} scale={EYE_SCALE}>
                   <icosahedronGeometry args={[1, 1]} />
                   <meshStandardMaterial
