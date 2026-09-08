@@ -49,7 +49,7 @@ export default function MascotScene({ isDark = false, quality = 'high', reducedM
       >
         {/* Generous frame so head, tail and feet stay inside the canvas
             with breathing room at the default three-quarter pose. */}
-        <FitCamera width={6.4} height={5.4} />
+        <FitCamera width={5.2} height={4.8} />
 
         {/* --- Lighting rig: 3 lights total, deliberately kept small. ---
             Flat-shaded geometry lives or dies on directional contrast, so the
@@ -138,7 +138,7 @@ function SoftShadow({ isDark }) {
   useEffect(() => () => texture.dispose(), [texture])
 
   return (
-    <mesh position={[0.08, -0.64, 0.06]} rotation={[-Math.PI / 2, 0, 0]} scale={[1.5, 1.05, 1]}>
+    <mesh position={[0.04, -0.58, 0.04]} rotation={[-Math.PI / 2, 0, 0]} scale={[1.35, 1.0, 1]}>
       <planeGeometry args={[1, 1]} />
       <meshBasicMaterial
         map={texture}
