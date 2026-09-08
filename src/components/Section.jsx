@@ -15,7 +15,14 @@ export function Section({ id, className = '', children }) {
   )
 }
 
-export function SectionHeader({ index, label, title, lead, accent = 'text-volt' }) {
+export function SectionHeader({
+  index,
+  label,
+  title,
+  lead,
+  accent = 'text-volt',
+  stacked = false,
+}) {
   return (
     <header className="rule pt-10 pb-12 md:pt-14 md:pb-16">
       <div className="flex items-center gap-4">
@@ -26,16 +33,29 @@ export function SectionHeader({ index, label, title, lead, accent = 'text-volt' 
         <span className="h-px flex-1 bg-ink/15 dark:bg-bone/15" />
       </div>
 
-      <div className="mt-8 grid gap-6 md:grid-cols-12 md:items-end">
-        <h2 className="text-4xl leading-[1.05] font-bold md:col-span-7 md:text-6xl">
-          {title}
-        </h2>
-        {lead && (
-          <p className="text-base leading-relaxed text-ink/60 md:col-span-5 dark:text-bone/60">
-            {lead}
-          </p>
-        )}
-      </div>
+      {stacked ? (
+        <div className="mt-8">
+          {lead && (
+            <p className="max-w-xl text-base leading-relaxed text-ink/60 dark:text-bone/60">
+              {lead}
+            </p>
+          )}
+          <h2 className="mt-10 text-4xl leading-[1.05] font-bold md:mt-14 md:text-6xl">
+            {title}
+          </h2>
+        </div>
+      ) : (
+        <div className="mt-8 grid gap-6 md:grid-cols-12 md:items-start">
+          <h2 className="min-w-0 text-4xl leading-[1.05] font-bold md:col-span-7 md:text-6xl">
+            {title}
+          </h2>
+          {lead && (
+            <p className="min-w-0 text-base leading-relaxed text-ink/60 md:col-span-5 dark:text-bone/60">
+              {lead}
+            </p>
+          )}
+        </div>
+      )}
     </header>
   )
 }

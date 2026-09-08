@@ -1,19 +1,23 @@
 import { Canvas, useThree } from '@react-three/fiber'
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { Color, Object3D, OrthographicCamera } from 'three'
+import { Color, Object3D, Vector3 } from 'three'
 
 /**
  * One instanced cube per day — a real 7 × ~52 GitHub calendar, not a strip.
  *
- * Weeks run along +X, Sunday→Saturday along +Z. The camera sits almost
- * overhead with a short isometric tilt so all seven rows stay visible. Empty
- * days still get a short dim cube so the rectangle never falls apart.
+ * Weeks run along +X, Sunday→Saturday along +Z. The camera sits at a game-board
+ * isometric (~40° elevation, slight yaw) so cube heights read in 3D. Empty days
+ * still get a short dim cube so the rectangle never falls apart.
  */
 
-const STEP = 1
-const CUBE = 0.92
-const EMPTY_H = 0.32
-const MAX_H = 1.4
+const STEP = 0.86
+const CUBE = 0.74
+const EMPTY_H = 0.2
+const MAX_H = 3.4
+const ELEVATION = (42 * Math.PI) / 180
+const YAW = (28 * Math.PI) / 180
+const DIST = 56
+const FRUSTUM_PAD = 1.2
 const LEVELS = ['#d4cfc4', '#17c79a', '#6c3bf4', '#ffb020', '#ff4d8d']
 const LEVELS_DARK = ['#3a3348', '#17c79a', '#8b6cff', '#ffb020', '#ff4d8d']
 
@@ -34,43 +38,81 @@ function cubeHeight(count, max) {
 
 /**
  * Own the camera. drei's <OrthographicCamera> writes its `position` prop every
- * frame and was fighting the framing, which left us looking along the grid
- * instead of down at it.
+ * frame and was fighting the framing. `manual` stops R3F from resetting the
+ * frustum to pixel units on resize, which was cropping the year grid.
  */
 function CalendarCamera({ weeks }) {
-  const set = useThree((state) => state.set)
+  const camera = useThree((state) => state.camera)
   const size = useThree((state) => state.size)
-  const camera = useMemo(() => new OrthographicCamera(-1, 1, 1, -1, 0.1, 80), [])
+  const invalidate = useThree((state) => state.invalidate)
+  const scratch = useMemo(() => new Vector3(), [])
 
   useLayoutEffect(() => {
-    set({ camera })
-  }, [camera, set])
+    if (size.width < 1 || size.height < 1) return
 
-  useLayoutEffect(() => {
-    const gridW = Math.max(weeks, 1) * STEP
-    const gridD = 7 * STEP
-    const cx = (weeks - 1) * STEP * 0.5
-    const cz = 3 * STEP
-    const y = 70
-    const zOff = 5
+    const minX = -CUBE / 2
+    const maxX = Math.max(weeks - 1, 0) * STEP + CUBE / 2
+    const minZ = -CUBE / 2
+    const maxZ = 6 * STEP + CUBE / 2
+    const cx = (minX + maxX) / 2
+    const cz = (minZ + maxZ) / 2
 
-    // Straight-on from above the Saturday edge. Weeks run across the screen,
-    // the seven days run down it — the same rectangle as GitHub's 2D graph.
-    camera.position.set(cx, y, cz + zOff)
+    const xOff = Math.sin(YAW) * Math.cos(ELEVATION) * DIST
+    const y = Math.sin(ELEVATION) * DIST
+    const zOff = Math.cos(YAW) * Math.cos(ELEVATION) * DIST
+
+    camera.position.set(cx + xOff, y, cz + zOff)
     camera.up.set(0, 1, 0)
-    camera.lookAt(cx, 0, cz)
+    camera.lookAt(cx, MAX_H * 0.3, cz)
+    camera.updateMatrixWorld()
 
-    const tilt = Math.atan(zOff / y)
-    const projW = gridW
-    const projH = gridD * Math.cos(tilt) + MAX_H
-    const pad = 1.2
-    const scale = Math.min(size.width / (projW * pad), size.height / (projH * pad))
-    camera.left = -(size.width / scale) / 2
-    camera.right = size.width / scale / 2
-    camera.top = size.height / scale / 2
-    camera.bottom = -(size.height / scale) / 2
+    // Contain the full grid AABB in view, whatever the canvas aspect is.
+    const corners = [
+      [minX, 0, minZ],
+      [maxX, 0, minZ],
+      [minX, 0, maxZ],
+      [maxX, 0, maxZ],
+      [minX, MAX_H, minZ],
+      [maxX, MAX_H, minZ],
+      [minX, MAX_H, maxZ],
+      [maxX, MAX_H, maxZ],
+    ]
+    let minCx = Infinity
+    let maxCx = -Infinity
+    let minCy = Infinity
+    let maxCy = -Infinity
+    for (const [x, y0, z] of corners) {
+      scratch.set(x, y0, z).applyMatrix4(camera.matrixWorldInverse)
+      minCx = Math.min(minCx, scratch.x)
+      maxCx = Math.max(maxCx, scratch.x)
+      minCy = Math.min(minCy, scratch.y)
+      maxCy = Math.max(maxCy, scratch.y)
+    }
+
+    const worldW = Math.max(maxCx - minCx, 0.01) * FRUSTUM_PAD
+    const worldH = Math.max(maxCy - minCy, 0.01) * FRUSTUM_PAD
+    const aspect = size.width / size.height
+    let halfW = worldW / 2
+    let halfH = worldH / 2
+    if (aspect > worldW / worldH) {
+      halfW = halfH * aspect
+    } else {
+      halfH = halfW / aspect
+    }
+
+    const midX = (minCx + maxCx) / 2
+    const midY = (minCy + maxCy) / 2
+    camera.manual = true
+    camera.left = midX - halfW
+    camera.right = midX + halfW
+    camera.top = midY + halfH
+    camera.bottom = midY - halfH
+    camera.near = 0.1
+    camera.far = 250
+    camera.zoom = 1
     camera.updateProjectionMatrix()
-  }, [camera, size, weeks])
+    invalidate()
+  }, [camera, invalidate, scratch, size, weeks])
 
   return null
 }
@@ -109,7 +151,7 @@ function Cubes({ days, max, isDark, onHover }) {
       onPointerOut={() => onHover(null)}
     >
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial roughness={0.5} metalness={0} />
+      <meshStandardMaterial roughness={0.38} metalness={0} />
     </instancedMesh>
   )
 }
@@ -153,17 +195,20 @@ export default function ContributionScene({
   }
 
   return (
-    <div ref={wrapper} className="relative h-full w-full">
+    <div ref={wrapper} className="relative h-full w-full overflow-hidden">
       <Canvas
         frameloop={frameloop}
         dpr={[1, 1.75]}
         shadows={false}
+        orthographic
+        camera={{ manual: true, near: 0.1, far: 250, zoom: 1 }}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
         onPointerMissed={() => setHover(null)}
       >
         <CalendarCamera weeks={weeks} />
-        <ambientLight intensity={isDark ? 0.7 : 0.95} />
-        <directionalLight position={[8, 18, 6]} intensity={isDark ? 1.8 : 2.1} />
+        <ambientLight intensity={isDark ? 0.38 : 0.55} />
+        <directionalLight position={[22, 28, 18]} intensity={isDark ? 2.4 : 2.7} />
+        <directionalLight position={[-14, 10, 16]} intensity={isDark ? 0.55 : 0.7} />
         <Cubes days={grid} max={max} isDark={isDark} onHover={reducedMotion ? () => {} : onHover} />
       </Canvas>
 
@@ -182,14 +227,17 @@ export default function ContributionScene({
   )
 }
 
-/** Every day in the span gets a cell, including zeros, Sunday-aligned. */
+/** Sunday-aligned YTD rectangle so empty weekdays don't leave holes. */
 function fillGrid(days) {
   if (!days.length) return days
   const counts = new Map(days.map((day) => [day.date, day.count]))
   const times = days.map((day) => new Date(`${day.date}T00:00:00`))
-  const first = new Date(Math.min(...times))
-  const start = new Date(first.getFullYear(), 0, 1)
+  const year = new Date(Math.min(...times)).getFullYear()
+
+  const start = new Date(year, 0, 1)
+  start.setDate(start.getDate() - start.getDay())
   const end = new Date(Math.max(...times))
+  end.setDate(end.getDate() + (6 - end.getDay()))
 
   const grid = []
   let week = 0

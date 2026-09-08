@@ -30,11 +30,12 @@ export function GithubActivity() {
         index="04"
         label="Activity"
         accent="text-jade"
+        stacked
         title="Shipping in public"
         lead="A year of commits, pulled live from GitHub and stacked as cubes — not a screenshot of the contribution graph."
       />
 
-      <div className="relative h-[320px] w-full md:h-[400px]">
+      <div className="relative mt-2 h-[380px] w-full overflow-hidden md:h-[500px]">
         <Suspense fallback={<CalendarSkeleton />}>
           <ContributionScene
             days={data.days}
