@@ -1,0 +1,110 @@
+@import 'tailwindcss';
+
+/* Dark mode is driven by a `.dark` class on <html> so the toggle can override
+   the OS preference (and so the 3D scene can read the same source of truth). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Display face for headings only. Body copy never uses it — the contrast
+     between the two is the point. Mono carries all micro-labels: section
+     numbers, tags, nav links. */
+  --font-display: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Courier New', monospace;
+
+  /* Paper / ink base. Warm off-white rather than pure white so the flat colour
+     blocks read as print rather than as UI. */
+  --color-paper: #f5f2ec;
+  --color-bone: #ebe5d9;
+  --color-ink: #171225;
+  --color-slab: #1b1430;
+  --color-void: #0f0b18;
+
+  /* Four saturated accents, used as flat fills — never as gradients. */
+  --color-volt: #6c3bf4;
+  --color-volt-soft: #ddd2ff;
+  --color-punch: #ff4d8d;
+  --color-punch-soft: #ffd4e3;
+  --color-jade: #17c79a;
+  --color-jade-soft: #bff2e4;
+  --color-solar: #ffb020;
+  --color-solar-soft: #ffe7bb;
+
+  /* Hard offset shadows. No blur, no grey — the offset colour flips with the
+     theme via `--hard` below. */
+  --shadow-hard: 7px 7px 0 0 var(--hard);
+  --shadow-hard-sm: 4px 4px 0 0 var(--hard);
+  --shadow-hard-lg: 11px 11px 0 0 var(--hard);
+}
+
+@layer base {
+  :root {
+    --hard: #171225;
+  }
+
+  .dark {
+    --hard: #17c79a;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    @apply dark:bg-void dark:text-bone;
+  }
+
+  ::selection {
+    @apply bg-volt text-paper;
+  }
+
+  /* Keep the sticky navbar from covering anchored sections. */
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+
+  /* Headings are always display type. Tight tracking only — no width stretch. */
+  h1,
+  h2,
+  h3 {
+    @apply font-display font-bold;
+    letter-spacing: -0.02em;
+    font-stretch: normal;
+  }
+}
+
+@keyframes caret-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@layer components {
+  /* The one boxed surface on the page — used only by project cards. Hard
+     border, square corners, solid offset shadow. */
+  .panel {
+    @apply border-2 border-ink bg-paper;
+    @apply dark:border-bone/70 dark:bg-slab;
+  }
+
+  /* Micro-label: section numbers, eyebrows, nav items, tags. */
+  .micro {
+    @apply font-mono text-[0.7rem] font-medium tracking-[0.18em] uppercase;
+  }
+
+  /* Full-width hairline used to separate sections and list rows. */
+  .rule {
+    @apply border-t-2 border-ink/15 dark:border-bone/15;
+  }
+}
