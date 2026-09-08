@@ -16,7 +16,7 @@ export function Contact() {
   return (
     <Section id="contact" className="pb-24 md:pb-32">
       <SectionHeader
-        index="04"
+        index="05"
         label="Contact"
         accent="text-solar"
         title="Say hello"

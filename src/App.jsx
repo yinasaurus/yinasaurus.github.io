@@ -1,6 +1,7 @@
 import { About } from './components/About'
 import { Backdrop } from './components/Backdrop'
 import { Contact } from './components/Contact'
+import { GithubActivity } from './components/GithubActivity'
 import { Footer } from './components/Footer'
 import { Hero } from './components/Hero'
 import { Navbar } from './components/Navbar'
@@ -18,6 +19,7 @@ export default function App() {
         <About />
         <TechStack />
         <ProjectsGrid />
+        <GithubActivity />
         <Contact />
       </main>
       <Footer />
