@@ -3,6 +3,8 @@ import { Suspense, lazy } from 'react'
 import { useTheme } from '../context/theme-context'
 import { SITE } from '../data/site'
 import { useGithubActivity } from '../hooks/useGithubActivity'
+import { useMediaQuery } from '../hooks/useMediaQuery'
+import { ContributionHeatmap } from './ContributionHeatmap'
 import { Section, SectionHeader } from './Section'
 import { Tag } from './Tag'
 
@@ -21,6 +23,7 @@ const ContributionScene = lazy(() => import('./three/ContributionScene'))
  */
 export function GithubActivity() {
   const { isDark } = useTheme()
+  const isNarrow = useMediaQuery('(max-width: 1023px)')
   const reducedMotion = useReducedMotion()
   const { data, status } = useGithubActivity()
 
@@ -32,18 +35,24 @@ export function GithubActivity() {
         accent="text-jade"
         stacked
         title="Shipping in public"
-        lead="A year of commits, pulled live from GitHub and stacked as cubes — not a screenshot of the contribution graph."
+        lead="A year of commits, pulled live from GitHub. Cubes on a wide screen; a swipeable grid on a phone."
       />
 
-      <div className="relative mt-2 h-[380px] w-full overflow-hidden md:h-[500px]">
-        <Suspense fallback={<CalendarSkeleton />}>
-          <ContributionScene
-            days={data.days}
-            isDark={isDark}
-            reducedMotion={Boolean(reducedMotion)}
-          />
-        </Suspense>
-      </div>
+      {isNarrow ? (
+        <div className="relative mt-2 w-full min-w-0">
+          <ContributionHeatmap days={data.days} isDark={isDark} />
+        </div>
+      ) : (
+        <div className="relative mt-2 h-[500px] w-full overflow-hidden">
+          <Suspense fallback={<CalendarSkeleton />}>
+            <ContributionScene
+              days={data.days}
+              isDark={isDark}
+              reducedMotion={Boolean(reducedMotion)}
+            />
+          </Suspense>
+        </div>
+      )}
       <p className="micro mt-4 text-ink/40 dark:text-bone/40">
         {status === 'loading' && `Excavating @${SITE.handle}…`}
         {status === 'ready' && (

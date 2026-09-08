@@ -86,19 +86,20 @@ export function ProjectCard({ project, index }) {
                 rel="noreferrer"
                 aria-label={`Open ${project.name} on GitHub`}
                 onClick={(event) => event.stopPropagation()}
-                className="text-ink/35 transition-colors hover:text-ink dark:text-bone/35 dark:hover:text-bone"
+                className="inline-flex h-11 w-11 items-center justify-center text-ink/35 transition-colors hover:text-ink dark:text-bone/35 dark:hover:text-bone"
               >
                 <GithubIcon />
               </a>
             </div>
 
-            <h3 className="mt-5 text-2xl leading-tight font-bold">{project.title}</h3>
+            <h3 className="mt-5 min-w-0 text-2xl leading-tight font-bold break-words">{project.title}</h3>
             <p className="mt-1.5 font-mono text-[0.7rem] tracking-wider text-ink/40 dark:text-bone/40">
               {project.name}
             </p>
             <p className="mt-4 line-clamp-3 leading-relaxed text-ink/70 dark:text-bone/70">
               {project.blurb}
             </p>
+            <p className="micro mt-5 text-punch md:hidden">View project →</p>
           </div>
         </motion.div>
       </motion.article>
@@ -163,7 +164,7 @@ function ProjectModal({ project, open, onClose }) {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className={`micro ${accent.text}`}>{project.name}</p>
-                  <h2 id={`project-${project.id}-title`} className="mt-2 text-3xl font-bold">
+                  <h2 id={`project-${project.id}-title`} className="mt-2 text-2xl font-bold break-words sm:text-3xl">
                     {project.title}
                   </h2>
                 </div>
@@ -171,7 +172,7 @@ function ProjectModal({ project, open, onClose }) {
                   ref={closeRef}
                   type="button"
                   onClick={onClose}
-                  className="micro border-2 border-ink px-3 py-2 dark:border-bone"
+                  className="micro inline-flex min-h-11 shrink-0 items-center border-2 border-ink px-3 dark:border-bone"
                 >
                   Close
                 </button>
@@ -186,12 +187,12 @@ function ProjectModal({ project, open, onClose }) {
                   ))}
                 </ul>
               )}
-              <div className="rule mt-8 flex flex-wrap items-center gap-5 pt-5">
+              <div className="rule mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 pt-5">
                 <a
                   href={project.repo}
                   target="_blank"
                   rel="noreferrer"
-                  className="micro border-b-2 border-ink pb-0.5 hover:border-punch hover:text-punch dark:border-bone"
+                  className="micro inline-flex min-h-11 items-center border-b-2 border-ink pb-0.5 hover:border-punch hover:text-punch dark:border-bone"
                 >
                   GitHub ↗
                 </a>
@@ -200,7 +201,7 @@ function ProjectModal({ project, open, onClose }) {
                     href={project.live}
                     target="_blank"
                     rel="noreferrer"
-                    className="micro text-ink/45 hover:text-ink dark:text-bone/45 dark:hover:text-bone"
+                    className="micro inline-flex min-h-11 items-center text-ink/45 hover:text-ink dark:text-bone/45 dark:hover:text-bone"
                   >
                     Live ↗
                   </a>

@@ -23,7 +23,7 @@ export function ProjectsGrid() {
         label="Projects"
         accent="text-punch"
         title="Stuff I've built"
-        lead="Public repos, newest first. Hover for the stack, click for the longer story."
+        lead="Public repos, newest first. Tap a card for the stack and the longer story."
       />
 
       {PROJECTS.length === 0 ? (
@@ -35,7 +35,7 @@ export function ProjectsGrid() {
           variants={gridVariants}
           initial="hidden"
           animate="show"
-          className="grid items-stretch gap-7 sm:grid-cols-2 xl:grid-cols-3"
+          className="grid items-stretch gap-7 md:grid-cols-2 xl:grid-cols-3"
         >
           {PROJECTS.map((project, index) => (
             <motion.div key={project.id} variants={cardItem} className="h-full">

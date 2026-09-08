@@ -1,6 +1,7 @@
 import { Canvas, useThree } from '@react-three/fiber'
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Color, Object3D, Vector3 } from 'three'
+import { fillGrid, LEVELS, LEVELS_DARK, levelIndex } from '../../lib/contributionGrid'
 
 /**
  * One instanced cube per day — a real 7 × ~52 GitHub calendar, not a strip.
@@ -18,19 +19,6 @@ const ELEVATION = (42 * Math.PI) / 180
 const YAW = (28 * Math.PI) / 180
 const DIST = 56
 const FRUSTUM_PAD = 1.2
-const LEVELS = ['#d4cfc4', '#17c79a', '#6c3bf4', '#ffb020', '#ff4d8d']
-const LEVELS_DARK = ['#3a3348', '#17c79a', '#8b6cff', '#ffb020', '#ff4d8d']
-
-function levelIndex(count, max) {
-  if (count <= 0) return 0
-  if (max <= 1) return 2
-  const t = count / max
-  if (t < 0.25) return 1
-  if (t < 0.5) return 2
-  if (t < 0.75) return 3
-  return 4
-}
-
 function cubeHeight(count, max) {
   if (count <= 0) return EMPTY_H
   return EMPTY_H + 0.12 + (count / Math.max(max, 1)) * (MAX_H - EMPTY_H - 0.12)
@@ -225,36 +213,6 @@ export default function ContributionScene({
       )}
     </div>
   )
-}
-
-/** Sunday-aligned YTD rectangle so empty weekdays don't leave holes. */
-function fillGrid(days) {
-  if (!days.length) return days
-  const counts = new Map(days.map((day) => [day.date, day.count]))
-  const times = days.map((day) => new Date(`${day.date}T00:00:00`))
-  const year = new Date(Math.min(...times)).getFullYear()
-
-  const start = new Date(year, 0, 1)
-  start.setDate(start.getDate() - start.getDay())
-  const end = new Date(Math.max(...times))
-  end.setDate(end.getDate() + (6 - end.getDay()))
-
-  const grid = []
-  let week = 0
-  for (const cursor = new Date(start); cursor <= end; cursor.setDate(cursor.getDate() + 1)) {
-    const dow = cursor.getDay()
-    if (dow === 0 && grid.length > 0) week += 1
-    const date = toIso(cursor)
-    grid.push({ date, count: counts.get(date) ?? 0, week, dow })
-  }
-  return grid
-}
-
-function toIso(date) {
-  const y = date.getFullYear()
-  const m = String(date.getMonth() + 1).padStart(2, '0')
-  const d = String(date.getDate()).padStart(2, '0')
-  return `${y}-${m}-${d}`
 }
 
 function formatDate(iso) {

@@ -48,6 +48,7 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -59,6 +60,7 @@
   body {
     @apply bg-paper font-sans text-ink antialiased;
     @apply dark:bg-void dark:text-bone;
+    overflow-x: clip;
   }
 
   /* Native cursor is hidden only after SiteCursor mounts, so there's no

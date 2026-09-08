@@ -60,7 +60,7 @@ export function Navbar() {
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 sm:px-10">
-        <a href="/" onClick={onHome} className="flex min-w-0 items-center gap-2.5">
+        <a href="/" onClick={onHome} className="flex min-h-11 min-w-0 items-center gap-2.5">
           <FacetMark />
           <span className="truncate font-display text-base font-bold md:text-lg">
             {SITE.name}
@@ -102,7 +102,7 @@ export function Navbar() {
             onClick={() => setMenuOpen((open) => !open)}
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
-            className="flex h-10 w-10 items-center justify-center border-2 border-ink md:hidden dark:border-bone"
+            className="flex h-11 w-11 items-center justify-center border-2 border-ink md:hidden dark:border-bone"
           >
             <span className="flex flex-col gap-[3px]">
               <span className={`block h-0.5 w-4 bg-current ${menuOpen ? 'hidden' : ''}`} />
@@ -129,7 +129,7 @@ export function Navbar() {
                   <a
                     href={link.to ?? `/#${link.hash}`}
                     onClick={(event) => onNav(event, link)}
-                    className="flex items-baseline gap-4 py-4"
+                    className="flex min-h-11 items-baseline gap-4 py-4"
                   >
                     <span className="micro text-volt">0{i + 1}</span>
                     <span className="font-display text-2xl font-bold">{link.label}</span>

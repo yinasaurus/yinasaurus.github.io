@@ -37,15 +37,15 @@ export function Hero() {
         animate="show"
         className="grid gap-12 md:grid-cols-12 md:items-center md:gap-8"
       >
-        <motion.div style={{ x: shiftX, y: shiftY }} className="md:col-span-6">
-          <motion.p variants={heroItem} className="micro text-ink/45 dark:text-bone/45">
+        <motion.div style={{ x: shiftX, y: shiftY }} className="min-w-0 md:col-span-6">
+          <motion.p variants={heroItem} className="micro max-w-full text-pretty tracking-[0.12em] text-ink/45 sm:tracking-[0.18em] dark:text-bone/45">
             Software engineering student
             <span className="mx-2 text-punch">/</span>
             SMU Computing &amp; Information Systems
           </motion.p>
 
-          <h1 className="mt-5" aria-label={`${SITE.name}.`}>
-            <span className="block text-[clamp(2.6rem,8.5vw,5.4rem)] leading-[0.9] font-bold">
+          <h1 className="mt-5 min-w-0" aria-label={`${SITE.name}.`}>
+            <span className="block whitespace-nowrap text-[clamp(1.9rem,8.8vw,5.4rem)] leading-[0.92] font-bold">
               <HeroName name={SITE.name} reducedMotion={Boolean(reducedMotion)} />
             </span>
             <motion.span
@@ -58,7 +58,7 @@ export function Hero() {
 
           <motion.p
             variants={heroItem}
-            className="mt-6 min-h-[1.2em] font-display text-2xl leading-tight font-bold md:text-3xl"
+            className="mt-6 min-h-[1.2em] font-display text-xl leading-snug font-bold break-words sm:text-2xl md:text-3xl"
           >
             <span className="sr-only">
               I&apos;m a software engineer, an SMU SCIS student, and an occasional dinosaur.
@@ -106,7 +106,7 @@ export function Hero() {
         <motion.div
           variants={heroItem}
           transition={{ duration: 0.7, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          className="relative h-[420px] w-full md:col-span-6 md:h-[520px]"
+          className="relative h-[280px] w-full min-w-0 sm:h-[360px] md:col-span-6 md:h-[520px]"
         >
           <div
             aria-hidden

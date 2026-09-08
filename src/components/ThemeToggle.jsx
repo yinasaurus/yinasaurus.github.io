@@ -15,7 +15,7 @@ export function ThemeToggle({ className = '' }) {
       whileHover={{ x: -1, y: -1 }}
       whileTap={{ x: 2, y: 2 }}
       transition={PRESS}
-      className={`flex h-10 w-10 cursor-pointer items-center justify-center border-2 border-ink focus-visible:ring-2 focus-visible:ring-volt focus-visible:outline-none dark:border-bone ${className}`}
+      className={`flex h-11 w-11 cursor-pointer items-center justify-center border-2 border-ink focus-visible:ring-2 focus-visible:ring-volt focus-visible:outline-none dark:border-bone ${className}`}
     >
       {isDark ? <MoonIcon /> : <SunIcon />}
     </motion.button>

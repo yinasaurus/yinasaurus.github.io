@@ -11,7 +11,7 @@ export function Footer() {
           href={SITE.github}
           target="_blank"
           rel="noreferrer"
-          className="micro transition-colors hover:text-punch"
+          className="micro inline-flex min-h-11 items-center transition-colors hover:text-punch"
         >
           @{SITE.handle} ↗
         </a>

@@ -26,12 +26,12 @@ export function About() {
 
       <div className="grid gap-12 md:grid-cols-12 md:gap-8">
         <div className="space-y-6 md:col-span-7">
-          <p className="text-lg leading-relaxed text-ink/75 dark:text-bone/75">
+          <p className="text-base leading-relaxed text-ink/75 md:text-lg dark:text-bone/75">
             I&rsquo;m {SITE.name}, an undergraduate at the {SITE.school}, where most of my time
             goes into figuring out how things work and then rebuilding them
             slightly differently.
           </p>
-          <p className="text-lg leading-relaxed text-ink/75 dark:text-bone/75">
+          <p className="text-base leading-relaxed text-ink/75 md:text-lg dark:text-bone/75">
             My interests sit where software engineering, cybersecurity and AI
             overlap — which mostly means I like building something, then
             thinking about how someone else would take it apart.
@@ -44,9 +44,9 @@ export function About() {
           {FACTS.map(([term, value], i) => (
             <div key={term} className={`flex gap-3 py-5 ${i > 0 ? 'rule' : ''}`}>
               <ClawMark className="mt-1.5 h-3 w-3 shrink-0 text-jade" />
-              <div>
+              <div className="min-w-0">
                 <dt className="micro text-ink/40 dark:text-bone/40">{term}</dt>
-                <dd className="mt-2 font-display text-lg font-bold">{value}</dd>
+                <dd className="mt-2 font-display text-lg font-bold break-words">{value}</dd>
               </div>
             </div>
           ))}

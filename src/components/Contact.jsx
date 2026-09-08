@@ -2,9 +2,15 @@ import { SITE } from '../data/site'
 import { Section, SectionHeader } from './Section'
 
 const LINKS = [
-  { label: 'GitHub', value: `@${SITE.handle}`, href: SITE.github, hover: 'hover:bg-volt' },
-  { label: 'LinkedIn', value: 'li-shiyin', href: SITE.linkedin, hover: 'hover:bg-jade' },
-  { label: 'Email', value: SITE.email, href: `mailto:${SITE.email}`, hover: 'hover:bg-punch' },
+  { label: 'GitHub', value: `@${SITE.handle}`, href: SITE.github, hover: 'hover:bg-volt', wrap: 'break-words' },
+  { label: 'LinkedIn', value: 'li-shiyin', href: SITE.linkedin, hover: 'hover:bg-jade', wrap: 'break-words' },
+  {
+    label: 'Email',
+    value: SITE.email,
+    href: `mailto:${SITE.email}`,
+    hover: 'hover:bg-punch',
+    wrap: 'break-words [overflow-wrap:anywhere]',
+  },
 ]
 
 /**
@@ -30,17 +36,19 @@ export function Contact() {
               href={link.href}
               target={link.href.startsWith('mailto:') ? undefined : '_blank'}
               rel="noreferrer"
-              className={`group flex items-center gap-5 px-2 py-6 transition-colors duration-150 md:px-4 md:py-8 ${link.hover} hover:text-paper dark:hover:text-void`}
+              className={`group flex min-h-11 flex-col items-stretch gap-2 px-1 py-5 transition-colors duration-150 sm:flex-row sm:items-center sm:gap-5 sm:px-2 sm:py-6 md:px-4 md:py-8 ${link.hover} hover:text-paper dark:hover:text-void`}
             >
-              <span className="micro w-24 shrink-0 opacity-45 transition-opacity group-hover:opacity-100">
+              <span className="micro shrink-0 opacity-45 transition-opacity group-hover:opacity-100 sm:w-24">
                 {link.label}
               </span>
-              <span className="font-display text-2xl font-semibold md:text-4xl">
-                {link.value}
+              <span
+                className={`min-w-0 font-display text-xl font-semibold sm:text-2xl md:text-4xl ${link.wrap}`}
+              >
+                {link.label === 'Email' ? <EmailValue value={link.value} /> : link.value}
               </span>
               <span
                 aria-hidden
-                className="ml-auto text-2xl transition-transform duration-200 group-hover:translate-x-1.5 md:text-3xl"
+                className="hidden text-2xl transition-transform duration-200 group-hover:translate-x-1.5 sm:ml-auto sm:inline md:text-3xl"
               >
                 ↗
               </span>
@@ -50,5 +58,18 @@ export function Contact() {
         <li className="rule" />
       </ul>
     </Section>
+  )
+}
+
+/** Prefer wrapping at @ so the SMU address doesn't split mid-token. */
+function EmailValue({ value }) {
+  const at = value.indexOf('@')
+  if (at < 0) return value
+  return (
+    <>
+      {value.slice(0, at)}
+      <wbr />
+      {value.slice(at)}
+    </>
   )
 }

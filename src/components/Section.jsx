@@ -42,13 +42,13 @@ export function SectionHeader({
               {lead}
             </p>
           )}
-          <h2 className="mt-10 text-4xl leading-[1.05] font-bold md:mt-14 md:text-6xl">
+          <h2 className="mt-10 text-[1.85rem] leading-[1.08] font-bold sm:text-4xl md:mt-14 md:text-6xl">
             {title}
           </h2>
         </div>
       ) : (
         <div className="mt-8 grid gap-6 md:grid-cols-12 md:items-start">
-          <h2 className="min-w-0 text-4xl leading-[1.05] font-bold md:col-span-7 md:text-6xl">
+          <h2 className="min-w-0 text-[1.85rem] leading-[1.08] font-bold sm:text-4xl md:col-span-7 md:text-6xl">
             {title}
           </h2>
           {lead && (
