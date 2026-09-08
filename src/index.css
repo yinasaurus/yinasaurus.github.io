@@ -284,6 +284,28 @@ html.dark .site-cursor svg {
     border-radius: 1.65rem 0.45rem 1.5rem 0.7rem;
   }
 
+  .project-cover img,
+  .project-cover svg {
+    transform: scale(1.05);
+    transform-origin: 50% 50%;
+    transition: transform 1.15s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .group:hover .project-cover img,
+  .group:hover .project-cover svg,
+  .group:focus-visible .project-cover img,
+  .group:focus-visible .project-cover svg {
+    transform: scale(1.16) translate(-1.6%, -1.1%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-cover img,
+    .project-cover svg {
+      transform: none;
+      transition: none;
+    }
+  }
+
   /* Micro-label: section numbers, eyebrows, nav items, tags. */
   .micro {
     @apply font-mono text-[0.7rem] font-medium tracking-[0.18em] uppercase;

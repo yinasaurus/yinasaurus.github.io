@@ -1,0 +1,200 @@
+{
+  "fetchedAt": "2026-09-08T10:14:17.862Z",
+  "projects": [
+    {
+      "id": "yinasaurus.github.io",
+      "name": "yinasaurus.github.io",
+      "title": "This site",
+      "blurb": "Personal portfolio for Yin — a software engineering student at SMU School of Computing and Information Systems.",
+      "details": "Personal portfolio for Yin — a software engineering student at SMU School of Computing and Information Systems.",
+      "tech": [
+        "JavaScript",
+        "CSS"
+      ],
+      "language": "JavaScript",
+      "accent": "solar",
+      "repo": "https://github.com/yinasaurus/yinasaurus.github.io",
+      "live": null,
+      "updatedAt": "2026-09-08T09:57:17Z",
+      "image": "/projects/yinasaurus.github.io.png"
+    },
+    {
+      "id": "hack-for-humanity",
+      "name": "hack-for-humanity",
+      "title": "Hack For Humanity",
+      "blurb": "Clinic-connected meal companion for anorexia-supportive care: companionship over competition.",
+      "details": "Clinic-connected meal companion for anorexia-supportive care: companionship over competition.",
+      "tech": [
+        "JavaScript",
+        "TypeScript"
+      ],
+      "language": "JavaScript",
+      "accent": "solar",
+      "repo": "https://github.com/yinasaurus/hack-for-humanity",
+      "live": null,
+      "updatedAt": "2026-09-03T12:06:03Z",
+      "image": "/projects/hack-for-humanity.png"
+    },
+    {
+      "id": "tiktokjam",
+      "name": "tiktokjam",
+      "title": "TikTok Jam",
+      "blurb": "A public Python project.",
+      "details": "A public Python project.",
+      "tech": [
+        "Python",
+        "HTML"
+      ],
+      "language": "Python",
+      "accent": "solar",
+      "repo": "https://github.com/yinasaurus/tiktokjam",
+      "live": null,
+      "updatedAt": "2026-09-01T03:02:08Z",
+      "image": "/projects/tiktokjam.png"
+    },
+    {
+      "id": "stillpoint",
+      "name": "stillpoint",
+      "title": "Stillpoint",
+      "blurb": "A 3D space you don't solve - you just slow down in it.",
+      "details": "A 3D space you don't solve - you just slow down in it.",
+      "tech": [
+        "JavaScript"
+      ],
+      "language": "JavaScript",
+      "accent": "solar",
+      "repo": "https://github.com/yinasaurus/stillpoint",
+      "live": "https://stillpoint-nine-green.vercel.app",
+      "updatedAt": "2026-08-21T10:39:31Z",
+      "image": "/projects/stillpoint.png"
+    },
+    {
+      "id": "mobile",
+      "name": "mobile",
+      "title": "Mobile",
+      "blurb": "A public TypeScript project.",
+      "details": "A public TypeScript project.",
+      "tech": [
+        "TypeScript"
+      ],
+      "language": "TypeScript",
+      "accent": "volt",
+      "repo": "https://github.com/yinasaurus/mobile",
+      "live": null,
+      "updatedAt": "2026-08-18T16:52:32Z",
+      "image": "/projects/mobile.png"
+    },
+    {
+      "id": "hack4health",
+      "name": "hack4health",
+      "title": "Hack4Health",
+      "blurb": "A public TypeScript project.",
+      "details": "A public TypeScript project.",
+      "tech": [
+        "TypeScript"
+      ],
+      "language": "TypeScript",
+      "accent": "volt",
+      "repo": "https://github.com/yinasaurus/hack4health",
+      "live": null,
+      "updatedAt": "2026-08-12T15:00:00Z",
+      "image": "/projects/hack4health.png"
+    },
+    {
+      "id": "organicchemgame",
+      "name": "organicchemgame",
+      "title": "Organic Chem Game",
+      "blurb": "A public TypeScript project.",
+      "details": "A public TypeScript project.",
+      "tech": [
+        "TypeScript"
+      ],
+      "language": "TypeScript",
+      "accent": "volt",
+      "repo": "https://github.com/yinasaurus/organicchemgame",
+      "live": "https://organicchemgame.vercel.app",
+      "updatedAt": "2026-08-11T16:34:40Z",
+      "image": "/projects/organicchemgame.png"
+    },
+    {
+      "id": "sgtelemahjong",
+      "name": "sgtelemahjong",
+      "title": "SG Tele Mahjong",
+      "blurb": "A public Python project.",
+      "details": "A public Python project.",
+      "tech": [
+        "Python"
+      ],
+      "language": "Python",
+      "accent": "solar",
+      "repo": "https://github.com/yinasaurus/sgtelemahjong",
+      "live": null,
+      "updatedAt": "2026-08-10T08:41:41Z",
+      "image": "/projects/sgtelemahjong.png"
+    },
+    {
+      "id": "medibuddy",
+      "name": "medibuddy",
+      "title": "Medibuddy",
+      "blurb": "A public Python project.",
+      "details": "A public Python project.",
+      "tech": [
+        "Python"
+      ],
+      "language": "Python",
+      "accent": "solar",
+      "repo": "https://github.com/yinasaurus/medibuddy",
+      "live": null,
+      "updatedAt": "2026-07-31T15:09:03Z",
+      "image": "/projects/medibuddy.png"
+    },
+    {
+      "id": "dejavistaa",
+      "name": "dejavistaa",
+      "title": "Dejavistaa",
+      "blurb": "A place to capture the spots you’ve been to and the ones you keep meaning to revisit.",
+      "details": "A place to capture the spots you’ve been to and the ones you keep meaning to revisit.",
+      "tech": [
+        "JavaScript"
+      ],
+      "language": "JavaScript",
+      "accent": "solar",
+      "repo": "https://github.com/yinasaurus/dejavistaa",
+      "live": "https://dejavistaa.vercel.app",
+      "updatedAt": "2026-05-02T01:05:38Z",
+      "image": "/projects/dejavistaa.png"
+    },
+    {
+      "id": "e-waste",
+      "name": "e-waste",
+      "title": "E-Waste",
+      "blurb": "An e-waste awareness and recycling project — making it easier to figure out where old electronics should go.",
+      "details": "An e-waste awareness and recycling project — making it easier to figure out where old electronics should go.",
+      "tech": [
+        "JavaScript"
+      ],
+      "language": "JavaScript",
+      "accent": "solar",
+      "repo": "https://github.com/yinasaurus/e-waste",
+      "live": null,
+      "updatedAt": "2026-03-27T05:22:30Z",
+      "image": "/projects/e-waste.png"
+    },
+    {
+      "id": "wad-grp-proj",
+      "name": "wad-grp-proj",
+      "title": "WAD Group Project",
+      "blurb": "A full-stack web application built with my team for SMU’s Web Application Development module.",
+      "details": "A full-stack web application built with my team for SMU’s Web Application Development module.",
+      "tech": [
+        "HTML"
+      ],
+      "language": "HTML",
+      "accent": "punch",
+      "repo": "https://github.com/yinasaurus/wad-grp-proj",
+      "live": null,
+      "updatedAt": "2025-11-06T21:21:08Z",
+      "image": "/projects/wad-grp-proj.png"
+    }
+  ]
+}
