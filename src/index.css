@@ -61,19 +61,11 @@
     @apply dark:bg-void dark:text-bone;
   }
 
-  /* Footprint cursor on fine pointers only — coarse/touch keep the OS cursor. */
-  @media (hover: hover) and (pointer: fine) {
-    html,
-    body {
-      cursor: url('/cursor-print.svg') 8 8, auto;
-    }
-
-    a,
-    button,
-    [role='button'],
-    .cursor-pointer {
-      cursor: url('/cursor-claw.svg') 4 4, pointer;
-    }
+  /* Native cursor is hidden only after SiteCursor mounts, so there's no
+     gap with no pointer at all. Touch devices never get this class. */
+  html.has-site-cursor,
+  html.has-site-cursor * {
+    cursor: none !important;
   }
 
   ::selection {
@@ -93,6 +85,47 @@
     letter-spacing: -0.02em;
     font-stretch: normal;
   }
+}
+
+.site-cursor {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 80;
+  width: 22px;
+  height: 22px;
+  /* Front toes sit on the click point, not the pad. */
+  margin: -6px 0 0 -11px;
+  opacity: 0;
+  will-change: transform;
+}
+
+.site-cursor[data-ready='true'] {
+  opacity: 1;
+}
+
+.site-cursor svg {
+  display: block;
+  overflow: visible;
+  fill: #171225;
+  stroke: #f5f2ec;
+  stroke-width: 0.9;
+}
+
+html.dark .site-cursor svg {
+  fill: #ebe5d9;
+  stroke: #0f0b18;
+}
+
+.site-cursor[data-hot='true'] svg {
+  fill: #ff4d8d;
+  stroke: #171225;
+}
+
+.site-cursor[data-down='true'] svg {
+  transform: scale(0.84);
+  transform-origin: 50% 28%;
 }
 
 @keyframes caret-blink {
