@@ -8,7 +8,7 @@ export function NotFoundPage() {
         aria-hidden
         className="mb-6 h-14 w-11 rounded-[50%_50%_48%_48%] border-2 border-ink bg-[#ead7b0] dark:border-bone"
       />
-      <p className="micro text-ink/45 dark:text-bone/45">Error 404</p>
+      <p className="micro text-ink/55 dark:text-bone/55">Error 404</p>
       <h1 className="mt-4 text-[1.85rem] leading-[1.08] font-bold sm:text-4xl md:text-6xl">This page went extinct.</h1>
       <p className="mt-4 max-w-md text-ink/60 dark:text-bone/60">
         The fossil record for this URL is empty. Wander back to camp.

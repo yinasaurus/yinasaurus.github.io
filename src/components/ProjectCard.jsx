@@ -55,7 +55,7 @@ export function ProjectCard({ project, index }) {
           }}
           whileHover={isTouch ? undefined : { x: -4, y: -4 }}
           transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-          className="panel group flex h-full cursor-pointer flex-col shadow-hard"
+          className="panel group flex h-full cursor-pointer flex-col shadow-hard focus-visible:ring-2 focus-visible:ring-volt focus-visible:ring-offset-2 focus-visible:outline-none"
         >
           <div className={`h-2 w-full ${accent.bar}`} />
 
@@ -86,19 +86,28 @@ export function ProjectCard({ project, index }) {
                 rel="noreferrer"
                 aria-label={`Open ${project.name} on GitHub`}
                 onClick={(event) => event.stopPropagation()}
-                className="inline-flex h-11 w-11 items-center justify-center text-ink/35 transition-colors hover:text-ink dark:text-bone/35 dark:hover:text-bone"
+                className="inline-flex h-11 w-11 items-center justify-center text-ink/55 transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-volt focus-visible:ring-offset-2 focus-visible:outline-none dark:text-bone/55 dark:hover:text-bone"
               >
                 <GithubIcon />
               </a>
             </div>
 
             <h3 className="mt-5 min-w-0 text-2xl leading-tight font-bold break-words">{project.title}</h3>
-            <p className="mt-1.5 font-mono text-[0.7rem] tracking-wider text-ink/40 dark:text-bone/40">
+            <p className="mt-1.5 font-mono text-[0.7rem] tracking-wider text-ink/55 dark:text-bone/55">
               {project.name}
             </p>
             <p className="mt-4 line-clamp-3 leading-relaxed text-ink/70 dark:text-bone/70">
               {project.blurb}
             </p>
+            {project.tech.length > 0 && (
+              <ul className="mt-4 flex flex-wrap gap-1.5">
+                {project.tech.slice(0, 4).map((tech) => (
+                  <li key={tech}>
+                    <Tag label={tech} />
+                  </li>
+                ))}
+              </ul>
+            )}
             <p className="micro mt-5 text-punch md:hidden">View project →</p>
           </div>
         </motion.div>
@@ -157,8 +166,8 @@ function ProjectModal({ project, open, onClose }) {
             className="panel relative z-10 max-h-[90vh] w-full max-w-2xl overflow-y-auto shadow-hard-lg"
           >
             <div className={`h-2 w-full ${accent.bar}`} />
-            <div className="aspect-[16/9] w-full">
-              <ProjectCover project={project} className="h-full w-full" />
+            <div className="aspect-[16/9] w-full bg-ink">
+              <ProjectCover project={project} mode="modal" className="h-full w-full" />
             </div>
             <div className="p-6 md:p-8">
               <div className="flex items-start justify-between gap-4">
@@ -172,7 +181,7 @@ function ProjectModal({ project, open, onClose }) {
                   ref={closeRef}
                   type="button"
                   onClick={onClose}
-                  className="micro inline-flex min-h-11 shrink-0 items-center border-2 border-ink px-3 dark:border-bone"
+                  className="micro inline-flex min-h-11 shrink-0 items-center border-2 border-ink px-3 hover:bg-ink hover:text-paper focus-visible:ring-2 focus-visible:ring-volt focus-visible:ring-offset-2 focus-visible:outline-none dark:border-bone dark:hover:bg-bone dark:hover:text-void"
                 >
                   Close
                 </button>
@@ -192,7 +201,7 @@ function ProjectModal({ project, open, onClose }) {
                   href={project.repo}
                   target="_blank"
                   rel="noreferrer"
-                  className="micro inline-flex min-h-11 items-center border-b-2 border-ink pb-0.5 hover:border-punch hover:text-punch dark:border-bone"
+                  className="micro inline-flex min-h-11 items-center border-b-2 border-ink pb-0.5 hover:border-punch hover:text-punch focus-visible:ring-2 focus-visible:ring-volt focus-visible:ring-offset-2 focus-visible:outline-none dark:border-bone"
                 >
                   GitHub ↗
                 </a>
@@ -201,7 +210,7 @@ function ProjectModal({ project, open, onClose }) {
                     href={project.live}
                     target="_blank"
                     rel="noreferrer"
-                    className="micro inline-flex min-h-11 items-center text-ink/45 hover:text-ink dark:text-bone/45 dark:hover:text-bone"
+                    className="micro inline-flex min-h-11 items-center text-ink/60 hover:text-ink focus-visible:ring-2 focus-visible:ring-volt focus-visible:ring-offset-2 focus-visible:outline-none dark:text-bone/60 dark:hover:text-bone"
                   >
                     Live ↗
                   </a>

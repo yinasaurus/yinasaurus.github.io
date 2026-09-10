@@ -20,7 +20,7 @@ const LINKS = [
  */
 export function Contact() {
   return (
-    <Section id="contact" className="pb-24 md:pb-32">
+    <Section id="contact" className="pb-20 md:pb-28">
       <SectionHeader
         index="05"
         label="Contact"
@@ -36,9 +36,9 @@ export function Contact() {
               href={link.href}
               target={link.href.startsWith('mailto:') ? undefined : '_blank'}
               rel="noreferrer"
-              className={`group flex min-h-11 flex-col items-stretch gap-2 px-1 py-5 transition-colors duration-150 sm:flex-row sm:items-center sm:gap-5 sm:px-2 sm:py-6 md:px-4 md:py-8 ${link.hover} hover:text-paper dark:hover:text-void`}
+              className={`group flex min-h-11 flex-col items-stretch gap-2 px-1 py-5 transition-colors duration-150 sm:flex-row sm:items-center sm:gap-5 sm:px-2 sm:py-6 md:px-4 md:py-8 ${link.hover} hover:text-void focus-visible:ring-2 focus-visible:ring-volt focus-visible:ring-offset-2 focus-visible:outline-none`}
             >
-              <span className="micro shrink-0 opacity-45 transition-opacity group-hover:opacity-100 sm:w-24">
+              <span className="micro shrink-0 text-ink/55 transition-colors group-hover:text-void sm:w-24">
                 {link.label}
               </span>
               <span

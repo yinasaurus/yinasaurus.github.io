@@ -17,7 +17,7 @@ export const SITE = {
 export const NAV_LINKS = [
   { id: 'about', label: 'About', hash: 'about' },
   { id: 'stack', label: 'Stack', hash: 'stack' },
-  { id: 'projects', label: 'Projects', to: '/projects' },
+  { id: 'projects', label: 'Projects', hash: 'projects' },
   { id: 'activity', label: 'Activity', hash: 'activity' },
   { id: 'contact', label: 'Contact', hash: 'contact' },
 ]

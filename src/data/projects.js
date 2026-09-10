@@ -6,6 +6,8 @@ export {
   GITHUB_LOGIN,
   LANGUAGE_ACCENT,
   LANGUAGE_COLORS,
+  MEDIA_OVERRIDES,
+  TECH_OVERRIDES,
 } from './project-config.js'
 
 export const PROJECTS = generated.projects ?? []

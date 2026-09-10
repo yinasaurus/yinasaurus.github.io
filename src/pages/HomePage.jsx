@@ -4,6 +4,7 @@ import { About } from '../components/About'
 import { Contact } from '../components/Contact'
 import { GithubActivity } from '../components/GithubActivity'
 import { Hero } from '../components/Hero'
+import { ProjectsGrid } from '../components/ProjectsGrid'
 import { TechStack } from '../components/TechStack'
 
 export function HomePage() {
@@ -21,6 +22,7 @@ export function HomePage() {
       <Hero />
       <About />
       <TechStack />
+      <ProjectsGrid />
       <GithubActivity />
       <Contact />
     </>

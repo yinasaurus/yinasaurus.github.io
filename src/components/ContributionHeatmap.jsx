@@ -20,7 +20,7 @@ export function ContributionHeatmap({ days, isDark = false }) {
 
   return (
     <div className="w-full min-w-0">
-      <p className="micro mb-2 text-ink/35 dark:text-bone/35">Swipe the year →</p>
+      <p className="micro mb-2 text-ink/55 dark:text-bone/55">Swipe the year →</p>
       <div className="relative">
         <div
           data-heatmap-scroll

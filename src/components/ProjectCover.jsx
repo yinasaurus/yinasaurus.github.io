@@ -1,31 +1,90 @@
 import { useId, useState } from 'react'
 import { ACCENTS, LANGUAGE_COLORS } from '../data/projects'
+import { youtubeThumb, youtubeVideoId } from '../lib/youtube'
+
+export function projectMedia(project) {
+  if (project?.media?.type) return project.media
+  return { type: 'none', src: '' }
+}
 
 /**
- * Screenshot if `/projects/{repo}.png` exists; otherwise a faceted, hashed
- * cover in the project's language colour — never a broken-image icon.
+ * Card/modal media. YouTube thumbs on the card, an embed in the modal,
+ * screenshots when configured, otherwise the dino-hatch placeholder.
  */
-export function ProjectCover({ project, className = '' }) {
-  const [status, setStatus] = useState('pending')
+export function ProjectCover({ project, className = '', mode = 'card' }) {
+  const media = projectMedia(project)
   const accent = ACCENTS[project.accent] ?? ACCENTS.jade
   const color = LANGUAGE_COLORS[project.language] ?? accent.hex
-  const showPhoto = status === 'ready'
+  const videoId = media.type === 'youtube' ? youtubeVideoId(media.src) : null
+
+  if (mode === 'modal' && videoId) {
+    return (
+      <div className={`relative overflow-hidden bg-ink ${className}`}>
+        <iframe
+          title={`${project.title} video`}
+          src={`https://www.youtube.com/embed/${videoId}?rel=0`}
+          className="absolute inset-0 h-full w-full"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+    )
+  }
 
   return (
     <div className={`project-cover relative overflow-hidden ${className}`}>
       <AbstractCover name={project.name} color={color} paper="#f5f2ec" />
-      {status !== 'missing' && (
-        <img
-          src={project.image}
-          alt=""
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
-            showPhoto ? 'opacity-100' : 'pointer-events-none opacity-0'
-          }`}
-          onLoad={() => setStatus('ready')}
-          onError={() => setStatus('missing')}
-        />
+      {media.type === 'image' && media.src && (
+        <CoverImage src={media.src} />
       )}
+      {videoId && <YoutubeThumb id={videoId} showPlay={mode === 'card'} />}
     </div>
+  )
+}
+
+function CoverImage({ src }) {
+  const [ok, setOk] = useState(true)
+  if (!ok) return null
+  return (
+    <img
+      src={src}
+      alt=""
+      className="absolute inset-0 h-full w-full object-cover"
+      onError={() => setOk(false)}
+    />
+  )
+}
+
+function YoutubeThumb({ id, showPlay }) {
+  const [ok, setOk] = useState(true)
+  if (!ok) {
+    return showPlay ? <PlayBadge /> : null
+  }
+  return (
+    <>
+      <img
+        src={youtubeThumb(id)}
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover"
+        onError={() => setOk(false)}
+      />
+      {showPlay && <PlayBadge />}
+    </>
+  )
+}
+
+function PlayBadge() {
+  return (
+    <span
+      aria-hidden
+      className="absolute inset-0 flex items-center justify-center bg-ink/25"
+    >
+      <span className="flex h-14 w-14 items-center justify-center border-2 border-paper bg-ink text-paper shadow-hard-sm">
+        <svg viewBox="0 0 24 24" className="ml-0.5 h-6 w-6 fill-current">
+          <path d="M8 5.5v13l11-6.5z" />
+        </svg>
+      </span>
+    </span>
   )
 }
 

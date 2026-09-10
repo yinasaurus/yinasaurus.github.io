@@ -19,7 +19,7 @@ export function TechStack() {
       <div>
         {TECH_GROUPS.map((group) => (
           <div key={group.title} className="rule grid gap-4 py-7 md:grid-cols-12 md:gap-8">
-            <h3 className="micro flex items-center gap-2 pt-2 text-ink/40 md:col-span-3 dark:text-bone/40">
+              <h3 className="micro flex items-center gap-2 pt-2 text-ink/55 md:col-span-3 dark:text-bone/55">
               <ClawMark className="h-2.5 w-2.5" />
               {group.title}
             </h3>

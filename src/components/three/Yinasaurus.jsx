@@ -4,39 +4,48 @@ import { useMemo, useRef } from 'react'
 import { MathUtils, Quaternion, Vector3 } from 'three'
 
 /**
- * Chunky low-poly toy triceratops. Head, frill and horns are one mass — the
- * frill grows out of the skull, horn roots sit inside it. No spine plates.
+ * Toy triceratops matched to the paper-craft reference: squat stance, a wide
+ * vertical frill ringed with many small spikes, two stubby brow horns, cream
+ * snout / belly / front legs, and a tapering tail that sits near the ground.
  */
 
 const C = {
-  body: '#b7c89c',
-  limb: '#9eaf84',
-  cream: '#edd9b0',
-  belly: '#ead7b0',
-  eye: '#1b1712',
-  highlight: '#f7f1e6',
-  beak: '#8a7350',
+  body: '#b5c9a5',
+  limb: '#9eb392',
+  cream: '#e6d0a8',
+  belly: '#ead9b4',
+  eye: '#1c1814',
+  mouth: '#6a5440',
 }
 
 const UP = new Vector3(0, 1, 0)
-const EYE_SCALE = 0.08
+const EYE_SCALE = 0.09
 
-const TAIL_PIVOT = [0, 0.2, -0.78]
+const TAIL_PIVOT = [0, 0.16, -0.78]
 const TAIL = [
-  { p: [0, 0, 0], r: 0.36 },
-  { p: [0, -0.08, -0.42], r: 0.26 },
-  { p: [0, -0.16, -0.82], r: 0.14 },
-  { p: [0, -0.2, -1.12], r: 0.05 },
+  { p: [0, 0, 0], r: 0.32 },
+  { p: [0, -0.05, -0.44], r: 0.22 },
+  { p: [0, -0.2, -0.86], r: 0.13 },
+  { p: [0.05, -0.3, -1.16], r: 0.075 },
+  { p: [0.12, -0.24, -1.34], r: 0.04 },
 ]
 
-const HEAD_PIVOT = [0, 0.52, 0.48]
+const HEAD_PIVOT = [0, 0.46, 0.46]
 
 const LEGS = [
-  { side: 1, z: 0.28 },
-  { side: -1, z: 0.28 },
-  { side: 1, z: -0.3 },
-  { side: -1, z: -0.3 },
+  { side: 1, z: 0.34, front: true },
+  { side: -1, z: 0.34, front: true },
+  { side: 1, z: -0.34, front: false },
+  { side: -1, z: -0.34, front: false },
 ]
+
+const FRILL_SPIKES = 16
+const FRILL_RADIUS = 0.8
+
+const POSE = {
+  threeQuarter: { rotation: [0.04, -0.68, 0], position: [0.02, -0.02, 0] },
+  front: { rotation: [0.02, 0.02, 0], position: [0, 0, 0] },
+}
 
 function Bone({ from, to, r1, r2, radial = 6, color }) {
   const { position, quaternion, length } = useMemo(() => {
@@ -53,7 +62,7 @@ function Bone({ from, to, r1, r2, radial = 6, color }) {
   return (
     <mesh position={position} quaternion={quaternion}>
       <cylinderGeometry args={[r2, r1, length, radial, 1]} />
-      <meshStandardMaterial color={color} flatShading roughness={0.55} metalness={0} />
+      <Facet color={color} />
     </mesh>
   )
 }
@@ -76,32 +85,101 @@ function Facet({ color, roughness = 0.55 }) {
   return <meshStandardMaterial color={color} flatShading roughness={roughness} metalness={0} />
 }
 
-/** Cone origin is the skull surface; most of the length sits outside. */
-function Horn({ position, rotation, length, radius }) {
+function Leg({ side, z, front }) {
+  const color = front ? C.cream : C.limb
+  const x = 0.34 * side
+  const kick = front ? 0.06 : -0.04
   return (
-    <group position={position} rotation={rotation}>
-      <mesh position={[0, length * 0.32, 0]}>
-        <coneGeometry args={[radius, length, 5]} />
+    <group>
+      <mesh
+        position={[x, 0.06, z]}
+        rotation={[front ? 0.18 : 0.08, 0, 0.18 * side]}
+        scale={[0.22, 0.32, 0.22]}
+      >
+        <boxGeometry args={[1, 1, 1]} />
+        <Facet color={color} />
+      </mesh>
+      <mesh
+        position={[x + 0.02 * side, -0.2, z + kick]}
+        rotation={[front ? -0.08 : 0.12, 0, 0.06 * side]}
+        scale={[0.18, 0.28, 0.18]}
+      >
+        <boxGeometry args={[1, 1, 1]} />
+        <Facet color={color} />
+      </mesh>
+      <mesh position={[x + 0.02 * side, -0.36, z + kick + 0.06]} scale={[0.2, 0.1, 0.28]}>
+        <boxGeometry args={[1, 1, 1]} />
+        <Facet color={color} />
+      </mesh>
+    </group>
+  )
+}
+
+function BrowHorn({ side }) {
+  return (
+    <group position={[0.17 * side, 0.28, 0.12]} rotation={[0.38, 0.06 * side, -0.22 * side]}>
+      <mesh position={[0, 0.08, 0]}>
+        <coneGeometry args={[0.1, 0.2, 5]} />
+        <Facet color={C.cream} roughness={0.42} />
+      </mesh>
+      <mesh position={[0, 0.19, 0.025]} rotation={[0.28, 0, 0]}>
+        <coneGeometry args={[0.058, 0.12, 5]} />
         <Facet color={C.cream} roughness={0.42} />
       </mesh>
     </group>
   )
 }
 
-export function Yinasaurus({ pointerRef, reducedMotion = false }) {
+/** Vertical shield behind the skull, spikes pointing out in the frill plane. */
+function Frill() {
+  const spikes = useMemo(
+    () =>
+      Array.from({ length: FRILL_SPIKES }, (_, i) => {
+        const t = (i / FRILL_SPIKES) * Math.PI * 2 + Math.PI / FRILL_SPIKES
+        return { t, x: Math.cos(t) * FRILL_RADIUS, y: Math.sin(t) * FRILL_RADIUS }
+      }),
+    [],
+  )
+
+  return (
+    <group position={[0, 0.1, -0.22]} rotation={[0.22, 0, 0]}>
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.74, 0.78, 0.11, 16]} />
+        <Facet color={C.body} />
+      </mesh>
+      <mesh position={[0, 0, 0.04]} scale={[0.42, 0.42, 0.14]}>
+        <sphereGeometry args={[1, 8, 6]} />
+        <Facet color={C.body} />
+      </mesh>
+      {spikes.map((spike) => (
+        <mesh
+          key={spike.t}
+          position={[spike.x, spike.y, 0]}
+          rotation={[0, 0, spike.t - Math.PI / 2]}
+        >
+          <coneGeometry args={[0.075, 0.18, 3]} />
+          <Facet color={C.body} />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
+export function Yinasaurus({ pointerRef, reducedMotion = false, pose = 'threeQuarter' }) {
   const group = useRef()
   const headGroup = useRef()
   const tail = useRef()
   const leftEye = useRef()
   const rightEye = useRef()
+  const rest = POSE[pose] ?? POSE.threeQuarter
 
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime
     const pointer = pointerRef?.current ?? { x: 0, y: 0 }
 
     if (group.current) {
-      const targetY = reducedMotion ? 0 : pointer.x * 0.18
-      const targetX = reducedMotion ? 0 : pointer.y * 0.08
+      const targetY = reducedMotion ? 0 : pointer.x * 0.16
+      const targetX = reducedMotion ? 0 : pointer.y * 0.07
       group.current.rotation.y = MathUtils.damp(group.current.rotation.y, targetY, 3, delta)
       group.current.rotation.x = MathUtils.damp(group.current.rotation.x, targetX, 3, delta)
     }
@@ -109,21 +187,21 @@ export function Yinasaurus({ pointerRef, reducedMotion = false }) {
     if (headGroup.current && !reducedMotion) {
       headGroup.current.rotation.y = MathUtils.damp(
         headGroup.current.rotation.y,
-        pointer.x * 0.32,
+        pointer.x * 0.28,
         4,
         delta,
       )
       headGroup.current.rotation.x = MathUtils.damp(
         headGroup.current.rotation.x,
-        pointer.y * 0.18,
+        pointer.y * 0.14,
         4,
         delta,
       )
     }
 
     if (tail.current && !reducedMotion) {
-      tail.current.rotation.y = Math.sin(t * 1.3) * 0.1
-      tail.current.rotation.x = Math.sin(t * 0.8) * 0.04
+      tail.current.rotation.y = Math.sin(t * 1.15) * 0.08
+      tail.current.rotation.x = Math.sin(t * 0.7) * 0.03
     }
 
     if (leftEye.current && rightEye.current) {
@@ -137,120 +215,72 @@ export function Yinasaurus({ pointerRef, reducedMotion = false }) {
   return (
     <Float
       speed={reducedMotion ? 0 : 1.05}
-      rotationIntensity={reducedMotion ? 0 : 0.06}
-      floatIntensity={reducedMotion ? 0 : 0.28}
-      floatingRange={[-0.04, 0.04]}
+      rotationIntensity={reducedMotion ? 0 : 0.05}
+      floatIntensity={reducedMotion ? 0 : 0.18}
+      floatingRange={[-0.025, 0.025]}
     >
-      <group scale={0.78} rotation={[0.1, -0.95, 0]} position={[0.04, 0.02, 0]}>
+      <group scale={1.02} rotation={rest.rotation} position={rest.position}>
         <group ref={group} dispose={null}>
-          <mesh position={[0, 0.28, -0.06]} rotation={[Math.PI / 2, 0, 0]} scale={[1, 1.2, 0.88]}>
-            <capsuleGeometry args={[0.4, 0.52, 4, 8]} />
+          <mesh position={[0, 0.22, -0.02]} rotation={[Math.PI / 2, 0, 0]} scale={[1.02, 1.08, 0.9]}>
+            <capsuleGeometry args={[0.4, 0.46, 4, 8]} />
             <Facet color={C.body} />
           </mesh>
-          <mesh position={[0, 0.06, 0.02]} scale={[0.38, 0.18, 0.46]}>
+          <mesh position={[0, 0.05, 0.08]} scale={[0.4, 0.2, 0.48]}>
             <sphereGeometry args={[1, 8, 6]} />
             <Facet color={C.belly} />
           </mesh>
 
           <Bone
-            from={[0, 0.42, 0.2]}
-            to={[0, 0.5, 0.42]}
-            r1={0.24}
-            r2={0.2}
+            from={[0, 0.36, 0.2]}
+            to={[0, 0.44, 0.42]}
+            r1={0.26}
+            r2={0.22}
             radial={6}
             color={C.body}
           />
 
           <group ref={tail} position={TAIL_PIVOT}>
-            <mesh position={[0, 0.02, -0.08]} scale={[0.34, 0.26, 0.32]}>
+            <mesh position={[0, 0.02, -0.06]} scale={[0.34, 0.26, 0.32]}>
               <sphereGeometry args={[1, 6, 4]} />
               <Facet color={C.body} />
             </mesh>
             <Chain nodes={TAIL} color={C.body} />
           </group>
 
-          {LEGS.map(({ side, z }) => {
-            const hip = [0.3 * side, 0.14, z]
-            const ankle = [0.32 * side, -0.42, z + 0.02]
-            return (
-              <group key={`leg-${side}-${z}`}>
-                <Bone from={hip} to={ankle} r1={0.2} r2={0.16} radial={5} color={C.limb} />
-                <mesh position={[0.32 * side, -0.52, z + 0.08]} scale={[0.22, 0.1, 0.26]}>
-                  <boxGeometry args={[1, 1, 1]} />
-                  <Facet color={C.limb} />
-                </mesh>
-                {[-0.07, 0, 0.07].map((x) => (
-                  <mesh
-                    key={x}
-                    position={[0.32 * side + x, -0.52, z + 0.22]}
-                    scale={[0.07, 0.07, 0.1]}
-                  >
-                    <boxGeometry args={[1, 1, 1]} />
-                    <Facet color={C.cream} />
-                  </mesh>
-                ))}
-              </group>
-            )
-          })}
+          {LEGS.map((leg) => (
+            <Leg key={`leg-${leg.side}-${leg.z}`} {...leg} />
+          ))}
 
           <group ref={headGroup} position={HEAD_PIVOT}>
-            {/* Skull */}
-            <mesh position={[0, 0.06, 0.12]} scale={[0.46, 0.4, 0.4]}>
+            <mesh position={[0, 0.06, 0.08]} scale={[0.46, 0.42, 0.4]}>
               <icosahedronGeometry args={[1, 1]} />
-              <Facet color={C.body} />
-            </mesh>
-            {/* Collar filling the skull–frill join so the plate is not a gap. */}
-            <mesh position={[0, 0.1, -0.02]} rotation={[0.32, 0, 0]} scale={[0.52, 0.28, 0.32]}>
-              <icosahedronGeometry args={[1, 1]} />
-              <Facet color={C.body} />
-            </mesh>
-            {/* Frill: one thick faceted shield, axis through the skull so it
-                reads as the back of the head — not a floating ring. */}
-            <mesh position={[0, 0.12, -0.04]} rotation={[Math.PI / 2 + 0.28, 0, 0]}>
-              <cylinderGeometry args={[0.62, 0.84, 0.36, 12]} />
               <Facet color={C.body} />
             </mesh>
 
-            {/* Short blunt snout fused to the front of the skull */}
-            <mesh position={[0, -0.04, 0.4]} scale={[0.3, 0.24, 0.34]}>
+            <Frill />
+
+            <mesh position={[0, -0.08, 0.34]} rotation={[0.2, 0, 0]} scale={[0.26, 0.2, 0.28]}>
               <icosahedronGeometry args={[1, 1]} />
-              <Facet color={C.body} />
+              <Facet color={C.cream} />
             </mesh>
-            <mesh position={[0, -0.1, 0.66]} rotation={[0.4, 0, 0]} scale={[0.16, 0.08, 0.16]}>
+            <mesh position={[0, -0.1, 0.52]} rotation={[0.1, 0, 0]} scale={[0.07, 0.014, 0.03]}>
               <boxGeometry args={[1, 1, 1]} />
-              <Facet color={C.beak} roughness={0.62} />
+              <Facet color={C.mouth} roughness={0.7} />
             </mesh>
 
-            <Horn
-              position={[-0.22, 0.3, 0.22]}
-              rotation={[0.55, 0, -0.16]}
-              length={0.52}
-              radius={0.09}
-            />
-            <Horn
-              position={[0.22, 0.3, 0.22]}
-              rotation={[0.55, 0, 0.16]}
-              length={0.52}
-              radius={0.09}
-            />
-            <Horn position={[0, 0.12, 0.48]} rotation={[0.95, 0, 0]} length={0.3} radius={0.07} />
+            <BrowHorn side={-1} />
+            <BrowHorn side={1} />
 
-            {[-0.2, 0.2].map((x, i) => (
-              <group key={x} position={[x, 0.1, 0.26]}>
-                <mesh ref={i === 0 ? leftEye : rightEye} scale={EYE_SCALE}>
-                  <icosahedronGeometry args={[1, 1]} />
-                  <meshStandardMaterial
-                    color={C.eye}
-                    flatShading
-                    roughness={0.22}
-                    metalness={0.15}
-                  />
-                </mesh>
-                <mesh position={[x > 0 ? -0.018 : 0.018, 0.02, 0.032]} scale={0.02}>
-                  <icosahedronGeometry args={[1, 0]} />
-                  <meshStandardMaterial color={C.highlight} flatShading roughness={0.2} />
-                </mesh>
-              </group>
+            {[-0.155, 0.155].map((x, i) => (
+              <mesh
+                key={x}
+                ref={i === 0 ? leftEye : rightEye}
+                position={[x, 0.1, 0.34]}
+                scale={EYE_SCALE}
+              >
+                <sphereGeometry args={[1, 10, 8]} />
+                <meshStandardMaterial color={C.eye} roughness={0.35} metalness={0} />
+              </mesh>
             ))}
           </group>
         </group>

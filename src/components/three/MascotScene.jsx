@@ -18,6 +18,12 @@ import { Yinasaurus } from './Yinasaurus'
 export default function MascotScene({ isDark = false, quality = 'high', reducedMotion = false }) {
   const wrapper = useRef(null)
   const pointerRef = useGlobalPointerRef(!reducedMotion)
+  const dinoPose = useMemo(() => {
+    if (typeof window === 'undefined') return 'threeQuarter'
+    return new URLSearchParams(window.location.search).get('dino') === 'front'
+      ? 'front'
+      : 'threeQuarter'
+  }, [])
 
   // Stop rendering entirely once the hero scrolls off screen. Without this the
   // GPU keeps drawing 60 frames a second of something nobody can see.
@@ -49,7 +55,7 @@ export default function MascotScene({ isDark = false, quality = 'high', reducedM
       >
         {/* Generous frame so head, tail and feet stay inside the canvas
             with breathing room at the default three-quarter pose. */}
-        <FitCamera width={6.2} height={5.4} />
+        <FitCamera width={4.8} height={4.1} />
 
         {/* Warm, neutral rig so sage/cream read as themselves — a pink or
             violet rim was dyeing the horns. */}
@@ -70,7 +76,7 @@ export default function MascotScene({ isDark = false, quality = 'high', reducedM
 
         {/* The mascot's geometry is already as low as it goes, so `quality`
             only affects the pixel ratio and the decorative shards. */}
-        <Yinasaurus pointerRef={pointerRef} reducedMotion={reducedMotion} />
+        <Yinasaurus pointerRef={pointerRef} reducedMotion={reducedMotion} pose={dinoPose} />
 
         {!isLow && <Shards reducedMotion={reducedMotion} />}
 
@@ -133,7 +139,7 @@ function SoftShadow({ isDark }) {
   useEffect(() => () => texture.dispose(), [texture])
 
   return (
-    <mesh position={[0.04, -0.58, 0.04]} rotation={[-Math.PI / 2, 0, 0]} scale={[1.35, 1.0, 1]}>
+    <mesh position={[0.02, -0.44, 0.02]} rotation={[-Math.PI / 2, 0, 0]} scale={[1.55, 1.15, 1]}>
       <planeGeometry args={[1, 1]} />
       <meshBasicMaterial
         map={texture}

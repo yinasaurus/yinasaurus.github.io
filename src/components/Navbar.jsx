@@ -15,7 +15,7 @@ export function Navbar() {
   const location = useLocation()
   const go = useWipeNavigate()
   const sectionActive = useActiveSection(SECTION_IDS)
-  const active = location.pathname.startsWith('/projects') ? 'projects' : sectionActive
+  const active = sectionActive
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16)
@@ -27,10 +27,6 @@ export function Navbar() {
   const onNav = (event, link) => {
     event.preventDefault()
     setMenuOpen(false)
-    if (link.to === '/projects') {
-      go('/projects')
-      return
-    }
     if (location.pathname !== '/') {
       go({ pathname: '/', hash: link.hash })
       return
@@ -60,7 +56,7 @@ export function Navbar() {
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 sm:px-10">
-        <a href="/" onClick={onHome} className="flex min-h-11 min-w-0 items-center gap-2.5">
+        <a href="/" onClick={onHome} className="flex min-h-11 min-w-0 items-center gap-2.5 focus-visible:ring-2 focus-visible:ring-volt focus-visible:ring-offset-2 focus-visible:outline-none">
           <FacetMark />
           <span className="truncate font-display text-base font-bold md:text-lg">
             {SITE.name}
@@ -74,10 +70,10 @@ export function Navbar() {
               <a
                 href={link.to ?? `/#${link.hash}`}
                 onClick={(event) => onNav(event, link)}
-                className={`micro relative block py-1 transition-colors ${
+                className={`micro relative block py-2 transition-colors focus-visible:ring-2 focus-visible:ring-volt focus-visible:ring-offset-2 focus-visible:outline-none ${
                   active === link.id
                     ? 'text-ink dark:text-bone'
-                    : 'text-ink/45 hover:text-ink dark:text-bone/45 dark:hover:text-bone'
+                    : 'text-ink/60 hover:text-ink dark:text-bone/60 dark:hover:text-bone'
                 }`}
               >
                 {link.label}
@@ -102,7 +98,7 @@ export function Navbar() {
             onClick={() => setMenuOpen((open) => !open)}
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
-            className="flex h-11 w-11 items-center justify-center border-2 border-ink md:hidden dark:border-bone"
+            className="flex h-11 w-11 items-center justify-center border-2 border-ink focus-visible:ring-2 focus-visible:ring-volt focus-visible:outline-none md:hidden dark:border-bone"
           >
             <span className="flex flex-col gap-[3px]">
               <span className={`block h-0.5 w-4 bg-current ${menuOpen ? 'hidden' : ''}`} />

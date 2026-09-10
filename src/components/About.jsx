@@ -45,7 +45,7 @@ export function About() {
             <div key={term} className={`flex gap-3 py-5 ${i > 0 ? 'rule' : ''}`}>
               <ClawMark className="mt-1.5 h-3 w-3 shrink-0 text-jade" />
               <div className="min-w-0">
-                <dt className="micro text-ink/40 dark:text-bone/40">{term}</dt>
+                <dt className="micro text-ink/55 dark:text-bone/55">{term}</dt>
                 <dd className="mt-2 font-display text-lg font-bold break-words">{value}</dd>
               </div>
             </div>

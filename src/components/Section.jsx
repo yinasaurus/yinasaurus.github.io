@@ -29,7 +29,7 @@ export function SectionHeader({
       <FossilBreak />
       <div className="mt-6 flex items-center gap-4">
         <span className={`micro ${accent}`}>{index}</span>
-        <span className="micro text-ink/45 dark:text-bone/45">{label}</span>
+        <span className="micro text-ink/55 dark:text-bone/55">{label}</span>
         {/* Rule that runs out to the right margin, tying the label to the page
             edge instead of floating it in the middle of a card. */}
         <span className="h-px flex-1 bg-ink/15 dark:bg-bone/15" />

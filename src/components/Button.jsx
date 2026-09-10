@@ -9,7 +9,8 @@ const VARIANTS = {
   solid:
     'border-2 border-ink bg-ink text-paper shadow-[4px_4px_0_0_var(--color-punch)] dark:border-jade dark:bg-jade dark:text-void',
   // Secondary deliberately has no shadow — that's the hierarchy.
-  outline: 'border-2 border-ink bg-transparent text-ink dark:border-bone dark:text-bone',
+  outline:
+    'border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-paper dark:border-bone dark:text-bone dark:hover:bg-bone dark:hover:text-void',
 }
 
 export function Button({ variant = 'solid', className = '', href, children, ...props }) {

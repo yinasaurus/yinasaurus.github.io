@@ -1,6 +1,5 @@
 import { motion, useReducedMotion, useTransform } from 'framer-motion'
 import { Suspense, lazy } from 'react'
-import { useWipeNavigate } from '../context/WipeNavigate'
 import { useTheme } from '../context/theme-context'
 import { SITE } from '../data/site'
 import { useIsMobile, useIsTouch } from '../hooks/useMediaQuery'
@@ -22,7 +21,6 @@ export function Hero() {
   const isMobile = useIsMobile()
   const isTouch = useIsTouch()
   const reducedMotion = useReducedMotion()
-  const go = useWipeNavigate()
   const typed = useTypewriter(SITE.taglines)
   const parallaxOn = !isTouch
   const { x, y } = usePointerParallax({ enabled: parallaxOn, stiffness: 70, damping: 22 })
@@ -38,7 +36,7 @@ export function Hero() {
         className="grid gap-12 md:grid-cols-12 md:items-center md:gap-8"
       >
         <motion.div style={{ x: shiftX, y: shiftY }} className="min-w-0 md:col-span-6">
-          <motion.p variants={heroItem} className="micro max-w-full text-pretty tracking-[0.12em] text-ink/45 sm:tracking-[0.18em] dark:text-bone/45">
+          <motion.p variants={heroItem} className="micro max-w-full text-pretty tracking-[0.12em] text-ink/55 sm:tracking-[0.18em] dark:text-bone/55">
             Software engineering student
             <span className="mx-2 text-punch">/</span>
             SMU Computing &amp; Information Systems
@@ -50,7 +48,7 @@ export function Hero() {
             </span>
             <motion.span
               variants={heroItem}
-              className="mt-3 block font-mono text-[0.8rem] font-medium tracking-[0.16em] text-ink/45 uppercase dark:text-bone/45"
+              className="mt-3 block font-mono text-[0.8rem] font-medium tracking-[0.16em] text-ink/55 uppercase dark:text-bone/55"
             >
               // {SITE.handle}
             </motion.span>
@@ -64,7 +62,7 @@ export function Hero() {
               I&apos;m a software engineer, an SMU SCIS student, and an occasional dinosaur.
             </span>
             <span aria-hidden>
-              <span className="text-ink/45 dark:text-bone/45">I&apos;m </span>
+              <span className="text-ink/55 dark:text-bone/55">I&apos;m </span>
               <span>{typed}</span>
               <span className="hero-caret ml-0.5 inline-block text-punch">|</span>
             </span>
@@ -81,10 +79,10 @@ export function Hero() {
 
           <motion.div variants={heroItem} className="mt-10 flex flex-wrap items-center gap-4">
             <Button
-              href="/projects"
+              href="#projects"
               onClick={(event) => {
                 event.preventDefault()
-                go('/projects')
+                document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
               }}
             >
               See projects

@@ -1,23 +1,6 @@
 {
-  "fetchedAt": "2026-09-08T10:14:17.862Z",
+  "fetchedAt": "2026-09-10T09:36:42.002Z",
   "projects": [
-    {
-      "id": "yinasaurus.github.io",
-      "name": "yinasaurus.github.io",
-      "title": "This site",
-      "blurb": "Personal portfolio for Yin — a software engineering student at SMU School of Computing and Information Systems.",
-      "details": "Personal portfolio for Yin — a software engineering student at SMU School of Computing and Information Systems.",
-      "tech": [
-        "JavaScript",
-        "CSS"
-      ],
-      "language": "JavaScript",
-      "accent": "solar",
-      "repo": "https://github.com/yinasaurus/yinasaurus.github.io",
-      "live": null,
-      "updatedAt": "2026-09-08T09:57:17Z",
-      "image": "/projects/yinasaurus.github.io.png"
-    },
     {
       "id": "hack-for-humanity",
       "name": "hack-for-humanity",
@@ -25,31 +8,61 @@
       "blurb": "Clinic-connected meal companion for anorexia-supportive care: companionship over competition.",
       "details": "Clinic-connected meal companion for anorexia-supportive care: companionship over competition.",
       "tech": [
+        "Node.js",
+        "Express",
+        "OpenAI",
         "JavaScript",
         "TypeScript"
+      ],
+      "languages": [
+        "JavaScript",
+        "TypeScript"
+      ],
+      "frameworks": [
+        "Node.js",
+        "Express",
+        "OpenAI"
       ],
       "language": "JavaScript",
       "accent": "solar",
       "repo": "https://github.com/yinasaurus/hack-for-humanity",
       "live": null,
       "updatedAt": "2026-09-03T12:06:03Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
       "image": "/projects/hack-for-humanity.png"
     },
     {
       "id": "tiktokjam",
       "name": "tiktokjam",
       "title": "TikTok Jam",
-      "blurb": "A public Python project.",
-      "details": "A public Python project.",
+      "blurb": "kpopy demon hunter - Shopping Copilot",
+      "details": "kpopy demon hunter - Shopping Copilot",
       "tech": [
+        "NumPy",
+        "PyTorch",
         "Python",
         "HTML"
+      ],
+      "languages": [
+        "Python",
+        "HTML"
+      ],
+      "frameworks": [
+        "NumPy",
+        "PyTorch"
       ],
       "language": "Python",
       "accent": "solar",
       "repo": "https://github.com/yinasaurus/tiktokjam",
       "live": null,
       "updatedAt": "2026-09-01T03:02:08Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
       "image": "/projects/tiktokjam.png"
     },
     {
@@ -59,93 +72,154 @@
       "blurb": "A 3D space you don't solve - you just slow down in it.",
       "details": "A 3D space you don't solve - you just slow down in it.",
       "tech": [
-        "JavaScript"
+        "React Three Fiber",
+        "React",
+        "Three.js",
+        "Vite",
+        "JavaScript",
+        "CSS"
+      ],
+      "languages": [
+        "JavaScript",
+        "CSS"
+      ],
+      "frameworks": [
+        "React Three Fiber",
+        "React",
+        "Three.js",
+        "Vite"
       ],
       "language": "JavaScript",
       "accent": "solar",
       "repo": "https://github.com/yinasaurus/stillpoint",
       "live": "https://stillpoint-nine-green.vercel.app",
       "updatedAt": "2026-08-21T10:39:31Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
       "image": "/projects/stillpoint.png"
-    },
-    {
-      "id": "mobile",
-      "name": "mobile",
-      "title": "Mobile",
-      "blurb": "A public TypeScript project.",
-      "details": "A public TypeScript project.",
-      "tech": [
-        "TypeScript"
-      ],
-      "language": "TypeScript",
-      "accent": "volt",
-      "repo": "https://github.com/yinasaurus/mobile",
-      "live": null,
-      "updatedAt": "2026-08-18T16:52:32Z",
-      "image": "/projects/mobile.png"
     },
     {
       "id": "hack4health",
       "name": "hack4health",
       "title": "Hack4Health",
-      "blurb": "A public TypeScript project.",
-      "details": "A public TypeScript project.",
+      "blurb": "Hack4Health 2026 - Pre-Visit Passport",
+      "details": "Hack4Health 2026 - Pre-Visit Passport",
       "tech": [
-        "TypeScript"
+        "Next.js",
+        "React",
+        "Tailwind CSS",
+        "TypeScript",
+        "CSS"
+      ],
+      "languages": [
+        "TypeScript",
+        "CSS"
+      ],
+      "frameworks": [
+        "Next.js",
+        "React",
+        "Tailwind CSS"
       ],
       "language": "TypeScript",
       "accent": "volt",
       "repo": "https://github.com/yinasaurus/hack4health",
       "live": null,
       "updatedAt": "2026-08-12T15:00:00Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
       "image": "/projects/hack4health.png"
     },
     {
       "id": "organicchemgame",
       "name": "organicchemgame",
       "title": "Organic Chem Game",
-      "blurb": "A public TypeScript project.",
-      "details": "A public TypeScript project.",
+      "blurb": "A study game for Singapore JC / A-Level H2 Chemistry organic reaction pathways.",
+      "details": "A study game for Singapore JC / A-Level H2 Chemistry organic reaction pathways.",
       "tech": [
+        "Framer Motion",
+        "React",
+        "Tailwind CSS",
+        "Vite",
         "TypeScript"
+      ],
+      "languages": [
+        "TypeScript"
+      ],
+      "frameworks": [
+        "Framer Motion",
+        "React",
+        "Tailwind CSS",
+        "Vite"
       ],
       "language": "TypeScript",
       "accent": "volt",
       "repo": "https://github.com/yinasaurus/organicchemgame",
       "live": "https://organicchemgame.vercel.app",
       "updatedAt": "2026-08-11T16:34:40Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
       "image": "/projects/organicchemgame.png"
     },
     {
       "id": "sgtelemahjong",
       "name": "sgtelemahjong",
       "title": "SG Tele Mahjong",
-      "blurb": "A public Python project.",
-      "details": "A public Python project.",
+      "blurb": "Telegram bot for playing Japanese Riichi together in a group chat, with private hands via DM, bot seats, and session scoring.",
+      "details": "Telegram bot for playing Japanese Riichi together in a group chat, with private hands via DM, bot seats, and session scoring.",
       "tech": [
+        "Telegram",
         "Python"
+      ],
+      "languages": [
+        "Python"
+      ],
+      "frameworks": [
+        "Telegram"
       ],
       "language": "Python",
       "accent": "solar",
       "repo": "https://github.com/yinasaurus/sgtelemahjong",
       "live": null,
       "updatedAt": "2026-08-10T08:41:41Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
       "image": "/projects/sgtelemahjong.png"
     },
     {
       "id": "medibuddy",
       "name": "medibuddy",
       "title": "Medibuddy",
-      "blurb": "A public Python project.",
-      "details": "A public Python project.",
+      "blurb": "Smart AI nurse dashboard — Huawei Tech4City 2026 | AI for Health",
+      "details": "Smart AI nurse dashboard — Huawei Tech4City 2026 | AI for Health",
       "tech": [
+        "FastAPI",
+        "NumPy",
         "Python"
+      ],
+      "languages": [
+        "Python"
+      ],
+      "frameworks": [
+        "FastAPI",
+        "NumPy"
       ],
       "language": "Python",
       "accent": "solar",
       "repo": "https://github.com/yinasaurus/medibuddy",
       "live": null,
       "updatedAt": "2026-07-31T15:09:03Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
       "image": "/projects/medibuddy.png"
     },
     {
@@ -153,48 +227,35 @@
       "name": "dejavistaa",
       "title": "Dejavistaa",
       "blurb": "A place to capture the spots you’ve been to and the ones you keep meaning to revisit.",
-      "details": "A place to capture the spots you’ve been to and the ones you keep meaning to revisit.",
+      "details": "DejaVista - AI Fashion Memory",
       "tech": [
-        "JavaScript"
+        "Supabase",
+        "React",
+        "Vite",
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "languages": [
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "frameworks": [
+        "Supabase",
+        "React",
+        "Vite"
       ],
       "language": "JavaScript",
       "accent": "solar",
       "repo": "https://github.com/yinasaurus/dejavistaa",
       "live": "https://dejavistaa.vercel.app",
       "updatedAt": "2026-05-02T01:05:38Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
       "image": "/projects/dejavistaa.png"
-    },
-    {
-      "id": "e-waste",
-      "name": "e-waste",
-      "title": "E-Waste",
-      "blurb": "An e-waste awareness and recycling project — making it easier to figure out where old electronics should go.",
-      "details": "An e-waste awareness and recycling project — making it easier to figure out where old electronics should go.",
-      "tech": [
-        "JavaScript"
-      ],
-      "language": "JavaScript",
-      "accent": "solar",
-      "repo": "https://github.com/yinasaurus/e-waste",
-      "live": null,
-      "updatedAt": "2026-03-27T05:22:30Z",
-      "image": "/projects/e-waste.png"
-    },
-    {
-      "id": "wad-grp-proj",
-      "name": "wad-grp-proj",
-      "title": "WAD Group Project",
-      "blurb": "A full-stack web application built with my team for SMU’s Web Application Development module.",
-      "details": "A full-stack web application built with my team for SMU’s Web Application Development module.",
-      "tech": [
-        "HTML"
-      ],
-      "language": "HTML",
-      "accent": "punch",
-      "repo": "https://github.com/yinasaurus/wad-grp-proj",
-      "live": null,
-      "updatedAt": "2025-11-06T21:21:08Z",
-      "image": "/projects/wad-grp-proj.png"
     }
   ]
 }
