@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { Backdrop } from './components/Backdrop'
 import { Footer } from './components/Footer'
 import { MouthWipe } from './components/MouthWipe'
@@ -10,6 +10,7 @@ import { WipeNavigateProvider } from './context/WipeNavigate'
 import { SITE } from './data/site'
 import { HomePage } from './pages/HomePage'
 import { NotFoundPage } from './pages/NotFoundPage'
+import { ProjectsPage } from './pages/ProjectsPage'
 
 export default function App() {
   useEffect(() => {
@@ -26,7 +27,7 @@ export default function App() {
         <main>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/projects" element={<Navigate to={{ pathname: '/', hash: 'projects' }} replace />} />
+            <Route path="/projects" element={<ProjectsPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

@@ -1,5 +1,6 @@
 import { motion, useReducedMotion, useTransform } from 'framer-motion'
 import { Suspense, lazy } from 'react'
+import { useWipeNavigate } from '../context/WipeNavigate'
 import { useTheme } from '../context/theme-context'
 import { SITE } from '../data/site'
 import { useIsMobile, useIsTouch } from '../hooks/useMediaQuery'
@@ -21,6 +22,7 @@ export function Hero() {
   const isMobile = useIsMobile()
   const isTouch = useIsTouch()
   const reducedMotion = useReducedMotion()
+  const go = useWipeNavigate()
   const typed = useTypewriter(SITE.taglines)
   const parallaxOn = !isTouch
   const { x, y } = usePointerParallax({ enabled: parallaxOn, stiffness: 70, damping: 22 })
@@ -79,13 +81,13 @@ export function Hero() {
 
           <motion.div variants={heroItem} className="mt-10 flex flex-wrap items-center gap-4">
             <Button
-              href="#projects"
+              href="/projects"
               onClick={(event) => {
                 event.preventDefault()
-                document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
+                go('/projects')
               }}
             >
-              See projects
+              View projects
               <span aria-hidden>→</span>
             </Button>
             <Button

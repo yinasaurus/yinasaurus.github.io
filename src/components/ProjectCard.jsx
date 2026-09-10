@@ -1,10 +1,22 @@
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { ACCENTS } from '../data/projects'
+import { ACCENTS, LANGUAGE_ACCENT, LANGUAGE_COLORS } from '../data/projects'
 import { useIsTouch } from '../hooks/useMediaQuery'
 import { ProjectCover } from './ProjectCover'
 import { Tag } from './Tag'
+
+const ACCENT_CYCLE = ['solar', 'volt', 'jade', 'punch']
+
+function languageHex(project) {
+  return LANGUAGE_COLORS[project.language] ?? (ACCENTS[project.accent] ?? ACCENTS.jade).hex
+}
+
+function themeAccent(project, index = 0) {
+  const fromLang = LANGUAGE_ACCENT[project.language]
+  if (fromLang && ACCENTS[fromLang]) return ACCENTS[fromLang]
+  return ACCENTS[ACCENT_CYCLE[index % ACCENT_CYCLE.length]]
+}
 
 const TILT_SPRING = { stiffness: 220, damping: 18, mass: 0.6 }
 const MAX_TILT = 6
@@ -13,7 +25,8 @@ export function ProjectCard({ project, index }) {
   const cardRef = useRef(null)
   const [open, setOpen] = useState(false)
   const isTouch = useIsTouch()
-  const accent = ACCENTS[project.accent] ?? ACCENTS.jade
+  const accent = themeAccent(project, index)
+  const swatch = languageHex(project)
 
   const pointerX = useMotionValue(0)
   const pointerY = useMotionValue(0)
@@ -57,39 +70,30 @@ export function ProjectCard({ project, index }) {
           transition={{ type: 'spring', stiffness: 300, damping: 22 }}
           className="panel group flex h-full cursor-pointer flex-col shadow-hard focus-visible:ring-2 focus-visible:ring-volt focus-visible:ring-offset-2 focus-visible:outline-none"
         >
-          <div className={`h-2 w-full ${accent.bar}`} />
+          <div className="h-2 w-full" style={{ backgroundColor: swatch }} />
 
           <div className="relative aspect-[16/10] overflow-hidden">
-            <ProjectCover project={project} className="h-full w-full" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col gap-3 bg-gradient-to-t from-ink/80 via-ink/35 to-transparent px-5 pt-16 pb-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
-              {project.tech.length > 0 && (
-                <ul className="flex flex-wrap gap-1.5">
-                  {project.tech.slice(0, 4).map((tech) => (
-                    <li key={tech}>
-                      <Tag label={tech} />
-                    </li>
-                  ))}
-                </ul>
-              )}
+            <ProjectCover project={project} index={index} className="h-full w-full" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end bg-gradient-to-t from-ink/80 via-ink/35 to-transparent px-5 pt-16 pb-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
               <span className="micro text-paper">View project →</span>
             </div>
           </div>
 
           <div className="flex h-full flex-col p-6" style={{ transform: 'translateZ(22px)' }}>
-            <div className="flex items-baseline justify-between gap-3">
+            <div className="flex items-center justify-between gap-3">
               <span className={`font-mono text-xs font-bold ${accent.text}`}>
                 {String(index + 1).padStart(2, '0')}
               </span>
-              <a
-                href={project.repo}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`Open ${project.name} on GitHub`}
-                onClick={(event) => event.stopPropagation()}
-                className="inline-flex h-11 w-11 items-center justify-center text-ink/55 transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-volt focus-visible:ring-offset-2 focus-visible:outline-none dark:text-bone/55 dark:hover:text-bone"
-              >
-                <GithubIcon />
-              </a>
+              {project.language && (
+                <span className="inline-flex items-center gap-2 font-mono text-[0.65rem] tracking-wider text-ink/50 dark:text-bone/50">
+                  <span
+                    className="h-2.5 w-2.5 rounded-full border-2 border-ink dark:border-bone"
+                    style={{ backgroundColor: swatch }}
+                    aria-hidden
+                  />
+                  {project.language}
+                </span>
+              )}
             </div>
 
             <h3 className="mt-5 min-w-0 text-2xl leading-tight font-bold break-words">{project.title}</h3>
@@ -113,14 +117,15 @@ export function ProjectCard({ project, index }) {
         </motion.div>
       </motion.article>
 
-      <ProjectModal project={project} open={open} onClose={() => setOpen(false)} />
+      <ProjectModal project={project} index={index} open={open} onClose={() => setOpen(false)} />
     </>
   )
 }
 
-function ProjectModal({ project, open, onClose }) {
+function ProjectModal({ project, index = 0, open, onClose }) {
   const closeRef = useRef(null)
-  const accent = ACCENTS[project.accent] ?? ACCENTS.jade
+  const accent = themeAccent(project, index)
+  const swatch = languageHex(project)
 
   useEffect(() => {
     if (!open) return
@@ -165,9 +170,9 @@ function ProjectModal({ project, open, onClose }) {
             transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
             className="panel relative z-10 max-h-[90vh] w-full max-w-2xl overflow-y-auto shadow-hard-lg"
           >
-            <div className={`h-2 w-full ${accent.bar}`} />
+            <div className="h-2 w-full" style={{ backgroundColor: swatch }} />
             <div className="aspect-[16/9] w-full bg-ink">
-              <ProjectCover project={project} mode="modal" className="h-full w-full" />
+              <ProjectCover project={project} index={index} mode="modal" className="h-full w-full" />
             </div>
             <div className="p-6 md:p-8">
               <div className="flex items-start justify-between gap-4">
@@ -222,13 +227,5 @@ function ProjectModal({ project, open, onClose }) {
       )}
     </AnimatePresence>,
     document.body,
-  )
-}
-
-function GithubIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden>
-      <path d="M12 .5C5.73.5.5 5.73.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.15v3.19c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z" />
-    </svg>
   )
 }

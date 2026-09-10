@@ -29,7 +29,7 @@ export function Contact() {
   return (
     <Section id="contact" className="pb-20 md:pb-28">
       <SectionHeader
-        index="05"
+        index="04"
         label="Contact"
         accent="text-solar"
         title="Say hello"

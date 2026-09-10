@@ -96,7 +96,7 @@ export const LANGUAGE_COLORS = {
 export const LANGUAGE_ACCENT = {
   JavaScript: 'solar',
   TypeScript: 'volt',
-  Python: 'solar',
+  Python: 'volt',
   HTML: 'punch',
   CSS: 'volt',
   PHP: 'volt',

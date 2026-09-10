@@ -4,9 +4,9 @@ import { useMemo, useRef } from 'react'
 import { MathUtils, Quaternion, Vector3 } from 'three'
 
 /**
- * Toy triceratops matched to the paper-craft reference: squat stance, a wide
- * vertical frill ringed with many small spikes, two stubby brow horns, cream
- * snout / belly / front legs, and a tapering tail that sits near the ground.
+ * Toy triceratops: squat stance, a wide fan-shaped frill plate behind the
+ * skull, two stubby brow horns, cream snout / belly / front legs, and a
+ * tapering tail that sits near the ground.
  */
 
 const C = {
@@ -39,8 +39,9 @@ const LEGS = [
   { side: -1, z: -0.34, front: false },
 ]
 
-const FRILL_SPIKES = 11
-const FRILL_RADIUS = 0.5
+const FRILL_SPIKES = 10
+const FRILL_RX = 0.62
+const FRILL_RY = 0.52
 
 const POSE = {
   threeQuarter: { rotation: [0.04, -0.68, 0], position: [0.02, -0.02, 0] },
@@ -117,7 +118,7 @@ function Leg({ side, z, front }) {
 
 function BrowHorn({ side }) {
   return (
-    <group position={[0.17 * side, 0.28, 0.12]} rotation={[0.38, 0.06 * side, -0.22 * side]}>
+    <group position={[0.16 * side, 0.2, 0.3]} rotation={[0.52, 0.04 * side, -0.18 * side]}>
       <mesh position={[0, 0.08, 0]}>
         <coneGeometry args={[0.1, 0.2, 5]} />
         <Facet color={C.cream} roughness={0.42} />
@@ -130,30 +131,38 @@ function BrowHorn({ side }) {
   )
 }
 
-/** Head-sized plate; tiny bumps sit only on the outer rim. */
+/**
+ * One wide fan plate behind the skull — not a ridge along the spine.
+ * Local XY is the face of the shield (visible from the front as a flare
+ * on both sides). Spikes sit only on the outer arc, never the neck edge.
+ */
 function Frill() {
-  const bumps = useMemo(
-    () =>
-      Array.from({ length: FRILL_SPIKES }, (_, i) => {
-        const t = (i / FRILL_SPIKES) * Math.PI * 2 + Math.PI / FRILL_SPIKES
-        return { t, x: Math.cos(t) * FRILL_RADIUS, y: Math.sin(t) * FRILL_RADIUS }
-      }),
-    [],
-  )
+  const spikes = useMemo(() => {
+    const start = -0.12 * Math.PI
+    const end = 1.12 * Math.PI
+    return Array.from({ length: FRILL_SPIKES }, (_, i) => {
+      const t = start + ((end - start) * i) / (FRILL_SPIKES - 1)
+      return { t, x: Math.cos(t) * FRILL_RX, y: Math.sin(t) * FRILL_RY }
+    })
+  }, [])
 
   return (
-    <group position={[0, 0.08, -0.2]} rotation={[0.2, 0, 0]}>
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.46, 0.5, 0.08, 20]} />
+    <group position={[0, 0.16, -0.52]} rotation={[-0.28, 0, 0]}>
+      <mesh scale={[1.18, 1.02, 0.13]}>
+        <sphereGeometry args={[0.52, 22, 16]} />
         <Facet color={C.body} />
       </mesh>
-      {bumps.map((bump) => (
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[FRILL_RY, FRILL_RX, 0.05, 28]} />
+        <Facet color={C.body} />
+      </mesh>
+      {spikes.map((spike) => (
         <mesh
-          key={bump.t}
-          position={[bump.x, bump.y, 0]}
-          rotation={[0, 0, bump.t - Math.PI / 2]}
+          key={spike.t}
+          position={[spike.x, spike.y, 0]}
+          rotation={[0, 0, spike.t - Math.PI / 2]}
         >
-          <coneGeometry args={[0.032, 0.068, 3]} />
+          <coneGeometry args={[0.034, 0.072, 3]} />
           <Facet color={C.body} />
         </mesh>
       ))}

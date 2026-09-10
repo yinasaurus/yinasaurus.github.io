@@ -19,7 +19,7 @@ export function ProjectsGrid() {
   return (
     <Section id="projects" className="pb-20 md:pb-28">
       <SectionHeader
-        index="03"
+        index="01"
         label="Projects"
         accent="text-punch"
         title="Stuff I've built"

@@ -15,7 +15,7 @@ export function Navbar() {
   const location = useLocation()
   const go = useWipeNavigate()
   const sectionActive = useActiveSection(SECTION_IDS)
-  const active = sectionActive
+  const active = location.pathname.startsWith('/projects') ? 'projects' : sectionActive
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16)
@@ -27,6 +27,10 @@ export function Navbar() {
   const onNav = (event, link) => {
     event.preventDefault()
     setMenuOpen(false)
+    if (link.to === '/projects') {
+      go('/projects')
+      return
+    }
     if (location.pathname !== '/') {
       go({ pathname: '/', hash: link.hash })
       return

@@ -11,7 +11,7 @@ export function projectMedia(project) {
  * Card/modal media. YouTube thumbs on the card, an embed in the modal,
  * screenshots when configured, otherwise the dino-hatch placeholder.
  */
-export function ProjectCover({ project, className = '', mode = 'card' }) {
+export function ProjectCover({ project, index = 0, className = '', mode = 'card' }) {
   const media = projectMedia(project)
   const accent = ACCENTS[project.accent] ?? ACCENTS.jade
   const color = LANGUAGE_COLORS[project.language] ?? accent.hex
@@ -33,7 +33,7 @@ export function ProjectCover({ project, className = '', mode = 'card' }) {
 
   return (
     <div className={`project-cover relative overflow-hidden ${className}`}>
-      <AbstractCover name={project.name} color={color} paper="#f5f2ec" />
+      <AbstractCover name={project.name} color={color} paper="#f5f2ec" index={index} />
       {media.type === 'image' && media.src && (
         <CoverImage src={media.src} />
       )}
@@ -88,11 +88,13 @@ function PlayBadge() {
   )
 }
 
-function AbstractCover({ name, color, paper }) {
+function AbstractCover({ name, color, paper, index = 0 }) {
   const uid = useId().replace(/:/g, '')
-  const id = `hatch-${uid}`
+  const scaleId = `scale-${uid}`
   const seed = [...name].reduce((sum, char) => sum + char.charCodeAt(0), 0)
-  const shift = (seed % 18) - 9
+  const rot = ((seed * 13) % 36) - 18
+  const tints = ['#6c3bf4', '#ff4d8d', '#17c79a', '#ffb020']
+  const tint = tints[index % tints.length]
 
   return (
     <svg
@@ -103,26 +105,41 @@ function AbstractCover({ name, color, paper }) {
     >
       <defs>
         <pattern
-          id={id}
-          width="22"
-          height="22"
+          id={scaleId}
+          width="32"
+          height="28"
           patternUnits="userSpaceOnUse"
-          patternTransform={`rotate(${22 + shift})`}
+          patternTransform={`rotate(${rot})`}
         >
-          <path d="M0 22 L22 0" stroke={color} strokeWidth="1.4" opacity="0.45" />
-          <circle cx="0" cy="0" r="1.1" fill={color} opacity="0.35" />
+          <polygon
+            points="16,1.5 29,8.5 29,19.5 16,26.5 3,19.5 3,8.5"
+            fill={paper}
+            fillOpacity="0.16"
+            stroke={color}
+            strokeWidth="1.5"
+            strokeOpacity="0.9"
+          />
+          <polygon
+            points="0,-12.5 13,-5.5 13,5.5 0,12.5 -13,5.5 -13,-5.5"
+            fill="none"
+            stroke={color}
+            strokeWidth="1.5"
+            strokeOpacity="0.55"
+          />
+          <polygon
+            points="32,-12.5 45,-5.5 45,5.5 32,12.5 19,5.5 19,-5.5"
+            fill="none"
+            stroke={color}
+            strokeWidth="1.5"
+            strokeOpacity="0.55"
+          />
         </pattern>
       </defs>
-      <rect width="400" height="250" fill={paper} />
-      <rect width="400" height="250" fill={color} opacity="0.18" />
-      <rect width="400" height="250" fill={`url(#${id})`} />
-      <polygon
-        points={`${40 + shift},250 180,40 ${320 + shift},250`}
-        fill={color}
-        opacity="0.22"
-      />
-      <polygon points="400,0 400,140 240,0" fill={color} opacity="0.16" />
-      <g fill={color} opacity="0.55" transform="translate(18 188) scale(2.1)">
+      <rect width="400" height="250" fill={color} />
+      <rect width="400" height="250" fill={paper} opacity="0.32" />
+      <rect width="400" height="250" fill={tint} opacity="0.14" />
+      <rect width="400" height="250" fill={`url(#${scaleId})`} />
+      <g fill={color} opacity="0.45" transform="translate(18 188) scale(2.1)">
         <ellipse cx="8" cy="11.2" rx="3.4" ry="2.6" />
         <circle cx="3.4" cy="6.4" r="1.45" />
         <circle cx="6.6" cy="4.6" r="1.45" />
