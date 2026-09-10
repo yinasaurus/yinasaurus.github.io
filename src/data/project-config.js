@@ -24,7 +24,9 @@ export const EXCLUDE_REPOS = [
 export const MEDIA_OVERRIDES = {}
 
 /** Replace the auto-detected badge list for a repo when Linguist/deps get it wrong. */
-export const TECH_OVERRIDES = {}
+export const TECH_OVERRIDES = {
+  naisc: ['LightGBM', 'NumPy', 'Pandas', 'Python'],
+}
 
 /** Optional display names when kebab-case looks awkward. */
 export const TITLE_OVERRIDES = {
@@ -35,6 +37,8 @@ export const TITLE_OVERRIDES = {
   organicchemgame: 'Organic Chem Game',
   tiktokjam: 'TikTok Jam',
   hack4health: 'Hack4Health',
+  naisc: 'NAISC',
+  splendor: 'Splendor',
 }
 
 /** Used when GitHub has no description / README worth showing. */
@@ -45,6 +49,10 @@ export const BLURB_OVERRIDES = {
     'An e-waste awareness and recycling project — making it easier to figure out where old electronics should go.',
   'wad-grp-proj':
     'A full-stack web application built with my team for SMU’s Web Application Development module.',
+  naisc:
+    'NAISC Singtel 2026 — detect, quantify, and mitigate data drift so a churn model still holds when the distribution shifts.',
+  splendor:
+    'A CS102 Java Splendor engine with console and web UIs, plus easy, medium, and hard AI.',
 }
 
 export const ACCENTS = {

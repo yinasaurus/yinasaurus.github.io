@@ -401,7 +401,8 @@ export async function fetchGithubProjects({ force = false } = {}) {
         name: repo.name,
         title: prettyTitle(repo.name),
         blurb,
-        details: fromReadmeLong || blurb,
+        details:
+          fromReadmeLong && fromReadmeLong.length >= 80 ? fromReadmeLong : blurb,
         tech,
         languages: languageBadges,
         frameworks,

@@ -1,6 +1,64 @@
 {
-  "fetchedAt": "2026-09-10T09:36:42.002Z",
+  "fetchedAt": "2026-09-10T11:18:00.767Z",
   "projects": [
+    {
+      "id": "naisc",
+      "name": "naisc",
+      "title": "NAISC",
+      "blurb": "NAISC Singtel 2026 — detect, quantify, and mitigate data drift so a churn model still holds when the distribution shifts.",
+      "details": "NAISC Singtel 2026 — detect, quantify, and mitigate data drift so a churn model still holds when the distribution shifts.",
+      "tech": [
+        "LightGBM",
+        "NumPy",
+        "Pandas",
+        "Python"
+      ],
+      "languages": [
+        "Python"
+      ],
+      "frameworks": [
+        "NumPy",
+        "Pandas"
+      ],
+      "language": "Python",
+      "accent": "volt",
+      "repo": "https://github.com/yinasaurus/naisc",
+      "live": null,
+      "updatedAt": "2026-09-10T11:13:29Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
+      "image": "/projects/naisc.png"
+    },
+    {
+      "id": "splendor",
+      "name": "splendor",
+      "title": "Splendor",
+      "blurb": "A CS102 Java Splendor engine with console and web UIs, plus easy, medium, and hard AI.",
+      "details": "Java Splendor engine with console UI and optional web UI (same rules on the server).",
+      "tech": [
+        "Java",
+        "JavaScript",
+        "CSS"
+      ],
+      "languages": [
+        "Java",
+        "JavaScript",
+        "CSS"
+      ],
+      "frameworks": [],
+      "language": "Java",
+      "accent": "punch",
+      "repo": "https://github.com/yinasaurus/splendor",
+      "live": "https://splendor-coral.vercel.app",
+      "updatedAt": "2026-09-10T11:10:43Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
+      "image": "/projects/splendor.png"
+    },
     {
       "id": "hack-for-humanity",
       "name": "hack-for-humanity",
@@ -55,7 +113,7 @@
         "PyTorch"
       ],
       "language": "Python",
-      "accent": "solar",
+      "accent": "volt",
       "repo": "https://github.com/yinasaurus/tiktokjam",
       "live": null,
       "updatedAt": "2026-09-01T03:02:08Z",
@@ -183,7 +241,7 @@
         "Telegram"
       ],
       "language": "Python",
-      "accent": "solar",
+      "accent": "volt",
       "repo": "https://github.com/yinasaurus/sgtelemahjong",
       "live": null,
       "updatedAt": "2026-08-10T08:41:41Z",
@@ -212,7 +270,7 @@
         "NumPy"
       ],
       "language": "Python",
-      "accent": "solar",
+      "accent": "volt",
       "repo": "https://github.com/yinasaurus/medibuddy",
       "live": null,
       "updatedAt": "2026-07-31T15:09:03Z",
@@ -227,7 +285,7 @@
       "name": "dejavistaa",
       "title": "Dejavistaa",
       "blurb": "A place to capture the spots you’ve been to and the ones you keep meaning to revisit.",
-      "details": "DejaVista - AI Fashion Memory",
+      "details": "A place to capture the spots you’ve been to and the ones you keep meaning to revisit.",
       "tech": [
         "Supabase",
         "React",
