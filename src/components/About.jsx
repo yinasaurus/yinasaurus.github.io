@@ -1,4 +1,6 @@
+import { motion, useReducedMotion } from 'framer-motion'
 import { SITE } from '../data/site'
+import { scrollReveal } from '../lib/motion'
 import { ClawMark } from './DinoMarks'
 import { Section, SectionHeader } from './Section'
 
@@ -9,6 +11,8 @@ const FACTS = [
 ]
 
 export function About() {
+  const reduced = useReducedMotion()
+
   return (
     <Section id="about" className="pb-20 md:pb-28">
       <SectionHeader
@@ -24,8 +28,14 @@ export function About() {
         lead="Learning in public means most of what I make ends up on GitHub — rough edges and all."
       />
 
-      <div className="grid gap-12 md:grid-cols-12 md:gap-8">
-        <div className="space-y-6 md:col-span-7">
+      <motion.div
+        className="grid gap-12 md:grid-cols-12 md:gap-8"
+        initial={reduced ? false : 'hidden'}
+        whileInView="show"
+        viewport={{ once: true, amount: 0.25 }}
+        variants={{ show: { transition: { staggerChildren: 0.1 } } }}
+      >
+        <motion.div variants={reduced ? undefined : scrollReveal} className="space-y-6 md:col-span-7">
           <p className="text-base leading-relaxed text-ink/75 md:text-lg dark:text-bone/75">
             I&rsquo;m {SITE.name}, an undergraduate at the {SITE.school}, where most of my time
             goes into figuring out how things work and then rebuilding them
@@ -36,11 +46,11 @@ export function About() {
             overlap — which mostly means I like building something, then
             thinking about how someone else would take it apart.
           </p>
-        </div>
+        </motion.div>
 
         {/* Facts as a definition list with rules between rows: no boxes, no
             shadows, no repeated card shape. */}
-        <dl className="md:col-span-5">
+        <motion.dl variants={reduced ? undefined : scrollReveal} className="md:col-span-5">
           {FACTS.map(([term, value], i) => (
             <div key={term} className={`flex gap-3 py-5 ${i > 0 ? 'rule' : ''}`}>
               <ClawMark className="mt-1.5 h-3 w-3 shrink-0 text-jade" />
@@ -50,8 +60,8 @@ export function About() {
               </div>
             </div>
           ))}
-        </dl>
-      </div>
+        </motion.dl>
+      </motion.div>
     </Section>
   )
 }

@@ -1,4 +1,4 @@
-import { motion, useTransform } from 'framer-motion'
+import { motion, useReducedMotion, useTransform } from 'framer-motion'
 import { useIsMobile, useIsTouch } from '../hooks/useMediaQuery'
 import { usePointerParallax } from '../hooks/usePointerParallax'
 
@@ -10,10 +10,10 @@ import { usePointerParallax } from '../hooks/usePointerParallax'
  * echo the faceted mascot, and nothing on the page uses a soft blur.
  */
 const SHAPES = [
-  { className: 'left-[-4%] top-[10%] h-56 w-56 rotate-12 border-2', depth: 34 },
-  { className: 'right-[4%] top-[26%] h-40 w-40 -rotate-6 border-2', depth: 22 },
-  { className: 'left-[16%] top-[62%] h-64 w-64 rotate-[24deg] border-2', depth: 30 },
-  { className: 'right-[12%] top-[78%] h-48 w-48 -rotate-12 border-2', depth: 18 },
+  { className: 'left-[-4%] top-[10%] h-56 w-56 border-2', depth: 34, tilt: 12, drift: 22 },
+  { className: 'right-[4%] top-[26%] h-40 w-40 border-2', depth: 22, tilt: -6, drift: 28 },
+  { className: 'left-[16%] top-[62%] h-64 w-64 border-2', depth: 30, tilt: 24, drift: 34 },
+  { className: 'right-[12%] top-[78%] h-48 w-48 border-2', depth: 18, tilt: -12, drift: 26 },
 ]
 
 export function Backdrop() {
@@ -47,7 +47,8 @@ export function Backdrop() {
   )
 }
 
-function ParallaxShape({ x, y, depth, className }) {
+function ParallaxShape({ x, y, depth, className, tilt, drift }) {
+  const reduced = useReducedMotion()
   const translateX = useTransform(x, (value) => value * depth)
   const translateY = useTransform(y, (value) => value * depth)
 
@@ -55,6 +56,9 @@ function ParallaxShape({ x, y, depth, className }) {
     <motion.div
       style={{ x: translateX, y: translateY }}
       className={`absolute border-ink/[0.07] dark:border-bone/[0.07] ${className}`}
+      initial={{ rotate: tilt }}
+      animate={reduced ? { rotate: tilt } : { rotate: [tilt, tilt + 9, tilt - 7, tilt] }}
+      transition={reduced ? undefined : { duration: drift, repeat: Infinity, ease: 'easeInOut' }}
     />
   )
 }

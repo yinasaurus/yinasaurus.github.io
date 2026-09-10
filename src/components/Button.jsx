@@ -21,7 +21,7 @@ export function Button({ variant = 'solid', className = '', href, children, ...p
       href={href}
       className={`inline-flex min-h-11 cursor-pointer items-center gap-2.5 px-5 py-3 font-mono text-xs font-medium tracking-[0.14em] uppercase select-none sm:px-6 focus-visible:ring-2 focus-visible:ring-volt focus-visible:ring-offset-2 focus-visible:outline-none ${VARIANTS[variant]} ${className}`}
       whileHover={{ x: -2, y: -2 }}
-      whileTap={{ x: 3, y: 3 }}
+      whileTap={{ x: 3, y: 4, scaleX: 1.08, scaleY: 0.9 }}
       transition={PRESS}
       {...props}
     >

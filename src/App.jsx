@@ -5,6 +5,7 @@ import { Footer } from './components/Footer'
 import { MouthWipe } from './components/MouthWipe'
 import { Navbar } from './components/Navbar'
 import { SiteCursor } from './components/SiteCursor'
+import { SplashScreen } from './components/SplashScreen'
 import { ThemeProvider } from './context/ThemeProvider'
 import { WipeNavigateProvider } from './context/WipeNavigate'
 import { SITE } from './data/site'
@@ -20,6 +21,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <WipeNavigateProvider>
+        <SplashScreen />
         <MouthWipe />
         <SiteCursor />
         <Backdrop />

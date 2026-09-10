@@ -1,5 +1,5 @@
 import { motion, useReducedMotion, useTransform } from 'framer-motion'
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy, useRef, useState } from 'react'
 import { useWipeNavigate } from '../context/WipeNavigate'
 import { useTheme } from '../context/theme-context'
 import { SITE } from '../data/site'
@@ -9,6 +9,7 @@ import { useTypewriter } from '../hooks/useTypewriter'
 import { heroContainer, heroItem } from '../lib/motion'
 import { Button } from './Button'
 import { EggLoader } from './EggLoader'
+import { RoarBurst } from './RoarBurst'
 
 const MascotScene = lazy(() => import('./three/MascotScene'))
 
@@ -28,6 +29,17 @@ export function Hero() {
   const { x, y } = usePointerParallax({ enabled: parallaxOn, stiffness: 70, damping: 22 })
   const shiftX = useTransform(x, (value) => value * 18)
   const shiftY = useTransform(y, (value) => value * 10)
+  const [roarToken, setRoarToken] = useState(0)
+  const roaring = useRef(false)
+
+  const roar = () => {
+    if (roaring.current) return
+    roaring.current = true
+    setRoarToken((token) => token + 1)
+    window.setTimeout(() => {
+      roaring.current = false
+    }, 1650)
+  }
 
   return (
     <section id="hero" className="mx-auto w-full max-w-6xl px-6 pt-28 pb-16 sm:px-10 md:pt-36 md:pb-24">
@@ -122,7 +134,18 @@ export function Hero() {
             />
           </Suspense>
 
-          <span className="absolute bottom-2 left-2 -rotate-6 border-2 border-ink bg-ink px-3 py-1.5 font-mono text-[0.65rem] tracking-[0.08em] text-paper uppercase dark:border-bone dark:bg-bone dark:text-void">
+          <RoarBurst token={roarToken} />
+
+          <button
+            type="button"
+            aria-label="Make the dinosaur roar"
+            onClick={roar}
+            className="absolute inset-0 z-[2] cursor-pointer rounded-none border-0 bg-transparent p-0 focus-visible:ring-2 focus-visible:ring-volt focus-visible:ring-offset-2 focus-visible:outline-none"
+          >
+            <span className="sr-only">Roar</span>
+          </button>
+
+          <span className="pointer-events-none absolute bottom-2 left-2 z-[3] -rotate-6 border-2 border-ink bg-ink px-3 py-1.5 font-mono text-[0.65rem] tracking-[0.08em] text-paper uppercase dark:border-bone dark:bg-bone dark:text-void">
             @{SITE.handle}
           </span>
         </motion.div>

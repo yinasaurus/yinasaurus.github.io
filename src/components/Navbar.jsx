@@ -5,6 +5,7 @@ import { useWipeNavigate } from '../context/WipeNavigate'
 import { NAV_LINKS, SITE } from '../data/site'
 import { useActiveSection } from '../hooks/useActiveSection'
 import { PRESS } from '../lib/motion'
+import { BrandMark } from './BrandMark'
 import { ThemeToggle } from './ThemeToggle'
 
 const SECTION_IDS = NAV_LINKS.filter((link) => link.hash).map((link) => link.id)
@@ -61,7 +62,7 @@ export function Navbar() {
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 sm:px-10">
         <a href="/" onClick={onHome} className="flex min-h-11 min-w-0 items-center gap-2.5 focus-visible:ring-2 focus-visible:ring-volt focus-visible:ring-offset-2 focus-visible:outline-none">
-          <FacetMark />
+          <BrandMark />
           <span className="truncate font-display text-base font-bold md:text-lg">
             {SITE.name}
             <span className="text-punch">.</span>
@@ -172,12 +173,3 @@ function DownloadIcon() {
   )
 }
 
-function FacetMark() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-6 w-6 shrink-0" aria-hidden>
-      <path d="M12 2 22 9l-4 3z" fill="#ff4d8d" />
-      <path d="M12 2 2 9l10 13z" fill="#6c3bf4" />
-      <path d="M22 9 12 22l6-10z" fill="#17c79a" />
-    </svg>
-  )
-}
