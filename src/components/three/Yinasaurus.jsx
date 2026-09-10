@@ -5,7 +5,7 @@ import { MathUtils, Quaternion, Vector3 } from 'three'
 
 /**
  * Toy triceratops: squat stance, a wide fan-shaped frill plate behind the
- * skull, two stubby brow horns, cream snout / belly / front legs, and a
+ * skull, two cream brow horns, cream snout / belly / front legs, and a
  * tapering tail that sits near the ground.
  */
 
@@ -39,9 +39,10 @@ const LEGS = [
   { side: -1, z: -0.34, front: false },
 ]
 
-const FRILL_SPIKES = 10
+const FRILL_SPIKES = 11
 const FRILL_RX = 0.62
 const FRILL_RY = 0.52
+const FRILL_SPIKE_OUT = 0.08
 
 const POSE = {
   threeQuarter: { rotation: [0.04, -0.68, 0], position: [0.02, -0.02, 0] },
@@ -118,13 +119,13 @@ function Leg({ side, z, front }) {
 
 function BrowHorn({ side }) {
   return (
-    <group position={[0.16 * side, 0.2, 0.3]} rotation={[0.52, 0.04 * side, -0.18 * side]}>
-      <mesh position={[0, 0.08, 0]}>
-        <coneGeometry args={[0.1, 0.2, 5]} />
+    <group position={[0.17 * side, 0.22, 0.28]} rotation={[0.62, 0.05 * side, -0.2 * side]}>
+      <mesh position={[0, 0.16, 0]}>
+        <coneGeometry args={[0.095, 0.36, 5]} />
         <Facet color={C.cream} roughness={0.42} />
       </mesh>
-      <mesh position={[0, 0.19, 0.025]} rotation={[0.28, 0, 0]}>
-        <coneGeometry args={[0.058, 0.12, 5]} />
+      <mesh position={[0, 0.38, 0.04]} rotation={[0.32, 0, 0]}>
+        <coneGeometry args={[0.052, 0.26, 5]} />
         <Facet color={C.cream} roughness={0.42} />
       </mesh>
     </group>
@@ -142,18 +143,26 @@ function Frill() {
     const end = 1.12 * Math.PI
     return Array.from({ length: FRILL_SPIKES }, (_, i) => {
       const t = start + ((end - start) * i) / (FRILL_SPIKES - 1)
-      return { t, x: Math.cos(t) * FRILL_RX, y: Math.sin(t) * FRILL_RY }
+      return {
+        t,
+        x: Math.cos(t) * (FRILL_RX + FRILL_SPIKE_OUT),
+        y: Math.sin(t) * (FRILL_RY + FRILL_SPIKE_OUT),
+      }
     })
   }, [])
 
   return (
     <group position={[0, 0.16, -0.52]} rotation={[-0.28, 0, 0]}>
-      <mesh scale={[1.18, 1.02, 0.13]}>
-        <sphereGeometry args={[0.52, 22, 16]} />
+      <mesh scale={[1.18, 1.02, 0.14]}>
+        <sphereGeometry args={[0.52, 8, 6]} />
         <Facet color={C.body} />
       </mesh>
+      <mesh position={[0, 0, -0.025]} scale={[1.1, 0.95, 0.1]}>
+        <sphereGeometry args={[0.52, 8, 5]} />
+        <Facet color={C.limb} />
+      </mesh>
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[FRILL_RY, FRILL_RX, 0.05, 28]} />
+        <cylinderGeometry args={[FRILL_RY, FRILL_RX, 0.055, 8]} />
         <Facet color={C.body} />
       </mesh>
       {spikes.map((spike) => (
@@ -162,7 +171,7 @@ function Frill() {
           position={[spike.x, spike.y, 0]}
           rotation={[0, 0, spike.t - Math.PI / 2]}
         >
-          <coneGeometry args={[0.034, 0.072, 3]} />
+          <coneGeometry args={[0.058, 0.15, 3]} />
           <Facet color={C.body} />
         </mesh>
       ))}

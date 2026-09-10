@@ -148,6 +148,7 @@ export default function ContributionScene({
   days,
   isDark = false,
   reducedMotion = false,
+  onReady,
 }) {
   const wrapper = useRef(null)
   const [frameloop, setFrameloop] = useState('always')
@@ -191,6 +192,7 @@ export default function ContributionScene({
         orthographic
         camera={{ manual: true, near: 0.1, far: 250, zoom: 1 }}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+        onCreated={() => onReady?.()}
         onPointerMissed={() => setHover(null)}
       >
         <CalendarCamera weeks={weeks} />

@@ -1,7 +1,7 @@
 /** Shared contribution-grid helpers for the 3D city and the mobile heatmap. */
 
 export const LEVELS = ['#d4cfc4', '#17c79a', '#6c3bf4', '#ffb020', '#ff4d8d']
-export const LEVELS_DARK = ['#3a3348', '#17c79a', '#8b6cff', '#ffb020', '#ff4d8d']
+export const LEVELS_DARK = ['#5c5568', '#17c79a', '#8b6cff', '#ffb020', '#ff4d8d']
 
 export function levelIndex(count, max) {
   if (count <= 0) return 0
