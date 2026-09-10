@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-10T11:18:00.767Z",
+  "fetchedAt": "2026-09-10T11:25:16.316Z",
   "projects": [
     {
       "id": "naisc",
@@ -122,41 +122,6 @@
         "src": ""
       },
       "image": "/projects/tiktokjam.png"
-    },
-    {
-      "id": "stillpoint",
-      "name": "stillpoint",
-      "title": "Stillpoint",
-      "blurb": "A 3D space you don't solve - you just slow down in it.",
-      "details": "A 3D space you don't solve - you just slow down in it.",
-      "tech": [
-        "React Three Fiber",
-        "React",
-        "Three.js",
-        "Vite",
-        "JavaScript",
-        "CSS"
-      ],
-      "languages": [
-        "JavaScript",
-        "CSS"
-      ],
-      "frameworks": [
-        "React Three Fiber",
-        "React",
-        "Three.js",
-        "Vite"
-      ],
-      "language": "JavaScript",
-      "accent": "solar",
-      "repo": "https://github.com/yinasaurus/stillpoint",
-      "live": "https://stillpoint-nine-green.vercel.app",
-      "updatedAt": "2026-08-21T10:39:31Z",
-      "media": {
-        "type": "none",
-        "src": ""
-      },
-      "image": "/projects/stillpoint.png"
     },
     {
       "id": "hack4health",

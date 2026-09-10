@@ -19,6 +19,7 @@ export const EXCLUDE_REPOS = [
   'mobile',
   'e-waste',
   'wad-grp-proj',
+  'stillpoint',
 ]
 
 export const MEDIA_OVERRIDES = {}
