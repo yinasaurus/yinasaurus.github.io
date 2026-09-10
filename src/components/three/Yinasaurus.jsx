@@ -39,10 +39,9 @@ const LEGS = [
   { side: -1, z: -0.34, front: false },
 ]
 
-const FRILL_SPIKES = 11
-const FRILL_RX = 0.62
-const FRILL_RY = 0.52
-const FRILL_SPIKE_OUT = 0.08
+const FRILL_SPIKES = 9
+const FRILL_RX = 0.56
+const FRILL_RY = 0.5
 
 const POSE = {
   threeQuarter: { rotation: [0.04, -0.68, 0], position: [0.02, -0.02, 0] },
@@ -133,37 +132,33 @@ function BrowHorn({ side }) {
 }
 
 /**
- * One wide fan plate behind the skull — not a ridge along the spine.
- * Local XY is the face of the shield (visible from the front as a flare
- * on both sides). Spikes sit only on the outer arc, never the neck edge.
+ * Isolated skull-plate. Lives only on the head group, behind the skull
+ * sphere — never on the body capsule or spine. Local XY is the face of
+ * the fan (forward/back). Spikes are children of this plate only.
  */
 function Frill() {
   const spikes = useMemo(() => {
-    const start = -0.12 * Math.PI
-    const end = 1.12 * Math.PI
+    const start = 0.06 * Math.PI
+    const end = 0.94 * Math.PI
     return Array.from({ length: FRILL_SPIKES }, (_, i) => {
       const t = start + ((end - start) * i) / (FRILL_SPIKES - 1)
       return {
         t,
-        x: Math.cos(t) * (FRILL_RX + FRILL_SPIKE_OUT),
-        y: Math.sin(t) * (FRILL_RY + FRILL_SPIKE_OUT),
+        x: Math.cos(t) * (FRILL_RX + 0.05),
+        y: Math.sin(t) * (FRILL_RY + 0.05),
       }
     })
   }, [])
 
   return (
-    <group position={[0, 0.16, -0.52]} rotation={[-0.28, 0, 0]}>
-      <mesh scale={[1.18, 1.02, 0.14]}>
-        <sphereGeometry args={[0.52, 8, 6]} />
-        <Facet color={C.body} />
-      </mesh>
-      <mesh position={[0, 0, -0.025]} scale={[1.1, 0.95, 0.1]}>
-        <sphereGeometry args={[0.52, 8, 5]} />
-        <Facet color={C.limb} />
-      </mesh>
+    <group position={[0, 0.26, -0.38]} rotation={[-0.12, 0, 0]}>
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[FRILL_RY, FRILL_RX, 0.055, 8]} />
+        <cylinderGeometry args={[FRILL_RY, FRILL_RX, 0.1, 8]} />
         <Facet color={C.body} />
+      </mesh>
+      <mesh position={[0, 0, -0.055]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[FRILL_RY * 0.92, FRILL_RX * 0.92, 0.04, 8]} />
+        <Facet color={C.limb} />
       </mesh>
       {spikes.map((spike) => (
         <mesh
@@ -171,7 +166,7 @@ function Frill() {
           position={[spike.x, spike.y, 0]}
           rotation={[0, 0, spike.t - Math.PI / 2]}
         >
-          <coneGeometry args={[0.058, 0.15, 3]} />
+          <coneGeometry args={[0.045, 0.11, 3]} />
           <Facet color={C.body} />
         </mesh>
       ))}
