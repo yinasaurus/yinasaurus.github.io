@@ -1,7 +1,8 @@
 import { SITE } from '../data/site'
 
 const LOGIN = SITE.handle
-const CACHE_KEY = 'yin-github-activity-v3'
+const CACHE_KEY = 'yin-github-activity-v4'
+const FETCH_MS = 8000
 const GRAPHQL = 'https://api.github.com/graphql'
 const REST = 'https://api.github.com'
 const PUBLIC_CALENDAR = `https://github-contributions-api.jogruber.de/v4/${LOGIN}`
@@ -73,8 +74,8 @@ export function placeholderActivity() {
 export async function fetchGithubActivity() {
   if (typeof sessionStorage !== 'undefined') {
     try {
-      const cached = sessionStorage.getItem(CACHE_KEY)
-      if (cached) return JSON.parse(cached)
+      const cached = JSON.parse(sessionStorage.getItem(CACHE_KEY) || 'null')
+      if (cached?.days?.length) return cached
     } catch {
       // Private mode can throw on sessionStorage access.
     }
@@ -83,23 +84,28 @@ export async function fetchGithubActivity() {
   const token = import.meta.env.VITE_GITHUB_TOKEN
 
   const [calendar, profile] = await Promise.all([
-    fetchCalendar(token).catch(() => null),
+    fetchCalendar(token).catch((error) => error),
     fetchProfile(token).catch(() => null),
   ])
 
   const fallback = placeholderActivity()
+  const calendarFailed = calendar instanceof Error || !calendar
+  const rateLimited =
+    calendarFailed && /403|429|rate/i.test(String(calendar?.message ?? calendar))
+  const goodCalendar = !calendarFailed && calendar.days?.length
+
   const data = {
-    source: calendar?.source ?? 'placeholder',
-    year: calendar?.year ?? fallback.year,
-    days: calendar?.days ?? fallback.days,
-    total: calendar?.total ?? fallback.total,
+    source: rateLimited ? 'rate-limited' : goodCalendar ? calendar.source : 'placeholder',
+    year: goodCalendar ? calendar.year : fallback.year,
+    days: goodCalendar ? calendar.days : fallback.days,
+    total: goodCalendar ? calendar.total : fallback.total,
     repos: profile?.repos ?? fallback.repos,
     followers: profile?.followers ?? fallback.followers,
     languages: profile?.languages ?? fallback.languages,
   }
 
   try {
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(data))
+    if (data.days.length) sessionStorage.setItem(CACHE_KEY, JSON.stringify(data))
   } catch {
     // Ignore quota / private-mode failures — the in-memory result still works.
   }
@@ -121,6 +127,7 @@ async function fetchCalendar(token) {
     const response = await fetch(GRAPHQL, {
       method: 'POST',
       headers: { ...headers(token), 'Content-Type': 'application/json' },
+      signal: AbortSignal.timeout(FETCH_MS),
       body: JSON.stringify({
         query: CALENDAR_QUERY,
         variables: {
@@ -130,6 +137,9 @@ async function fetchCalendar(token) {
         },
       }),
     })
+    if (response.status === 403 || response.status === 429) {
+      throw new Error(`rate ${response.status}`)
+    }
     if (!response.ok) throw new Error(`graphql ${response.status}`)
     const json = await response.json()
     const calendar = json.data?.user?.contributionsCollection?.contributionCalendar
@@ -145,7 +155,10 @@ async function fetchCalendar(token) {
   // No token: public calendar feed. Swap this for GraphQL later by setting
   // VITE_GITHUB_TOKEN. A github-readme-stats image is the last-resort visual
   // if even this feed is down — see `GithubActivity`.
-  const response = await fetch(PUBLIC_CALENDAR)
+  const response = await fetch(PUBLIC_CALENDAR, { signal: AbortSignal.timeout(FETCH_MS) })
+  if (response.status === 403 || response.status === 429) {
+    throw new Error(`rate ${response.status}`)
+  }
   if (!response.ok) throw new Error(`calendar ${response.status}`)
   const json = await response.json()
   const { year, from, to } = calendarYearRange()
@@ -176,9 +189,13 @@ function inYearRange(iso, from, to) {
 
 async function fetchProfile(token) {
   const [userRes, reposRes] = await Promise.all([
-    fetch(`${REST}/users/${LOGIN}`, { headers: headers(token) }),
+    fetch(`${REST}/users/${LOGIN}`, {
+      headers: headers(token),
+      signal: AbortSignal.timeout(FETCH_MS),
+    }),
     fetch(`${REST}/users/${LOGIN}/repos?per_page=100&sort=updated`, {
       headers: headers(token),
+      signal: AbortSignal.timeout(FETCH_MS),
     }),
   ])
   if (!userRes.ok) throw new Error(`user ${userRes.status}`)

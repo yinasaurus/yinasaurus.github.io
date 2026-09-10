@@ -55,15 +55,15 @@ export const techAccent = (name) => TECH_ACCENT[name] ?? 'bg-volt'
 /** Grouped skills rendered by the TechStack section. */
 export const TECH_GROUPS = [
   {
-    title: 'Frontend',
-    items: ['React', 'JavaScript', 'TypeScript', 'HTML', 'CSS', 'Tailwind CSS'],
+    title: 'Languages',
+    items: ['JavaScript', 'TypeScript', 'Python', 'Java', 'HTML', 'CSS'],
   },
   {
-    title: 'Backend & Data',
-    items: ['Python', 'Java', 'Node.js', 'Flask', 'MySQL', 'Firebase'],
+    title: 'Frameworks / Tools',
+    items: ['React', 'Node.js', 'Tailwind CSS', 'Flask', 'MySQL', 'Firebase', 'Git'],
   },
   {
-    title: 'Exploring',
+    title: 'Currently learning',
     items: ['Cybersecurity', 'Machine Learning', 'Cloud', 'React Three Fiber'],
   },
 ]

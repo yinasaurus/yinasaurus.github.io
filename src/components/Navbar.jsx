@@ -90,6 +90,15 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-3">
+          <a
+            href={SITE.resume}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-11 items-center gap-2 border-2 border-ink px-3 text-ink focus-visible:ring-2 focus-visible:ring-volt focus-visible:outline-none dark:border-bone dark:text-bone"
+          >
+            <DownloadIcon />
+            <span className="micro hidden sm:inline">Resume</span>
+          </a>
           <ThemeToggle />
           <motion.button
             type="button"
@@ -132,11 +141,30 @@ export function Navbar() {
                   </a>
                 </li>
               ))}
+              <li className="rule">
+                <a
+                  href={SITE.resume}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex min-h-11 items-center gap-4 py-4"
+                >
+                  <DownloadIcon />
+                  <span className="font-display text-2xl font-bold">Resume</span>
+                </a>
+              </li>
             </ul>
           </motion.div>
         )}
       </AnimatePresence>
     </header>
+  )
+}
+
+function DownloadIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v11m0 0-3.5-3.5M12 15l3.5-3.5M5 19h14" />
+    </svg>
   )
 }
 

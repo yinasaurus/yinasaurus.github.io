@@ -6,16 +6,23 @@ import { fetchGithubActivity, placeholderActivity } from '../lib/github'
  * The placeholder is shown immediately so the 3D grid never pops in empty.
  */
 export function useGithubActivity() {
-  const [data, setData] = useState(placeholderActivity)
+  const [data, setData] = useState(() => placeholderActivity())
   const [status, setStatus] = useState('loading')
 
   useEffect(() => {
     let cancelled = false
+    const failSafe = window.setTimeout(() => {
+      if (cancelled) return
+      setStatus((current) => (current === 'loading' ? 'fallback' : current))
+    }, 10000)
+
     fetchGithubActivity()
       .then((next) => {
         if (cancelled) return
         setData(next)
-        setStatus(next.source === 'placeholder' ? 'fallback' : 'ready')
+        if (next.source === 'rate-limited') setStatus('rate-limited')
+        else if (next.source === 'placeholder') setStatus('fallback')
+        else setStatus('ready')
       })
       .catch(() => {
         if (cancelled) return
@@ -24,6 +31,7 @@ export function useGithubActivity() {
       })
     return () => {
       cancelled = true
+      window.clearTimeout(failSafe)
     }
   }, [])
 

@@ -1,31 +1,20 @@
-import { useReducedMotion } from 'framer-motion'
-import { Suspense, lazy } from 'react'
 import { useTheme } from '../context/theme-context'
 import { SITE } from '../data/site'
 import { useGithubActivity } from '../hooks/useGithubActivity'
-import { useMediaQuery } from '../hooks/useMediaQuery'
 import { ContributionHeatmap } from './ContributionHeatmap'
 import { Section, SectionHeader } from './Section'
 import { Tag } from './Tag'
 
-// Same lazy split as the hero mascot — three.js stays out of the first paint.
-const ContributionScene = lazy(() => import('./three/ContributionScene'))
-
 /**
- * Live GitHub activity, rendered as a toy city of cubes rather than an
- * embedded widget.
- *
- * Upgrade path: `src/lib/github.js` already speaks GraphQL when
- * `VITE_GITHUB_TOKEN` is set. If you'd rather skip 3D entirely, replace the
- * canvas below with:
- *   <img alt="GitHub contributions" src="https://ghchart.rshah.org/17c79a/yinasaurus" />
- *   or a github-readme-stats card.
+ * Live GitHub year as a 2D heatmap. The 3D cube city was dropped here
+ * because it often failed to paint (blank canvas / stuck suspense) while
+ * the rest of the section loaded fine.
  */
 export function GithubActivity() {
   const { isDark } = useTheme()
-  const isNarrow = useMediaQuery('(max-width: 1023px)')
-  const reducedMotion = useReducedMotion()
   const { data, status } = useGithubActivity()
+  const days = data.days ?? []
+  const hasGrid = days.length > 0
 
   return (
     <Section id="activity" className="pb-20 md:pb-28">
@@ -35,24 +24,22 @@ export function GithubActivity() {
         accent="text-jade"
         stacked
         title="Shipping in public"
-        lead="A year of commits, pulled live from GitHub. Cubes on a wide screen; a swipeable grid on a phone."
+        lead="A year of commits, pulled live from GitHub — the same grid as the contribution graph, not a screenshot."
       />
 
-      {isNarrow ? (
-        <div className="relative mt-2 w-full min-w-0">
-          <ContributionHeatmap days={data.days} isDark={isDark} />
-        </div>
-      ) : (
-        <div className="relative mt-2 h-[500px] w-full overflow-hidden">
-          <Suspense fallback={<CalendarSkeleton />}>
-            <ContributionScene
-              days={data.days}
-              isDark={isDark}
-              reducedMotion={Boolean(reducedMotion)}
-            />
-          </Suspense>
-        </div>
-      )}
+      <div className="relative mt-2 min-h-[7rem] w-full min-w-0">
+        {hasGrid ? (
+          <ContributionHeatmap days={days} isDark={isDark} />
+        ) : (
+          <p className="border-2 border-ink/15 px-4 py-8 text-sm text-ink/60 dark:border-bone/15 dark:text-bone/60">
+            {status === 'rate-limited'
+              ? 'GitHub rate-limited this request. Try again later.'
+              : status === 'loading'
+                ? `Excavating @${SITE.handle}…`
+                : 'Couldn’t load the contribution grid. Showing nothing beats an infinite spinner.'}
+          </p>
+        )}
+      </div>
       <div className="rule mt-8 flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
         <p className="micro text-ink/55 dark:text-bone/55">
           {status === 'loading' && `Excavating @${SITE.handle}…`}
@@ -63,7 +50,8 @@ export function GithubActivity() {
               {data.source === 'graphql' && ' · live from GitHub'}
             </>
           )}
-          {status === 'fallback' && 'Showing a stand-in grid — GitHub rate-limited or unreachable.'}
+          {status === 'fallback' && 'Stand-in grid — GitHub was unreachable.'}
+          {status === 'rate-limited' && 'Rate limited — try again later.'}
         </p>
         {data.languages.length > 0 && (
           <ul className="flex flex-wrap gap-2">
@@ -78,8 +66,3 @@ export function GithubActivity() {
     </Section>
   )
 }
-
-function CalendarSkeleton() {
-  return <div className="h-full w-full border-2 border-ink/10 dark:border-bone/10" />
-}
-

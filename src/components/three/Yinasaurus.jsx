@@ -23,11 +23,11 @@ const EYE_SCALE = 0.09
 
 const TAIL_PIVOT = [0, 0.16, -0.78]
 const TAIL = [
-  { p: [0, 0, 0], r: 0.32 },
-  { p: [0, -0.05, -0.44], r: 0.22 },
-  { p: [0, -0.2, -0.86], r: 0.13 },
-  { p: [0.05, -0.3, -1.16], r: 0.075 },
-  { p: [0.12, -0.24, -1.34], r: 0.04 },
+  { p: [0, 0, 0], r: 0.3 },
+  { p: [0, -0.06, -0.4], r: 0.22 },
+  { p: [0, -0.16, -0.78], r: 0.14 },
+  { p: [0.04, -0.24, -1.08], r: 0.08 },
+  { p: [0.08, -0.2, -1.26], r: 0.05 },
 ]
 
 const HEAD_PIVOT = [0, 0.46, 0.46]
@@ -39,8 +39,8 @@ const LEGS = [
   { side: -1, z: -0.34, front: false },
 ]
 
-const FRILL_SPIKES = 16
-const FRILL_RADIUS = 0.8
+const FRILL_SPIKES = 11
+const FRILL_RADIUS = 0.5
 
 const POSE = {
   threeQuarter: { rotation: [0.04, -0.68, 0], position: [0.02, -0.02, 0] },
@@ -130,9 +130,9 @@ function BrowHorn({ side }) {
   )
 }
 
-/** Vertical shield behind the skull, spikes pointing out in the frill plane. */
+/** Head-sized plate; tiny bumps sit only on the outer rim. */
 function Frill() {
-  const spikes = useMemo(
+  const bumps = useMemo(
     () =>
       Array.from({ length: FRILL_SPIKES }, (_, i) => {
         const t = (i / FRILL_SPIKES) * Math.PI * 2 + Math.PI / FRILL_SPIKES
@@ -142,22 +142,18 @@ function Frill() {
   )
 
   return (
-    <group position={[0, 0.1, -0.22]} rotation={[0.22, 0, 0]}>
+    <group position={[0, 0.08, -0.2]} rotation={[0.2, 0, 0]}>
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.74, 0.78, 0.11, 16]} />
+        <cylinderGeometry args={[0.46, 0.5, 0.08, 20]} />
         <Facet color={C.body} />
       </mesh>
-      <mesh position={[0, 0, 0.04]} scale={[0.42, 0.42, 0.14]}>
-        <sphereGeometry args={[1, 8, 6]} />
-        <Facet color={C.body} />
-      </mesh>
-      {spikes.map((spike) => (
+      {bumps.map((bump) => (
         <mesh
-          key={spike.t}
-          position={[spike.x, spike.y, 0]}
-          rotation={[0, 0, spike.t - Math.PI / 2]}
+          key={bump.t}
+          position={[bump.x, bump.y, 0]}
+          rotation={[0, 0, bump.t - Math.PI / 2]}
         >
-          <coneGeometry args={[0.075, 0.18, 3]} />
+          <coneGeometry args={[0.032, 0.068, 3]} />
           <Facet color={C.body} />
         </mesh>
       ))}
@@ -244,7 +240,11 @@ export function Yinasaurus({ pointerRef, reducedMotion = false, pose = 'threeQua
               <sphereGeometry args={[1, 6, 4]} />
               <Facet color={C.body} />
             </mesh>
-            <Chain nodes={TAIL} color={C.body} />
+            <Chain nodes={TAIL} color={C.body} radial={8} />
+            <mesh position={[0.08, -0.2, -1.26]} scale={0.055}>
+              <sphereGeometry args={[1, 8, 6]} />
+              <Facet color={C.body} />
+            </mesh>
           </group>
 
           {LEGS.map((leg) => (
@@ -253,7 +253,7 @@ export function Yinasaurus({ pointerRef, reducedMotion = false, pose = 'threeQua
 
           <group ref={headGroup} position={HEAD_PIVOT}>
             <mesh position={[0, 0.06, 0.08]} scale={[0.46, 0.42, 0.4]}>
-              <icosahedronGeometry args={[1, 1]} />
+              <sphereGeometry args={[1, 8, 6]} />
               <Facet color={C.body} />
             </mesh>
 

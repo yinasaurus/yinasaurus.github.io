@@ -8,10 +8,10 @@ export function TechStack() {
     <Section id="stack" className="pb-20 md:pb-28">
       <SectionHeader
         index="02"
-        label="Stack"
+        label="Skills"
         accent="text-jade"
         title="Things I build with"
-        lead="What I've shipped with, what I'm comfortable in, and what I'm currently poking at."
+        lead="A quick scan — languages I write, tools I ship with, and what I’m currently poking at."
       />
 
       {/* Rows rather than a card grid — the label sits in the margin and the

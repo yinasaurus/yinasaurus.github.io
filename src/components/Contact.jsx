@@ -11,6 +11,13 @@ const LINKS = [
     hover: 'hover:bg-punch',
     wrap: 'break-words [overflow-wrap:anywhere]',
   },
+  {
+    label: 'Resume',
+    value: 'PDF',
+    href: SITE.resume,
+    hover: 'hover:bg-solar',
+    wrap: 'break-words',
+  },
 ]
 
 /**
@@ -44,7 +51,16 @@ export function Contact() {
               <span
                 className={`min-w-0 font-display text-xl font-semibold sm:text-2xl md:text-4xl ${link.wrap}`}
               >
-                {link.label === 'Email' ? <EmailValue value={link.value} /> : link.value}
+                {link.label === 'Email' ? (
+                  <EmailValue value={link.value} />
+                ) : link.label === 'Resume' ? (
+                  <span className="inline-flex items-center gap-3">
+                    <ResumeMark />
+                    {link.value}
+                  </span>
+                ) : (
+                  link.value
+                )}
               </span>
               <span
                 aria-hidden
@@ -62,6 +78,14 @@ export function Contact() {
 }
 
 /** Prefer wrapping at @ so the SMU address doesn't split mid-token. */
+function ResumeMark() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v11m0 0-3.5-3.5M12 15l3.5-3.5M5 19h14" />
+    </svg>
+  )
+}
+
 function EmailValue({ value }) {
   const at = value.indexOf('@')
   if (at < 0) return value
