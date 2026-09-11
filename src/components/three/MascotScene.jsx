@@ -1,9 +1,11 @@
-import { Float, PerspectiveCamera } from '@react-three/drei'
+import { Float, PerspectiveCamera, useGLTF } from '@react-three/drei'
 import { Canvas, useThree } from '@react-three/fiber'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { CanvasTexture } from 'three'
 import { useGlobalPointerRef } from '../../hooks/usePointerParallax'
 import { Yinasaurus } from './Yinasaurus'
+
+useGLTF.preload('/models/triceratops.glb')
 
 /**
  * All React Three Fiber setup lives here — camera, lights, shadow and the
@@ -16,6 +18,7 @@ import { Yinasaurus } from './Yinasaurus'
  *   reducedMotion — freezes idle animation for `prefers-reduced-motion` users
  */
 export default function MascotScene({ isDark = false, quality = 'high', reducedMotion = false }) {
+  useGLTF('/models/triceratops.glb')
   const wrapper = useRef(null)
   const pointerRef = useGlobalPointerRef(!reducedMotion)
   const dinoPose = useMemo(() => {
@@ -74,9 +77,9 @@ export default function MascotScene({ isDark = false, quality = 'high', reducedM
           color={isDark ? '#e8d5b0' : '#f0e4c4'}
         />
 
-        {/* The mascot's geometry is already as low as it goes, so `quality`
-            only affects the pixel ratio and the decorative shards. */}
-        <Yinasaurus pointerRef={pointerRef} reducedMotion={reducedMotion} pose={dinoPose} />
+        <Suspense fallback={null}>
+          <Yinasaurus pointerRef={pointerRef} reducedMotion={reducedMotion} pose={dinoPose} />
+        </Suspense>
 
         {!isLow && <Shards reducedMotion={reducedMotion} />}
 
