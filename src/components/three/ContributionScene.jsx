@@ -18,7 +18,7 @@ const MAX_H = 3.4
 const ELEVATION = (42 * Math.PI) / 180
 const YAW = (28 * Math.PI) / 180
 const DIST = 56
-const FRUSTUM_PAD = 1.2
+const FRUSTUM_PAD = 1.06
 function cubeHeight(count, max) {
   if (count <= 0) return EMPTY_H
   return EMPTY_H + 0.12 + (count / Math.max(max, 1)) * (MAX_H - EMPTY_H - 0.12)
@@ -29,7 +29,7 @@ function cubeHeight(count, max) {
  * frame and was fighting the framing. `manual` stops R3F from resetting the
  * frustum to pixel units on resize, which was cropping the year grid.
  */
-function CalendarCamera({ weeks }) {
+function CalendarCamera({ weeks, frameH }) {
   const camera = useThree((state) => state.camera)
   const size = useThree((state) => state.size)
   const invalidate = useThree((state) => state.invalidate)
@@ -51,19 +51,18 @@ function CalendarCamera({ weeks }) {
 
     camera.position.set(cx + xOff, y, cz + zOff)
     camera.up.set(0, 1, 0)
-    camera.lookAt(cx, MAX_H * 0.3, cz)
+    camera.lookAt(cx, frameH * 0.35, cz)
     camera.updateMatrixWorld()
 
-    // Contain the full grid AABB in view, whatever the canvas aspect is.
     const corners = [
       [minX, 0, minZ],
       [maxX, 0, minZ],
       [minX, 0, maxZ],
       [maxX, 0, maxZ],
-      [minX, MAX_H, minZ],
-      [maxX, MAX_H, minZ],
-      [minX, MAX_H, maxZ],
-      [maxX, MAX_H, maxZ],
+      [minX, frameH, minZ],
+      [maxX, frameH, minZ],
+      [minX, frameH, maxZ],
+      [maxX, frameH, maxZ],
     ]
     let minCx = Infinity
     let maxCx = -Infinity
@@ -100,7 +99,7 @@ function CalendarCamera({ weeks }) {
     camera.zoom = 1
     camera.updateProjectionMatrix()
     invalidate()
-  }, [camera, invalidate, scratch, size, weeks])
+  }, [camera, frameH, invalidate, scratch, size, weeks])
 
   return null
 }
@@ -148,7 +147,6 @@ export default function ContributionScene({
   days,
   isDark = false,
   reducedMotion = false,
-  onReady,
 }) {
   const wrapper = useRef(null)
   const [frameloop, setFrameloop] = useState('always')
@@ -168,6 +166,10 @@ export default function ContributionScene({
   const grid = useMemo(() => fillGrid(days), [days])
   const max = useMemo(() => Math.max(1, ...grid.map((day) => day.count)), [grid])
   const weeks = useMemo(() => Math.max(1, ...grid.map((day) => day.week + 1)), [grid])
+  const frameH = useMemo(
+    () => Math.min(MAX_H, Math.max(1.2, ...grid.map((day) => cubeHeight(day.count, max))) * 1.25),
+    [grid, max],
+  )
 
   const onHover = (day, event) => {
     if (!day) {
@@ -192,10 +194,9 @@ export default function ContributionScene({
         orthographic
         camera={{ manual: true, near: 0.1, far: 250, zoom: 1 }}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-        onCreated={() => onReady?.()}
         onPointerMissed={() => setHover(null)}
       >
-        <CalendarCamera weeks={weeks} />
+        <CalendarCamera weeks={weeks} frameH={frameH} />
         <ambientLight intensity={isDark ? 0.38 : 0.55} />
         <directionalLight position={[22, 28, 18]} intensity={isDark ? 2.4 : 2.7} />
         <directionalLight position={[-14, 10, 16]} intensity={isDark ? 0.55 : 0.7} />

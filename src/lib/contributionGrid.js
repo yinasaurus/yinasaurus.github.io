@@ -5,11 +5,9 @@ export const LEVELS_DARK = ['#5c5568', '#17c79a', '#8b6cff', '#ffb020', '#ff4d8d
 
 export function levelIndex(count, max) {
   if (count <= 0) return 0
-  if (max <= 1) return 2
-  const t = count / max
-  if (t < 0.25) return 1
-  if (t < 0.5) return 2
-  if (t < 0.75) return 3
+  if (count === 1) return 1
+  if (count <= 3) return 2
+  if (count <= 6) return 3
   return 4
 }
 

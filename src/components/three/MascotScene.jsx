@@ -5,7 +5,7 @@ import { CanvasTexture } from 'three'
 import { useGlobalPointerRef } from '../../hooks/usePointerParallax'
 import { Yinasaurus } from './Yinasaurus'
 
-useGLTF.preload('/models/triceratops-v4.glb')
+useGLTF.preload('/models/triceratops-v5.glb')
 
 /**
  * All React Three Fiber setup lives here — camera, lights, shadow and the
@@ -18,7 +18,7 @@ useGLTF.preload('/models/triceratops-v4.glb')
  *   reducedMotion — freezes idle animation for `prefers-reduced-motion` users
  */
 export default function MascotScene({ isDark = false, quality = 'high', reducedMotion = false }) {
-  useGLTF('/models/triceratops-v4.glb')
+  useGLTF('/models/triceratops-v5.glb')
   const wrapper = useRef(null)
   const pointerRef = useGlobalPointerRef(!reducedMotion)
   const dinoPose = useMemo(() => {
