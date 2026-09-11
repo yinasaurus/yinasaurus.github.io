@@ -7,7 +7,7 @@ const MODEL = '/models/triceratops.glb'
 
 /** Tweak these if the imported mesh sits too big, small, or off-center. */
 const SCALE = 0.58
-const POSITION = [0, -0.22, 0]
+const POSITION = [0, -0.4, 0]
 const ROTATION = [0, 0, 0]
 
 const POSE = {
