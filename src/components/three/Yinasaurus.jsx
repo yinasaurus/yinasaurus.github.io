@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import { MathUtils } from 'three'
 
-const MODEL = '/models/triceratops.glb'
+const MODEL = '/models/triceratops-v3.glb'
 
 /** Tweak these if the imported mesh sits too big, small, or off-center. */
 const SCALE = 0.58
@@ -16,7 +16,7 @@ const POSE = {
 }
 
 /**
- * Imported triceratops (`public/models/triceratops.glb`).
+ * Imported triceratops (`public/models/triceratops-v3.glb`).
  * Named parts (body, head, frill, horns, legs, tail, …) stay on the cloned
  * scene — `scene.traverse((obj) => console.log(obj.name))` to inspect.
  *
