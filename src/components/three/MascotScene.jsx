@@ -3,9 +3,9 @@ import { Canvas, useThree } from '@react-three/fiber'
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { CanvasTexture } from 'three'
 import { useGlobalPointerRef } from '../../hooks/usePointerParallax'
-import { Yinasaurus } from './Yinasaurus'
+import { MODEL, Yinasaurus } from './Yinasaurus'
 
-useGLTF.preload('/models/triceratops_lowpoly.glb')
+useGLTF.preload(MODEL)
 
 /**
  * All React Three Fiber setup lives here — camera, lights, shadow and the
@@ -18,7 +18,7 @@ useGLTF.preload('/models/triceratops_lowpoly.glb')
  *   reducedMotion — freezes idle animation for `prefers-reduced-motion` users
  */
 export default function MascotScene({ isDark = false, quality = 'high', reducedMotion = false }) {
-  useGLTF('/models/triceratops_lowpoly.glb')
+  useGLTF(MODEL)
   const wrapper = useRef(null)
   const pointerRef = useGlobalPointerRef(!reducedMotion)
   const dinoPose = useMemo(() => {
@@ -137,7 +137,7 @@ function SoftShadow({ isDark }) {
   useEffect(() => () => texture.dispose(), [texture])
 
   return (
-    <mesh position={[0.02, -0.44, 0.02]} rotation={[-Math.PI / 2, 0, 0]} scale={[1.55, 1.15, 1]}>
+    <mesh position={[0.02, 0, 0.02]} rotation={[-Math.PI / 2, 0, 0]} scale={[1.55, 1.15, 1]}>
       <planeGeometry args={[1, 1]} />
       <meshBasicMaterial
         map={texture}

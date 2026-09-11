@@ -1,14 +1,19 @@
 import { Float, useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
-import { MathUtils } from 'three'
+import { Box3, Group, MathUtils } from 'three'
 
-const MODEL = '/models/triceratops_lowpoly.glb'
+export const MODEL = '/models/triceratops-final.glb'
 
-/** Tweak these if the imported mesh sits too big, small, or off-center. */
+/** Tweak if the imported mesh sits too big or small. Grounding is bbox-based. */
 const SCALE = 0.006
-const POSITION = [0, -0.45, 0]
-const ROTATION = [0, Math.PI / 2, 0]
+
+/**
+ * Base yaw on the wrapping group (not the tilt ref — useFrame overwrites that).
+ * Cardinals: 0 | Math.PI / 2 (90°) | Math.PI (180°) | -Math.PI / 2 (-90°).
+ * Mesh is long on +X; camera looks from +Z, so -90° maps +X → +Z (toward camera).
+ */
+const FACE_YAW = -Math.PI / 2
 
 /** Sage on paper; a touch lighter on void so it doesn't recede. */
 const COLOR_LIGHT = '#b5c9a5'
@@ -20,12 +25,9 @@ const POSE = {
 }
 
 /**
- * Imported triceratops (`public/models/triceratops_lowpoly.glb`).
- * Named parts (body, head, frill, horns, legs, tail, …) stay on the cloned
- * scene — `scene.traverse((obj) => console.log(obj.name))` to inspect.
- *
- * Idle bob is the Float wrapper. Cursor tilt is the inner group. Mouth wipe
- * to /projects is unchanged (overlay in MouthWipe, not this mesh).
+ * Imported triceratops (`public/models/triceratops-final.glb`).
+ * Face yaw + ground offset live on a wrapper so idle bob and cursor tilt
+ * still compose on top of the corrected base orientation and feet-at-y=0.
  */
 export function Yinasaurus({
   pointerRef,
@@ -34,7 +36,10 @@ export function Yinasaurus({
   isDark = false,
 }) {
   const { scene } = useGLTF(MODEL)
-  const model = useMemo(() => {
+  const tilt = useRef()
+  const rest = POSE[pose] ?? POSE.threeQuarter
+
+  const { model, groundY } = useMemo(() => {
     const clone = scene.clone(true)
     const hex = isDark ? COLOR_DARK : COLOR_LIGHT
     clone.traverse((obj) => {
@@ -49,18 +54,34 @@ export function Yinasaurus({
       mat.needsUpdate = true
       obj.material = mat
     })
-    return clone
+
+    const probe = new Group()
+    probe.rotation.y = FACE_YAW
+    probe.scale.setScalar(SCALE)
+    probe.add(clone)
+    probe.updateMatrixWorld(true)
+    const box = new Box3().setFromObject(probe)
+    const nextGroundY = -box.min.y
+    probe.remove(clone)
+
+    if (import.meta.env.DEV) {
+      console.info('[dino] FACE_YAW', FACE_YAW, `${(FACE_YAW * 180) / Math.PI}deg`, {
+        scale: SCALE,
+        boxMinY: box.min.y,
+        groundY: nextGroundY,
+      })
+    }
+
+    return { model: clone, groundY: nextGroundY }
   }, [isDark, scene])
-  const group = useRef()
-  const rest = POSE[pose] ?? POSE.threeQuarter
 
   useFrame((_, delta) => {
     const pointer = pointerRef?.current ?? { x: 0, y: 0 }
-    if (!group.current) return
+    if (!tilt.current) return
     const targetY = reducedMotion ? 0 : pointer.x * 0.16
     const targetX = reducedMotion ? 0 : pointer.y * 0.07
-    group.current.rotation.y = MathUtils.damp(group.current.rotation.y, targetY, 3, delta)
-    group.current.rotation.x = MathUtils.damp(group.current.rotation.x, targetX, 3, delta)
+    tilt.current.rotation.y = MathUtils.damp(tilt.current.rotation.y, targetY, 3, delta)
+    tilt.current.rotation.x = MathUtils.damp(tilt.current.rotation.x, targetX, 3, delta)
   })
 
   return (
@@ -70,9 +91,16 @@ export function Yinasaurus({
       floatIntensity={reducedMotion ? 0 : 0.18}
       floatingRange={[-0.025, 0.025]}
     >
-      <group scale={SCALE} rotation={rest.rotation} position={rest.position}>
-        <group ref={group} position={POSITION} rotation={ROTATION} dispose={null}>
-          <primitive object={model} />
+      <group rotation={rest.rotation} position={rest.position}>
+        <group ref={tilt}>
+          <group
+            rotation={[0, FACE_YAW, 0]}
+            position={[0, groundY, 0]}
+            scale={SCALE}
+            dispose={null}
+          >
+            <primitive object={model} />
+          </group>
         </group>
       </group>
     </Float>
