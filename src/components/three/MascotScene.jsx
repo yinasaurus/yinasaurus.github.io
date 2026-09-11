@@ -5,7 +5,7 @@ import { CanvasTexture } from 'three'
 import { useGlobalPointerRef } from '../../hooks/usePointerParallax'
 import { Yinasaurus } from './Yinasaurus'
 
-useGLTF.preload('/models/triceratops-v5.glb')
+useGLTF.preload('/models/triceratops_lowpoly.glb')
 
 /**
  * All React Three Fiber setup lives here — camera, lights, shadow and the
@@ -18,7 +18,7 @@ useGLTF.preload('/models/triceratops-v5.glb')
  *   reducedMotion — freezes idle animation for `prefers-reduced-motion` users
  */
 export default function MascotScene({ isDark = false, quality = 'high', reducedMotion = false }) {
-  useGLTF('/models/triceratops-v5.glb')
+  useGLTF('/models/triceratops_lowpoly.glb')
   const wrapper = useRef(null)
   const pointerRef = useGlobalPointerRef(!reducedMotion)
   const dinoPose = useMemo(() => {
@@ -55,30 +55,25 @@ export default function MascotScene({ isDark = false, quality = 'high', reducedM
         // gradient (see `SoftShadow`), which is far cheaper.
         shadows={false}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+        flat
       >
         {/* Generous frame so head, tail and feet stay inside the canvas
             with breathing room at the default three-quarter pose. */}
         <FitCamera width={4.8} height={4.1} />
 
-        {/* Warm, neutral rig so sage/cream read as themselves — a pink or
-            violet rim was dyeing the horns. */}
-        <ambientLight intensity={isDark ? 0.62 : 0.85} color={isDark ? '#f3efe6' : '#ffffff'} />
-
-        <directionalLight
-          position={[5, 6, 4]}
-          intensity={isDark ? 2.1 : 2.4}
-          color={isDark ? '#fff6e8' : '#fffaf0'}
-        />
-
-        <pointLight
-          position={[-4, 1.5, -3]}
-          intensity={isDark ? 14 : 10}
-          distance={16}
-          color={isDark ? '#e8d5b0' : '#f0e4c4'}
-        />
+        {/* Neutral white rig so sage stays sage in both themes. Warm rims
+            were dyeing the mesh yellow in dark mode. */}
+        <ambientLight intensity={isDark ? 0.7 : 0.86} color="#ffffff" />
+        <directionalLight position={[5, 6, 4]} intensity={isDark ? 1.55 : 1.85} color="#ffffff" />
+        <directionalLight position={[-3.5, 2, -2]} intensity={isDark ? 0.32 : 0.22} color="#ffffff" />
 
         <Suspense fallback={null}>
-          <Yinasaurus pointerRef={pointerRef} reducedMotion={reducedMotion} pose={dinoPose} />
+          <Yinasaurus
+            pointerRef={pointerRef}
+            reducedMotion={reducedMotion}
+            pose={dinoPose}
+            isDark={isDark}
+          />
         </Suspense>
 
         {!isLow && <Shards reducedMotion={reducedMotion} />}
