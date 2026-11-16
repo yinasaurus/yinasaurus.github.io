@@ -24,7 +24,7 @@ export function Hero() {
   const isTouch = useIsTouch()
   const reducedMotion = useReducedMotion()
   const go = useWipeNavigate()
-  const typed = useTypewriter(SITE.taglines)
+  const typed = useTypewriter(SITE.taglines, { reducedMotion: Boolean(reducedMotion) })
   const parallaxOn = !isTouch
   const { x, y } = usePointerParallax({ enabled: parallaxOn, stiffness: 70, damping: 22 })
   const shiftX = useTransform(x, (value) => value * 18)
@@ -70,15 +70,29 @@ export function Hero() {
 
           <motion.p
             variants={heroItem}
-            className="mt-6 min-h-[1.2em] font-display text-xl leading-snug font-bold break-words sm:text-2xl md:text-3xl"
+            className="mt-6 min-w-0 font-display text-xl leading-snug font-bold break-words text-pretty sm:text-2xl md:text-3xl"
+          >
+            Year 3 CS @ SMU SCIS
+            <span className="mx-2 text-punch" aria-hidden>
+              |
+            </span>
+            <wbr />
+            Seeking SWE internships, {SITE.term}
+          </motion.p>
+
+          <motion.p
+            variants={heroItem}
+            className="mt-4 min-h-[1.5em] min-w-0 text-base leading-snug break-words text-ink/60 dark:text-bone/60"
           >
             <span className="sr-only">
               I&apos;m a software engineer, an SMU SCIS student, and an occasional dinosaur.
             </span>
             <span aria-hidden>
-              <span className="text-ink/55 dark:text-bone/55">I&apos;m </span>
+              <span>I&apos;m </span>
               <span>{typed}</span>
-              <span className="hero-caret ml-0.5 inline-block text-punch">|</span>
+              {!reducedMotion && (
+                <span className="hero-caret ml-0.5 inline-block text-punch">|</span>
+              )}
             </span>
           </motion.p>
 

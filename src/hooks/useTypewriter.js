@@ -8,19 +8,20 @@ export function useTypewriter(
   phrases,
   { typeMs = 55, deleteMs = 34, holdMs = 1700, reducedMotion = false } = {},
 ) {
+  const list = phrases?.length ? phrases : ['']
   const [index, setIndex] = useState(0)
-  const [count, setCount] = useState(reducedMotion ? phrases[0].length : 0)
+  const [count, setCount] = useState(reducedMotion ? list[0].length : 0)
   const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
     if (reducedMotion) {
-      setCount(phrases[0].length)
+      setCount(list[0].length)
       setIndex(0)
       setDeleting(false)
       return
     }
 
-    const phrase = phrases[index]
+    const phrase = list[index]
     const doneTyping = count === phrase.length && !deleting
     const doneDeleting = count === 0 && deleting
 
@@ -33,14 +34,14 @@ export function useTypewriter(
       }
       if (doneDeleting) {
         setDeleting(false)
-        setIndex((current) => (current + 1) % phrases.length)
+        setIndex((current) => (current + 1) % list.length)
         return
       }
       setCount((current) => current + (deleting ? -1 : 1))
     }, delay)
 
     return () => clearTimeout(id)
-  }, [count, deleting, index, phrases, typeMs, deleteMs, holdMs, reducedMotion])
+  }, [count, deleting, index, list, typeMs, deleteMs, holdMs, reducedMotion])
 
-  return phrases[index].slice(0, count)
+  return list[index].slice(0, count)
 }

@@ -16,7 +16,7 @@ export function About() {
   return (
     <Section id="about" className="pb-20 md:pb-28">
       <SectionHeader
-        index="01"
+        index="02"
         label="About"
         title={
           <>

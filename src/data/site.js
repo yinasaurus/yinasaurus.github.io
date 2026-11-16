@@ -9,6 +9,7 @@ export const SITE = {
     'an occasional dinosaur.',
   ],
   school: 'SMU School of Computing and Information Systems',
+  term: 'Summer 2027',
   email: 'shiyin.li.2024@computing.smu.edu.sg',
   github: 'https://github.com/yinasaurus',
   linkedin: 'https://www.linkedin.com/in/li-shiyin',

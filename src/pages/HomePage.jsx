@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { About } from '../components/About'
 import { Contact } from '../components/Contact'
+import { FeaturedWork } from '../components/FeaturedWork'
 import { GithubActivity } from '../components/GithubActivity'
 import { Hero } from '../components/Hero'
 import { TechStack } from '../components/TechStack'
@@ -19,6 +20,7 @@ export function HomePage() {
   return (
     <>
       <Hero />
+      <FeaturedWork />
       <About />
       <TechStack />
       <GithubActivity />

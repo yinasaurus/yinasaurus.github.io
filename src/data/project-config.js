@@ -13,6 +13,16 @@
  */
 export const GITHUB_LOGIN = 'yinasaurus'
 
+/** Homepage featured row — order is display order. Missing repos are skipped. */
+export const PINNED = ['naisc', 'hack-for-humanity', 'splendor']
+
+/** One-line impact copy for the homepage featured cards. */
+export const FEATURED_BLURBS = {
+  naisc: 'Drift detection so a Singtel churn model stays accurate when the data shifts.',
+  'hack-for-humanity': 'Clinic-connected meal companion for anorexia-supportive care.',
+  splendor: 'Java Splendor engine with console + web UIs and three AI difficulties.',
+}
+
 export const EXCLUDE_REPOS = [
   'vvc-telebot',
   'yinasaurus.github.io',

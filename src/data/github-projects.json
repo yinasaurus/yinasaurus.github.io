@@ -1,6 +1,259 @@
 {
-  "fetchedAt": "2026-09-11T07:41:57.443Z",
+  "fetchedAt": "2026-11-16T05:06:04.388Z",
   "projects": [
+    {
+      "id": "aura-astronaut-health-twin",
+      "name": "aura-astronaut-health-twin",
+      "title": "Aura Astronaut Health Twin",
+      "blurb": "AURA: a personal-baseline health twin for astronauts when Earth can't answer in time. NASA Space Apps 2026. Simulated data, decision support only.",
+      "details": "A personal-baseline health twin for a simulated Mars-transit crew.  AURA is decision support for the story of a long mission, when a message to Earth can take minutes.  It is not a medical device and it does not use real crew records.",
+      "tech": [
+        "React Three Fiber",
+        "Framer Motion",
+        "React",
+        "React Router",
+        "Three.js",
+        "Tailwind CSS",
+        "Vite",
+        "TypeScript"
+      ],
+      "languages": [
+        "TypeScript"
+      ],
+      "frameworks": [
+        "React Three Fiber",
+        "Framer Motion",
+        "React",
+        "React Router",
+        "Three.js",
+        "Tailwind CSS",
+        "Vite"
+      ],
+      "language": "TypeScript",
+      "accent": "volt",
+      "repo": "https://github.com/yinasaurus/aura-astronaut-health-twin",
+      "live": null,
+      "updatedAt": "2026-11-15T08:34:22Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
+      "image": "/projects/aura-astronaut-health-twin.png"
+    },
+    {
+      "id": "sgtelemahjong",
+      "name": "sgtelemahjong",
+      "title": "SG Tele Mahjong",
+      "blurb": "Telegram bot for Singapore Mahjong in a group chat: private hand photos via DM, Ah Beng / Ah Seng / Ah Lian bot seats, flowers & animals, fan scoring.",
+      "details": "Telegram bot for Singapore Mahjong in a group chat: private hand photos via DM, Ah Beng / Ah Seng / Ah Lian bot seats, flowers & animals, fan scoring.",
+      "tech": [
+        "Telegram",
+        "Python"
+      ],
+      "languages": [
+        "Python"
+      ],
+      "frameworks": [
+        "Telegram"
+      ],
+      "language": "Python",
+      "accent": "volt",
+      "repo": "https://github.com/yinasaurus/sgtelemahjong",
+      "live": null,
+      "updatedAt": "2026-11-11T11:34:31Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
+      "image": "/projects/sgtelemahjong.png"
+    },
+    {
+      "id": "datAI",
+      "name": "datAI",
+      "title": "DatAI",
+      "blurb": "A Telegram bot that builds a trip plan for a group of friends whose preferences conflict.  The study compares three planning setups (A, B, and C), sweeps settings, and scores every plan in code against ground truth.",
+      "details": "A Telegram bot that builds a trip plan for a group of friends whose preferences conflict.  The study compares three planning setups (A, B, and C), sweeps settings, and scores every plan in code against ground truth.  There is no user testing.",
+      "tech": [
+        "Telegram",
+        "NumPy",
+        "Pandas",
+        "Python"
+      ],
+      "languages": [
+        "Python"
+      ],
+      "frameworks": [
+        "Telegram",
+        "NumPy",
+        "Pandas"
+      ],
+      "language": "Python",
+      "accent": "volt",
+      "repo": "https://github.com/yinasaurus/datAI",
+      "live": null,
+      "updatedAt": "2026-11-09T11:10:55Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
+      "image": "/projects/datAI.png"
+    },
+    {
+      "id": "ConnectSphere",
+      "name": "ConnectSphere",
+      "title": "ConnectSphere",
+      "blurb": "ConnectSphere Event Planning",
+      "details": "ConnectSphere Event Planning",
+      "tech": [
+        "Node.js",
+        "React",
+        "React Router",
+        "Vite",
+        "Supabase",
+        "Express",
+        "JavaScript"
+      ],
+      "languages": [
+        "JavaScript"
+      ],
+      "frameworks": [
+        "Node.js",
+        "React",
+        "React Router",
+        "Vite",
+        "Supabase",
+        "Express"
+      ],
+      "language": "JavaScript",
+      "accent": "solar",
+      "repo": "https://github.com/yinasaurus/ConnectSphere",
+      "live": null,
+      "updatedAt": "2026-11-06T09:37:55Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
+      "image": "/projects/ConnectSphere.png"
+    },
+    {
+      "id": "spm-topic-sharing",
+      "name": "spm-topic-sharing",
+      "title": "Spm Topic Sharing",
+      "blurb": "A small Python module with basic arithmetic: add, subtract, multiply, and divide.",
+      "details": "A small Python module with basic arithmetic: add, subtract, multiply, and divide.",
+      "tech": [
+        "Python"
+      ],
+      "languages": [
+        "Python"
+      ],
+      "frameworks": [],
+      "language": "Python",
+      "accent": "volt",
+      "repo": "https://github.com/yinasaurus/spm-topic-sharing",
+      "live": null,
+      "updatedAt": "2026-10-16T15:32:08Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
+      "image": "/projects/spm-topic-sharing.png"
+    },
+    {
+      "id": "ci-demo-SPM",
+      "name": "ci-demo-SPM",
+      "title": "Ci Demo SPM",
+      "blurb": "ci-demo-SPM",
+      "details": "ci-demo-SPM",
+      "tech": [
+        "Flask",
+        "Python",
+        "Shell"
+      ],
+      "languages": [
+        "Python",
+        "Shell"
+      ],
+      "frameworks": [
+        "Flask"
+      ],
+      "language": "Python",
+      "accent": "volt",
+      "repo": "https://github.com/yinasaurus/ci-demo-SPM",
+      "live": null,
+      "updatedAt": "2026-10-13T03:04:31Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
+      "image": "/projects/ci-demo-SPM.png"
+    },
+    {
+      "id": "tiktokjam",
+      "name": "tiktokjam",
+      "title": "TikTok Jam",
+      "blurb": "kpopy demon hunter - Shopping Copilot",
+      "details": "kpopy demon hunter - Shopping Copilot",
+      "tech": [
+        "NumPy",
+        "PyTorch",
+        "Python",
+        "HTML"
+      ],
+      "languages": [
+        "Python",
+        "HTML"
+      ],
+      "frameworks": [
+        "NumPy",
+        "PyTorch"
+      ],
+      "language": "Python",
+      "accent": "volt",
+      "repo": "https://github.com/yinasaurus/tiktokjam",
+      "live": null,
+      "updatedAt": "2026-10-12T12:46:30Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
+      "image": "/projects/tiktokjam.png"
+    },
+    {
+      "id": "dejavistaa",
+      "name": "dejavistaa",
+      "title": "Dejavistaa",
+      "blurb": "A place to capture the spots you’ve been to and the ones you keep meaning to revisit.",
+      "details": "A place to capture the spots you’ve been to and the ones you keep meaning to revisit.",
+      "tech": [
+        "Supabase",
+        "React",
+        "Vite",
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "languages": [
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "frameworks": [
+        "Supabase",
+        "React",
+        "Vite"
+      ],
+      "language": "JavaScript",
+      "accent": "solar",
+      "repo": "https://github.com/yinasaurus/dejavistaa",
+      "live": "https://dejavistaa.vercel.app",
+      "updatedAt": "2026-09-19T06:40:39Z",
+      "media": {
+        "type": "none",
+        "src": ""
+      },
+      "image": "/projects/dejavistaa.png"
+    },
     {
       "id": "naisc",
       "name": "naisc",
@@ -93,37 +346,6 @@
       "image": "/projects/hack-for-humanity.png"
     },
     {
-      "id": "tiktokjam",
-      "name": "tiktokjam",
-      "title": "TikTok Jam",
-      "blurb": "kpopy demon hunter - Shopping Copilot",
-      "details": "kpopy demon hunter - Shopping Copilot",
-      "tech": [
-        "NumPy",
-        "PyTorch",
-        "Python",
-        "HTML"
-      ],
-      "languages": [
-        "Python",
-        "HTML"
-      ],
-      "frameworks": [
-        "NumPy",
-        "PyTorch"
-      ],
-      "language": "Python",
-      "accent": "volt",
-      "repo": "https://github.com/yinasaurus/tiktokjam",
-      "live": null,
-      "updatedAt": "2026-09-01T03:02:08Z",
-      "media": {
-        "type": "none",
-        "src": ""
-      },
-      "image": "/projects/tiktokjam.png"
-    },
-    {
       "id": "hack4health",
       "name": "hack4health",
       "title": "Hack4Health",
@@ -163,21 +385,12 @@
       "blurb": "A study game for Singapore JC / A-Level H2 Chemistry organic reaction pathways.",
       "details": "A study game for Singapore JC / A-Level H2 Chemistry organic reaction pathways.",
       "tech": [
-        "Framer Motion",
-        "React",
-        "Tailwind CSS",
-        "Vite",
         "TypeScript"
       ],
       "languages": [
         "TypeScript"
       ],
-      "frameworks": [
-        "Framer Motion",
-        "React",
-        "Tailwind CSS",
-        "Vite"
-      ],
+      "frameworks": [],
       "language": "TypeScript",
       "accent": "volt",
       "repo": "https://github.com/yinasaurus/organicchemgame",
@@ -190,50 +403,18 @@
       "image": "/projects/organicchemgame.png"
     },
     {
-      "id": "sgtelemahjong",
-      "name": "sgtelemahjong",
-      "title": "SG Tele Mahjong",
-      "blurb": "Telegram bot for playing Japanese Riichi together in a group chat, with private hands via DM, bot seats, and session scoring.",
-      "details": "Telegram bot for playing Japanese Riichi together in a group chat, with private hands via DM, bot seats, and session scoring.",
-      "tech": [
-        "Telegram",
-        "Python"
-      ],
-      "languages": [
-        "Python"
-      ],
-      "frameworks": [
-        "Telegram"
-      ],
-      "language": "Python",
-      "accent": "volt",
-      "repo": "https://github.com/yinasaurus/sgtelemahjong",
-      "live": null,
-      "updatedAt": "2026-08-10T08:41:41Z",
-      "media": {
-        "type": "none",
-        "src": ""
-      },
-      "image": "/projects/sgtelemahjong.png"
-    },
-    {
       "id": "medibuddy",
       "name": "medibuddy",
       "title": "Medibuddy",
-      "blurb": "Smart AI nurse dashboard — Huawei Tech4City 2026 | AI for Health",
-      "details": "Smart AI nurse dashboard — Huawei Tech4City 2026 | AI for Health",
+      "blurb": "A public Python project.",
+      "details": "A public Python project.",
       "tech": [
-        "FastAPI",
-        "NumPy",
         "Python"
       ],
       "languages": [
         "Python"
       ],
-      "frameworks": [
-        "FastAPI",
-        "NumPy"
-      ],
+      "frameworks": [],
       "language": "Python",
       "accent": "volt",
       "repo": "https://github.com/yinasaurus/medibuddy",
@@ -244,41 +425,6 @@
         "src": ""
       },
       "image": "/projects/medibuddy.png"
-    },
-    {
-      "id": "dejavistaa",
-      "name": "dejavistaa",
-      "title": "Dejavistaa",
-      "blurb": "A place to capture the spots you’ve been to and the ones you keep meaning to revisit.",
-      "details": "A place to capture the spots you’ve been to and the ones you keep meaning to revisit.",
-      "tech": [
-        "Supabase",
-        "React",
-        "Vite",
-        "JavaScript",
-        "HTML",
-        "CSS"
-      ],
-      "languages": [
-        "JavaScript",
-        "HTML",
-        "CSS"
-      ],
-      "frameworks": [
-        "Supabase",
-        "React",
-        "Vite"
-      ],
-      "language": "JavaScript",
-      "accent": "solar",
-      "repo": "https://github.com/yinasaurus/dejavistaa",
-      "live": "https://dejavistaa.vercel.app",
-      "updatedAt": "2026-05-02T01:05:38Z",
-      "media": {
-        "type": "none",
-        "src": ""
-      },
-      "image": "/projects/dejavistaa.png"
     }
   ]
 }

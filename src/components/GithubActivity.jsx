@@ -26,7 +26,7 @@ export function GithubActivity() {
   return (
     <Section id="activity" className="pb-12 md:pb-16">
       <SectionHeader
-        index="03"
+        index="04"
         label="Activity"
         accent="text-jade"
         stacked

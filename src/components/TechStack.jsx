@@ -11,7 +11,7 @@ export function TechStack() {
   return (
     <Section id="stack" className="pb-20 md:pb-28">
       <SectionHeader
-        index="02"
+        index="03"
         label="Skills"
         accent="text-jade"
         title="Things I build with"
