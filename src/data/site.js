@@ -4,9 +4,8 @@ export const SITE = {
   title: 'Li Shiyin // yinasaurus',
   tagline: 'software engineer.',
   taglines: [
-    'a software engineer.',
-    'an SMU SCIS student.',
     'an occasional dinosaur.',
+    'usually in the debugger.',
   ],
   school: 'SMU School of Computing and Information Systems',
   term: 'Summer 2027',

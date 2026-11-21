@@ -22,8 +22,8 @@ export function ProjectsGrid() {
         index="01"
         label="Projects"
         accent="text-punch"
-        title="Stuff I've built"
-        lead="Public repos, newest first. Tap a card for the stack and the longer story."
+        title="All public repos"
+        lead="Newest first. Tap a card for the stack and the longer story — featured three are on the home page."
       />
 
       {PROJECTS.length === 0 ? (

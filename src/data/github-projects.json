@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-16T05:06:04.388Z",
+  "fetchedAt": "2026-11-21T12:35:11.835Z",
   "projects": [
     {
       "id": "aura-astronaut-health-twin",
@@ -352,9 +352,6 @@
       "blurb": "Hack4Health 2026 - Pre-Visit Passport",
       "details": "Hack4Health 2026 - Pre-Visit Passport",
       "tech": [
-        "Next.js",
-        "React",
-        "Tailwind CSS",
         "TypeScript",
         "CSS"
       ],
@@ -362,11 +359,7 @@
         "TypeScript",
         "CSS"
       ],
-      "frameworks": [
-        "Next.js",
-        "React",
-        "Tailwind CSS"
-      ],
+      "frameworks": [],
       "language": "TypeScript",
       "accent": "volt",
       "repo": "https://github.com/yinasaurus/hack4health",
@@ -382,8 +375,8 @@
       "id": "organicchemgame",
       "name": "organicchemgame",
       "title": "Organic Chem Game",
-      "blurb": "A study game for Singapore JC / A-Level H2 Chemistry organic reaction pathways.",
-      "details": "A study game for Singapore JC / A-Level H2 Chemistry organic reaction pathways.",
+      "blurb": "Unofficial practice app for Singapore chemistry students: Synthesis Route (organic pathways) and Virtual Lab (practical skills).  Built as a portfolio / learning project — not affiliated with SEAB or Cambridge Assessment.",
+      "details": "Unofficial practice app for Singapore chemistry students: Synthesis Route (organic pathways) and Virtual Lab (practical skills).  Built as a portfolio / learning project — not affiliated with SEAB or Cambridge Assessment.",
       "tech": [
         "TypeScript"
       ],
@@ -406,8 +399,8 @@
       "id": "medibuddy",
       "name": "medibuddy",
       "title": "Medibuddy",
-      "blurb": "A public Python project.",
-      "details": "A public Python project.",
+      "blurb": "Smart AI nurse dashboard — Huawei Tech4City 2026 | AI for Health",
+      "details": "Smart AI nurse dashboard — Huawei Tech4City 2026 | AI for Health",
       "tech": [
         "Python"
       ],

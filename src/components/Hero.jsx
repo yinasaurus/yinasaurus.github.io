@@ -50,13 +50,7 @@ export function Hero() {
         className="grid gap-12 md:grid-cols-12 md:items-center md:gap-8"
       >
         <motion.div style={{ x: shiftX, y: shiftY }} className="min-w-0 md:col-span-6">
-          <motion.p variants={heroItem} className="micro max-w-full text-pretty tracking-[0.12em] text-ink/55 sm:tracking-[0.18em] dark:text-bone/55">
-            Software engineering student
-            <span className="mx-2 text-punch">/</span>
-            SMU Computing &amp; Information Systems
-          </motion.p>
-
-          <h1 className="mt-5 min-w-0" aria-label={`${SITE.name}.`}>
+          <h1 className="min-w-0" aria-label={`${SITE.name}.`}>
             <span className="block whitespace-nowrap text-[clamp(1.9rem,8.8vw,5.4rem)] leading-[0.92] font-bold">
               <HeroName name={SITE.name} reducedMotion={Boolean(reducedMotion)} />
             </span>
@@ -85,7 +79,7 @@ export function Hero() {
             className="mt-4 min-h-[1.5em] min-w-0 text-base leading-snug break-words text-ink/60 dark:text-bone/60"
           >
             <span className="sr-only">
-              I&apos;m a software engineer, an SMU SCIS student, and an occasional dinosaur.
+              I&apos;m an occasional dinosaur, usually in the debugger.
             </span>
             <span aria-hidden>
               <span>I&apos;m </span>
@@ -94,15 +88,6 @@ export function Hero() {
                 <span className="hero-caret ml-0.5 inline-block text-punch">|</span>
               )}
             </span>
-          </motion.p>
-
-          <motion.p
-            variants={heroItem}
-            className="mt-6 max-w-md leading-relaxed text-ink/60 dark:text-bone/60"
-          >
-            Undergraduate at the {SITE.school}. Most of my time goes into software
-            engineering, cybersecurity and AI — and into building things just to
-            find out how they break.
           </motion.p>
 
           <motion.div variants={heroItem} className="mt-10 flex flex-wrap items-center gap-4">

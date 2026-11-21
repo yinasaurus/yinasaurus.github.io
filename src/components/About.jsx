@@ -1,13 +1,12 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { SITE } from '../data/site'
 import { scrollReveal } from '../lib/motion'
 import { ClawMark } from './DinoMarks'
 import { Section, SectionHeader } from './Section'
 
 const FACTS = [
-  ['Studying', 'Computing & Information Systems, SMU'],
-  ['Curious about', 'Cybersecurity & applied AI'],
-  ['Currently', 'Building side projects and breaking them'],
+  ['Based', 'Singapore'],
+  ['Cohort', 'Class of 2028'],
+  ['Open to', 'Web, data, and applied ML internships'],
 ]
 
 export function About() {
@@ -20,12 +19,12 @@ export function About() {
         label="About"
         title={
           <>
-            I build things,
+            How I actually
             <br />
-            then break them.
+            work.
           </>
         }
-        lead="Learning in public means most of what I make ends up on GitHub — rough edges and all."
+        lead="What it’s like to be on a project with me — not another intro."
       />
 
       <motion.div
@@ -37,19 +36,17 @@ export function About() {
       >
         <motion.div variants={reduced ? undefined : scrollReveal} className="space-y-6 md:col-span-7">
           <p className="text-base leading-relaxed text-ink/75 md:text-lg dark:text-bone/75">
-            I&rsquo;m {SITE.name}, an undergraduate at the {SITE.school}, where most of my time
-            goes into figuring out how things work and then rebuilding them
-            slightly differently.
+            I start with a thin slice that runs, then tighten. Modules and
+            hackathons are where I steal problems; the useful leftover is
+            knowing how a model drifts, a rules engine cheats, or a bot dies
+            in a group chat.
           </p>
           <p className="text-base leading-relaxed text-ink/75 md:text-lg dark:text-bone/75">
-            My interests sit where software engineering, cybersecurity and AI
-            overlap — which mostly means I like building something, then
-            thinking about how someone else would take it apart.
+            Code review is the point. I want to own a slice of a real codebase
+            — web, data, or the glue — and be told when I&rsquo;m wrong.
           </p>
         </motion.div>
 
-        {/* Facts as a definition list with rules between rows: no boxes, no
-            shadows, no repeated card shape. */}
         <motion.dl variants={reduced ? undefined : scrollReveal} className="md:col-span-5">
           {FACTS.map(([term, value], i) => (
             <div key={term} className={`flex gap-3 py-5 ${i > 0 ? 'rule' : ''}`}>

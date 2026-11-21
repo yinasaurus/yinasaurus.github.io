@@ -16,7 +16,7 @@ export function FeaturedWork() {
         label="Work"
         accent="text-punch"
         title="Featured work"
-        lead="Three things I’d put in front of a recruiter. The rest lives on the projects page."
+        lead="Three I’d lead with. The full list is on the projects page."
       />
 
       <ul className="grid min-w-0 grid-cols-1 gap-8 md:grid-cols-3 md:gap-8">

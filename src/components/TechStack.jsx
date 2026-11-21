@@ -14,8 +14,8 @@ export function TechStack() {
         index="03"
         label="Skills"
         accent="text-jade"
-        title="Things I build with"
-        lead="A quick scan — languages I write, tools I ship with, and what I’m currently poking at."
+        title="Stack"
+        lead="Languages and tools I actually use, plus what I’m poking at now."
       />
 
       {/* Rows rather than a card grid — the label sits in the margin and the

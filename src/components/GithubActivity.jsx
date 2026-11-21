@@ -30,8 +30,8 @@ export function GithubActivity() {
         label="Activity"
         accent="text-jade"
         stacked
-        title="Shipping in public"
-        lead="A year of commits, pulled live from GitHub. Cubes on a wide screen; a swipeable grid on a phone."
+        title="This year’s commits"
+        lead="Live GitHub calendar — cubes on a wide screen, a swipeable grid on a phone."
       />
 
       <div className="relative mt-2 w-full min-w-0" data-activity-version={version}>
