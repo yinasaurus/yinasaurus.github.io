@@ -66,7 +66,7 @@ export function Hero() {
             variants={heroItem}
             className="mt-6 min-w-0 font-display text-xl leading-snug font-bold break-words text-pretty sm:text-2xl md:text-3xl"
           >
-            Year 3 CS @ SMU SCIS
+            Year 3 Information Systems @ SMU SCIS
             <span className="mx-2 text-punch" aria-hidden>
               |
             </span>
